@@ -81,7 +81,7 @@ const ServiceInfoBanner = () => {
     <div>
       {/* Services */}
       <div className="bg-gray-50 py-8">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1  lg:grid-cols-4 gap-6">
+        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
           {services.map((service, index) => (
             <div key={index} className="flex items-start space-x-4 p-4 border rounded-md bg-white shadow-sm">
               {service.icon}

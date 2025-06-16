@@ -53,7 +53,7 @@ function Login() {
 
 
     return (
-        <div className='flex justify-center w-screen bg-gray-50 pt-20 '>
+        <div className='flex justify-center bg-gray-50 pt-20 '>
             <div className='relative bg-white w-[32rem] h-[21rem] text-center rounded-lg p-10'>
                 <h1 className='text-orange-500 text-xl'>FILL IN THE DETAILS</h1>
                 <form onSubmit={handleSbmit}>

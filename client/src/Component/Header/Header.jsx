@@ -22,9 +22,9 @@ function Header() {
 
     return (
         <div>
-            <div className='bg-white flexed top-0 left-0 w-full h-20 flex items-center justify-between px-19 '>
+            <div className='bg-white flexed top-0 left-0  h-20 flex items-center justify-between ml-19 '>
                 {/* Logo */}
-                <div className='px-2'>
+                <div className=''>
                     <button
                         onClick={() => {navigate('/')}}
                     >
