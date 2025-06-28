@@ -1,12 +1,13 @@
+import axios from 'axios';
 import React from 'react'
 
-const ImagesApi = async (body) => {
+const ImagesApi = async (formdata) => {
     try {
     const response = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/books/file/import`,
-      body
+      formdata
     );
-    console.log(response);
+    console.log(">>>>>>>>>>>>.",response);
     return response.data;
     
   } catch (error) {

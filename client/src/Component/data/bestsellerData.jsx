@@ -1,4 +1,4 @@
-export const books = [
+export const best = [
   {
     id: 1,
     title: "Tea: A Global History (Edible Series)",

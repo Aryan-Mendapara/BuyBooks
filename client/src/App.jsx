@@ -6,6 +6,8 @@ import Layout from './Component/Utils/Layout'
 import NewArrivals from './Component/Pages/NewArrivals'
 import NewArrivalsImg from './Component/Images/NewArrivalsImg'
 import BestSeller from './Component/Pages/bestsellers'
+import BestSellerImg from './Component/Images/BestSellerImg'
+import SchoolBooks from './Component/Pages/SchoolBooks'
 
 function App() {
   return (
@@ -15,9 +17,9 @@ function App() {
           <Routes>            
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
-            <Route path='/newarrivals' element={<NewArrivals/>} />
             <Route path='/newarrivalsimg' element={<NewArrivalsImg/>} />
-            <Route path='/bestseller' element={<BestSeller/>} />
+            <Route path='/bestsellersimg' element={<BestSellerImg/>} />
+            {/* <Route path='/schoolbooks' element={<SchoolBooks/>} /> */}
           </Routes>
         </Layout>
       </BrowserRouter>

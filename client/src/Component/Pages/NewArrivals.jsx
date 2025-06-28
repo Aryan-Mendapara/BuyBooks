@@ -12,18 +12,18 @@ function NewArrivals() {
     const slideBy = 1;
     const navigate = useNavigate();
 
-    useEffect(() => {
-        // 👇 Fetch books from backend
-        const fetchBooks = async () => {
-            try {
-                const data = await ImagesApi(); // call API
-                setBookList(data.books || []); // replace 'books' with actual key from response
-            } catch (err) {
-                console.error('Failed to load books:', err);
-            }
-        };
-        fetchBooks();
-    }, []);
+    // useEffect(() => {
+    //     // 👇 Fetch books from backend
+    //     const fetchBooks = async () => {
+    //         try {
+    //             const data = await ImagesApi(); // call API
+    //             setBookList(data.books || []); // replace 'books' with actual key from response
+    //         } catch (err) {
+    //             console.error('Failed to load books:', err);
+    //         }
+    //     };
+    //     fetchBooks();
+    // }, []);
 
     useEffect(() => {
         const timer = setInterval(() => {

@@ -1,8 +1,62 @@
-import React, { useState } from 'react'
-import { FaShoppingCart } from 'react-icons/fa'
-import { books } from '../data/ImageData'
+import React, { useEffect, useState } from 'react'
+import { FaChevronLeft, FaChevronRight, FaShoppingCart } from 'react-icons/fa'
+import { best } from '../data/bestsellerData'
+import { useNavigate } from 'react-router-dom'
+import ImagesApi from '../ApiServer/ImagesApi'
 
 const BestSeller = () => {
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [bookList, setBookList] = useState([]);
+  const navigate = useNavigate();
+  const booksToShow = 5;
+  const slideBy = 1;
+
+  // useEffect(() => {
+  //   const fetchBooks = async () => {
+  //     try {
+  //       const data = await ImagesApi();
+  //       setBookList(data.best || []);
+  //     } catch (error) {
+  //       console.error("Failed to load books:", error);        
+  //     }
+  //   };
+  //   fetchBooks();
+  // }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (!isAnimating) {
+        handleNext();
+      }      
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [currentIndex, isAnimating]);
+
+  const handleNext = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex((prevIndex) => {
+      const nextIndex = prevIndex + slideBy >= best.length - booksToShow ? 0 : prevIndex + slideBy;
+      return nextIndex;
+    });
+  }
+  const handlePrev = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex((prevIndex) => {
+      // Move by one book at a time
+      const nextIndex = prevIndex === 0 ? best.length - booksToShow : prevIndex - slideBy;
+      return nextIndex;
+    });
+    setTimeout(() => setIsAnimating(false), 500);
+  }
+
+  const handleNavigate = () => {
+    navigate('/bestsellersimg')
+  }
+
   return (
     <div className='bg-white text-center py-10 max-w-6xl mx-auto'>
       {/* Title */}
@@ -16,17 +70,24 @@ const BestSeller = () => {
       {/* Slider Container */}
       <div className='relative overflow-clip'>
         {/* Previous Button */}
-        {/* <button 
+        <button
+          onClick={handlePrev}
+          disabled={isAnimating}
+          className="absolute -left-2 top-1/2 -translate-y- z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <FaChevronLeft />
-        </button> */}
+          <FaChevronLeft className='text-xl text-gray-600' />
+        </button>
 
         {/* Books Row Container */}
         <div>
           <div
             className='flex gap-6 transition-transform duration-500 ease-in-out'
+            style={{
+              transform: `translateX(-${currentIndex * (208 + 24)}px)`,
+              width: 'max-content'
+            }}
           >
-            {books.map((book) => (
+            {best.map((book) => (
               <div
                 key={book.id}
                 className='w-52 flex-shrink-0 group relative border border-gray-300 hover:shadow-lg transition-shadow'
@@ -39,8 +100,8 @@ const BestSeller = () => {
                 {/* Book Image Container with Overlay */}
                 <div className='relative mb-4 overflow-hidden px-4 pt-2'>
                   <div className="relative pb-[133%]">
-                    <img 
-                      src={book.image} 
+                    <img
+                      src={book.image}
                       alt={book.title}
                       className='absolute inset-0 w-60 h-60 object-contain'
                     />
@@ -58,12 +119,35 @@ const BestSeller = () => {
                 <div className="px-4 pb-4">
                   <h3 className="text-sm font-medium mb-2 line-clamp-2 min-h-[2.5rem]">
                     {book.title}
-                  </h3>                  
+                  </h3>
+
+                  {/* Price */}
+                  <span className='text-lg font-bold text-orange-500'>₹{book.price}</span>
+                  <span className='text-sm text-gray-500 line-through ml-2'>₹{book.originalPrice}</span>
                 </div>
               </div>
             ))}
           </div>
         </div>
+
+        {/* Next Button */}
+        <button
+          onClick={handleNext}
+          disabled={isAnimating}
+          className='absolute -right-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed'
+        >
+          <FaChevronRight className="text-xl text-gray-600" />
+        </button>
+      </div>
+
+      {/* View More Button */}
+      <div className='text-center mt-6'>
+        <button
+          onClick={handleNavigate}
+          className='inline-block bg-orange-500 text-white px-6 py-2 text-sm rounded hover:bg-orange-600 transition-colors'
+        >
+          VIEW MORE
+        </button>
       </div>
     </div>
   )
