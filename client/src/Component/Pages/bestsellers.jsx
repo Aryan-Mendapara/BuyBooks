@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FaChevronLeft, FaChevronRight, FaShoppingCart } from 'react-icons/fa'
 import { best } from '../data/bestsellerData'
 import { useNavigate } from 'react-router-dom'
-import ImagesApi from '../ApiServer/ImagesApi'
+// import ImagesApiPost from '../ApiServer/ImagesApi'
 
 const BestSeller = () => {
   const [isAnimating, setIsAnimating] = useState(false);
@@ -15,7 +15,7 @@ const BestSeller = () => {
   // useEffect(() => {
   //   const fetchBooks = async () => {
   //     try {
-  //       const data = await ImagesApi();
+  //       const data = await ImagesApiPost();
   //       setBookList(data.best || []);
   //     } catch (error) {
   //       console.error("Failed to load books:", error);        

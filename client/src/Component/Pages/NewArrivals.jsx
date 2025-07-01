@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FaChevronLeft, FaChevronRight, FaShoppingCart } from 'react-icons/fa'
 import { books } from '../data/ImageData'
 import { useNavigate } from 'react-router-dom';
-import ImagesApi from '../ApiServer/ImagesApi';
+// import ImagesApiPost from '../ApiServer/ImagesApi';
 
 function NewArrivals() {
     const [isAnimating, setIsAnimating] = useState(false);
@@ -16,7 +16,7 @@ function NewArrivals() {
     //     // 👇 Fetch books from backend
     //     const fetchBooks = async () => {
     //         try {
-    //             const data = await ImagesApi(); // call API
+    //             const data = await ImagesApiPost(); // call API
     //             setBookList(data.books || []); // replace 'books' with actual key from response
     //         } catch (err) {
     //             console.error('Failed to load books:', err);

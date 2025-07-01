@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react'
 
-const ImagesApi = async (formdata) => {
+export const ImagesApiPost = async (formdata) => {
     try {
     const response = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/books/file/import`,
@@ -16,9 +16,23 @@ const ImagesApi = async (formdata) => {
     return response.data;
     
   } catch (error) {
-    console.log("Images API error:",error);  
+    console.log("Images API error: ", error);  
     throw error;
   }
 }
 
-export default ImagesApi
+export const ImagesApiGet = async (formdata) => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/books/file/get`,
+      formdata
+    );
+    console.log(">>>>>>>>>>>>.",response);
+    return response.data;
+  } catch (error) {
+    console.log("Images API error: ", error);
+    throw error;
+  }
+}
+
+// export default {ImagesApiPost, ImagesApiGet}

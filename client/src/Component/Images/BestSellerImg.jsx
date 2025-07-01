@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 import axios from 'axios';
-import ImagesApi from '../ApiServer/ImagesApi';
+import { ImagesApiPost, ImagesApiGet } from '../ApiServer/ImagesApi';
 
 const BestSellerImg = () => {
   const [books, setBooks] = useState([]);
@@ -19,15 +19,17 @@ const BestSellerImg = () => {
   useEffect(() => {
     fetchBooksFromServer();
   }, []);
-
+  
   const fetchBooksFromServer = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/books`);
-      setBooks(response.data);
+      const response = await ImagesApiGet();
+      console.log("Books response:", response);
+      setBooks(response.books || []);
     } catch (error) {
       console.error("Error loading books:", error);
     }
   };
+
 
   const handleFormChange = (e) => {
     const { name, value, files } = e.target;
@@ -53,7 +55,7 @@ const BestSellerImg = () => {
       data.append('description', formData.description);
       data.append('image', formData.image);
 
-      await ImagesApi(data);
+      await ImagesApiPost(data);
 
       alert("Book saved to server successfully!");
       setFormData({ title: '', author: '', description: '', image: null, imageUrl: '' });
@@ -62,7 +64,7 @@ const BestSellerImg = () => {
       fetchBooksFromServer(); // refresh book list
 
     } catch (error) {
-      console.error("Upload failed:", error);
+      // console.error("Upload failed:", error);
       alert("Failed to save book.");
     }
   };
@@ -104,33 +106,33 @@ const BestSellerImg = () => {
             <h2 className='text-xl font-bold mb-4 text-center'>Add New Book</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <input 
-                name="title" 
-                value={formData.title} 
-                onChange={handleFormChange} 
-                placeholder="Title" 
-                className="border p-2 rounded w-full" 
+              <input
+                name="title"
+                value={formData.title}
+                onChange={handleFormChange}
+                placeholder="Title"
+                className="border p-2 rounded w-full"
               />
-              <input 
-                name="author" 
-                value={formData.author} 
-                onChange={handleFormChange} 
-                placeholder="Author" 
-                className="border p-2 rounded w-full" 
+              <input
+                name="author"
+                value={formData.author}
+                onChange={handleFormChange}
+                placeholder="Author"
+                className="border p-2 rounded w-full"
               />
-              <input 
-                name="description" 
-                value={formData.description} 
-                onChange={handleFormChange} 
-                placeholder="Description" 
-                className="border p-2 rounded w-full" 
+              <input
+                name="description"
+                value={formData.description}
+                onChange={handleFormChange}
+                placeholder="Description"
+                className="border p-2 rounded w-full"
               />
-              <input 
-                type="file" 
-                name="image" 
-                accept="image/*" 
-                onChange={handleFormChange} 
-                className="border p-2 rounded w-full cursor-pointer" 
+              <input
+                type="file"
+                name="image"
+                accept="image/*"
+                onChange={handleFormChange}
+                className="border p-2 rounded w-full cursor-pointer"
               />
             </div>
 
