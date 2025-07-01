@@ -41,6 +41,7 @@ const BestSeller = () => {
       const nextIndex = prevIndex + slideBy >= best.length - booksToShow ? 0 : prevIndex + slideBy;
       return nextIndex;
     });
+    setTimeout(() => setIsAnimating(false), 500);
   }
   const handlePrev = () => {
     if (isAnimating) return;

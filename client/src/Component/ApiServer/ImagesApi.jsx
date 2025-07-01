@@ -5,7 +5,12 @@ const ImagesApi = async (formdata) => {
     try {
     const response = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/books/file/import`,
-      formdata
+      formdata,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
     );
     console.log(">>>>>>>>>>>>.",response);
     return response.data;
