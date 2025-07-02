@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
-import axios from 'axios';
-import { ImagesApiPost, ImagesApiGet } from '../ApiServer/ImagesApi';
+import { ImagesApiGet } from '../ApiServer/ImagesApi';
 
 const BestSellerImg = () => {
   const [books, setBooks] = useState([]);
   const [visibleBooks, setVisibleBooks] = useState(12);
-  const [showPopup, setShowPopup] = useState(false);
-  const [formData, setFormData] = useState({
-    title: '',
-    author: '',
-    description: '',
-    image: null,
-    imageUrl: ''
-  });
 
   useEffect(() => {
     fetchBooksFromServer();
@@ -30,44 +21,10 @@ const BestSellerImg = () => {
     }
   };
 
-
-  const handleFormChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === 'image') {
-      const file = files[0];
-      const imageUrl = URL.createObjectURL(file);
-      setFormData({ ...formData, image: file, imageUrl });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-  };
-
-  const handleSaveToServer = async () => {
-    if (!formData.title || !formData.author || !formData.description || !formData.image) {
-      alert("Please fill all fields");
-      return;
-    }
-
-    try {
-      const data = new FormData();
-      data.append('title', formData.title);
-      data.append('author', formData.author);
-      data.append('description', formData.description);
-      data.append('image', formData.image);
-
-      await ImagesApiPost(data);
-
-      alert("Book saved to server successfully!");
-      setFormData({ title: '', author: '', description: '', image: null, imageUrl: '' });
-      setShowPopup(false);
-
-      fetchBooksFromServer(); // refresh book list
-
-    } catch (error) {
-      // console.error("Upload failed:", error);
-      alert("Failed to save book.");
-    }
-  };
+  const navigate = useNavigate();
+  const handleAddImages = () => {
+    navigate("/addImages");
+  }
 
   const handleLoadMore = () => {
     setVisibleBooks(prev => Math.min(prev + 12, books.length));
@@ -86,64 +43,12 @@ const BestSellerImg = () => {
           Best Sellers
         </h1>
         <button
-          onClick={() => setShowPopup(true)}
+          onClick={handleAddImages}
           className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition'
         >
           Add Images
         </button>
       </div>
-
-      {/* Popup Modal */}
-      {showPopup && (
-        <div className='fixed inset-0 bg-black bg-opacity-60 flex justify-center items-start pt-10 z-50 overflow-y-auto'>
-          <div className='bg-white w-[90%] max-w-4xl rounded shadow-lg p-6 relative'>
-            <button
-              onClick={() => setShowPopup(false)}
-              className='absolute top-2 right-2 text-gray-600 hover:text-red-500 text-xl cursor-pointer'
-            >
-              ✕
-            </button>
-            <h2 className='text-xl font-bold mb-4 text-center'>Add New Book</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <input
-                name="title"
-                value={formData.title}
-                onChange={handleFormChange}
-                placeholder="Title"
-                className="border p-2 rounded w-full"
-              />
-              <input
-                name="author"
-                value={formData.author}
-                onChange={handleFormChange}
-                placeholder="Author"
-                className="border p-2 rounded w-full"
-              />
-              <input
-                name="description"
-                value={formData.description}
-                onChange={handleFormChange}
-                placeholder="Description"
-                className="border p-2 rounded w-full"
-              />
-              <input
-                type="file"
-                name="image"
-                accept="image/*"
-                onChange={handleFormChange}
-                className="border p-2 rounded w-full cursor-pointer"
-              />
-            </div>
-
-            <div className='text-center'>
-              <button onClick={handleSaveToServer} className='bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 cursor-pointer'>
-                Save Book
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Sort and Total */}
       <div className="flex justify-between items-center mb-8">
@@ -164,7 +69,16 @@ const BestSellerImg = () => {
       {/* Book Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
         {books.slice(0, visibleBooks).map((book) => (
-          <div key={book._id} className="group relative border border-gray-300 hover:shadow-lg transition-shadow">
+          <div 
+            key={book._id} 
+            className="group relative border border-gray-300 hover:shadow-lg transition-shadow"
+          >
+            {/* Discount */}
+            {book.discount && (
+              <div className='absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded-sm z-10'>
+                {book.discount}% OFF
+              </div>
+            )}
             <div className="relative mb-4 overflow-hidden px-4 pt-2">
               <img
                 src={`${import.meta.env.VITE_BACKEND_URL}${book.image}`}

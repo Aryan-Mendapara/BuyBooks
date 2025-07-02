@@ -2,10 +2,10 @@ const { Image } = require("../Models/booksModels")
 
 const createBooks = async (req, res) => {
     try {
-        const { title, author, description } = req.body
+        const { title, author, Publisher, price, originalPrice, discount } = req.body
         const image = req.file ? req.file.path : null
 
-        const newBooks = new Image({ title, author, description, image });
+        const newBooks = new Image({ title, author, image, Publisher, price, originalPrice, discount });
         await newBooks.save();
 
         res.status(201).json({ message: 'Book created successfully', newBooks })

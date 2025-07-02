@@ -8,6 +8,7 @@ import NewArrivalsImg from './Component/Images/NewArrivalsImg'
 import BestSeller from './Component/Pages/bestsellers'
 import BestSellerImg from './Component/Images/BestSellerImg'
 import SchoolBooks from './Component/Pages/SchoolBooks'
+import ImagesData from './Component/data/BestSellersData'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path='/newarrivalsimg' element={<NewArrivalsImg/>} />
             <Route path='/bestsellersimg' element={<BestSellerImg/>} />
             {/* <Route path='/schoolbooks' element={<SchoolBooks/>} /> */}
+            <Route path="/addImages" element={<ImagesData />} />
           </Routes>
         </Layout>
       </BrowserRouter>

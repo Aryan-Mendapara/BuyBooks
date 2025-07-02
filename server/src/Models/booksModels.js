@@ -8,8 +8,20 @@ const booksSchema = new mongooes.Schema({
     author: {
         type: String,
     },
-    description: {
+    Publisher: {
         type: String,
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    originalPrice: {
+        type: Number,
+        required: true
+    },
+    discount: {
+        type: Number,
+        required: true
     },
     image: {
         type: String,

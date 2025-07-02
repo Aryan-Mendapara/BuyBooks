@@ -1,34 +1,34 @@
-import React, { useEffect, useState } from 'react'
-import { FaChevronLeft, FaChevronRight, FaShoppingCart } from 'react-icons/fa'
-import { best } from '../data/bestsellerData'
-import { useNavigate } from 'react-router-dom'
-// import ImagesApiPost from '../ApiServer/ImagesApi'
+import React, { useEffect, useState } from 'react';
+import { FaChevronLeft, FaChevronRight, FaShoppingCart } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { ImagesApiGet } from '../ApiServer/ImagesApi';
 
 const BestSeller = () => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [bookList, setBookList] = useState([]);
   const navigate = useNavigate();
+
   const booksToShow = 5;
   const slideBy = 1;
 
-  // useEffect(() => {
-  //   const fetchBooks = async () => {
-  //     try {
-  //       const data = await ImagesApiPost();
-  //       setBookList(data.best || []);
-  //     } catch (error) {
-  //       console.error("Failed to load books:", error);        
-  //     }
-  //   };
-  //   fetchBooks();
-  // }, []);
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const data = await ImagesApiGet();
+        setBookList(data.books || []);
+      } catch (error) {
+        console.error("Failed to load books:", error);
+      }
+    };
+    fetchBooks();
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
       if (!isAnimating) {
         handleNext();
-      }      
+      }
     }, 5000);
 
     return () => clearInterval(timer);
@@ -37,26 +37,24 @@ const BestSeller = () => {
   const handleNext = () => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setCurrentIndex((prevIndex) => {
-      const nextIndex = prevIndex + slideBy >= best.length - booksToShow ? 0 : prevIndex + slideBy;
-      return nextIndex;
-    });
+    setCurrentIndex((prevIndex) =>
+      prevIndex + slideBy >= bookList.length - booksToShow ? 0 : prevIndex + slideBy
+    );
     setTimeout(() => setIsAnimating(false), 500);
-  }
+  };
+
   const handlePrev = () => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setCurrentIndex((prevIndex) => {
-      // Move by one book at a time
-      const nextIndex = prevIndex === 0 ? best.length - booksToShow : prevIndex - slideBy;
-      return nextIndex;
-    });
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? bookList.length - booksToShow : prevIndex - slideBy
+    );
     setTimeout(() => setIsAnimating(false), 500);
-  }
+  };
 
   const handleNavigate = () => {
-    navigate('/bestsellersimg')
-  }
+    navigate('/bestsellersimg');
+  };
 
   return (
     <div className='bg-white text-center py-10 max-w-6xl mx-auto'>
@@ -70,44 +68,46 @@ const BestSeller = () => {
 
       {/* Slider Container */}
       <div className='relative overflow-clip'>
-        {/* Previous Button */}
+        {/* Prev Button */}
         <button
           onClick={handlePrev}
           disabled={isAnimating}
-          className="absolute -left-2 top-1/2 -translate-y- z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+          className='absolute -left-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed'
         >
           <FaChevronLeft className='text-xl text-gray-600' />
         </button>
 
-        {/* Books Row Container */}
+        {/* Books Container */}
         <div>
           <div
             className='flex gap-6 transition-transform duration-500 ease-in-out'
             style={{
               transform: `translateX(-${currentIndex * (208 + 24)}px)`,
-              width: 'max-content'
+              width: 'max-content',
             }}
           >
-            {best.map((book) => (
+            {bookList.map((book) => (
               <div
-                key={book.id}
+                key={book._id}
                 className='w-52 flex-shrink-0 group relative border border-gray-300 hover:shadow-lg transition-shadow'
               >
-                {/* Discount Badge */}
-                <div className='absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded-sm z-10'>
-                  {book.discount}% OFF
-                </div>
+                {/* Discount */}
+                {book.discount && (
+                  <div className='absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded-sm z-10'>
+                    {book.discount}% OFF
+                  </div>
+                )}
 
-                {/* Book Image Container with Overlay */}
+                {/* Image */}
                 <div className='relative mb-4 overflow-hidden px-4 pt-2'>
-                  <div className="relative pb-[133%]">
+                  <div className='relative pb-[133%]'>
                     <img
-                      src={book.image}
+                      src={`${import.meta.env.VITE_BACKEND_URL}${book.image}`}
                       alt={book.title}
                       className='absolute inset-0 w-60 h-60 object-contain'
                     />
                   </div>
-                  {/* Overlay with Cart Button */}
+                  {/* Cart Button */}
                   <div className='absolute inset-0 bg-opacity-40 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
                     <button className='w-full bg-orange-500 text-white py-2 px-4 rounded-t flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300'>
                       <FaShoppingCart />
@@ -116,15 +116,13 @@ const BestSeller = () => {
                   </div>
                 </div>
 
-                {/* Book Details */}
-                <div className="px-4 pb-4">
-                  <h3 className="text-sm font-medium mb-2 line-clamp-2 min-h-[2.5rem]">
-                    {book.title}
-                  </h3>
-
-                  {/* Price */}
+                {/* Book Info */}
+                <div className='px-4 pb-4'>
+                  <h3 className='text-sm font-medium mb-2 line-clamp-2 min-h-[2.5rem]'>{book.title}</h3>
                   <span className='text-lg font-bold text-orange-500'>₹{book.price}</span>
-                  <span className='text-sm text-gray-500 line-through ml-2'>₹{book.originalPrice}</span>
+                  {book.originalPrice && (
+                    <span className='text-sm text-gray-500 line-through ml-2'>₹{book.originalPrice}</span>
+                  )}
                 </div>
               </div>
             ))}
@@ -137,7 +135,7 @@ const BestSeller = () => {
           disabled={isAnimating}
           className='absolute -right-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed'
         >
-          <FaChevronRight className="text-xl text-gray-600" />
+          <FaChevronRight className='text-xl text-gray-600' />
         </button>
       </div>
 
@@ -151,7 +149,7 @@ const BestSeller = () => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BestSeller
+export default BestSeller;
