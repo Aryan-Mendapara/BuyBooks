@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaShoppingCart } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { ImagesApiGet } from '../ApiServer/ImagesApi';
+import { MdDelete, MdEdit } from 'react-icons/md';
+import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/NewArrivalImgApi';
 
 const BestSeller = () => {
   const [isAnimating, setIsAnimating] = useState(false);
@@ -16,6 +17,8 @@ const BestSeller = () => {
     const fetchBooks = async () => {
       try {
         const data = await ImagesApiGet();
+        // const filtered = data.books?.filter(book => book.category === 'bestseller');
+        // setBookList(filtered || []);
         setBookList(data.books || []);
       } catch (error) {
         console.error("Failed to load books:", error);
@@ -56,6 +59,16 @@ const BestSeller = () => {
     navigate('/bestsellersimg');
   };
 
+  const handleDeleteImages = async (bookId) => {
+    try {
+      const response = await ImagesApiDelete(bookId);
+      console.log(("Books Delete response:", response));
+      setBookList(prevBooks => prevBooks.filter(book => book._id !== bookId));
+    } catch (error) {
+      console.log("Error Delete books: ", error);
+    }
+  }
+
   return (
     <div className='bg-white text-center py-10 max-w-6xl mx-auto'>
       {/* Title */}
@@ -89,8 +102,22 @@ const BestSeller = () => {
             {bookList.map((book) => (
               <div
                 key={book._id}
-                className='w-52 flex-shrink-0 group relative border border-gray-300 hover:shadow-lg transition-shadow'
+                className='w-50 flex-shrink-0 group relative border border-gray-300 hover:shadow-lg transition-shadow'
               >
+
+                {/* Edit */}
+                <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
+                  <MdEdit size={20} />
+                </div>
+
+                {/* Delete */}
+                <div
+                  onClick={() => handleDeleteImages(book._id)}
+                  className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
+                >
+                  <MdDelete size={20} />
+                </div>
+
                 {/* Discount */}
                 {book.discount && (
                   <div className='absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded-sm z-10'>
@@ -102,11 +129,12 @@ const BestSeller = () => {
                 <div className='relative mb-4 overflow-hidden px-4 pt-2'>
                   <div className='relative pb-[133%]'>
                     <img
-                      src={`${import.meta.env.VITE_BACKEND_URL}${book.image}`}
+                      src={`${import.meta.env.VITE_BACKEND_URL}/${book.image}`}
                       alt={book.title}
                       className='absolute inset-0 w-60 h-60 object-contain'
                     />
                   </div>
+
                   {/* Cart Button */}
                   <div className='absolute inset-0 bg-opacity-40 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
                     <button className='w-full bg-orange-500 text-white py-2 px-4 rounded-t flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300'>
@@ -117,8 +145,8 @@ const BestSeller = () => {
                 </div>
 
                 {/* Book Info */}
-                <div className='px-4 pb-4'>
-                  <h3 className='text-sm font-medium mb-2 line-clamp-2 min-h-[2.5rem]'>{book.title}</h3>
+                <div className='px-4'>
+                  <h3 className='text-sm font-medium mb-2'>{book.title}</h3>
                   <span className='text-lg font-bold text-orange-500'>₹{book.price}</span>
                   {book.originalPrice && (
                     <span className='text-sm text-gray-500 line-through ml-2'>₹{book.originalPrice}</span>

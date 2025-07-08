@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ImagesApiPost } from '../ApiServer/ImagesApi';
+import { ImagesApiPost } from '../ApiServer/NewArrivalImgApi';
 import { useNavigate } from 'react-router-dom';
 
 function ImagesData() {

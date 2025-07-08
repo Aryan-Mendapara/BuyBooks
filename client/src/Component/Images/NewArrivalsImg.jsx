@@ -1,19 +1,48 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaShoppingCart } from 'react-icons/fa'
-import { books } from '../data/ImageData';
+import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/NewArrivalImgApi';
+import { MdDelete, MdEdit } from 'react-icons/md';
 
 const NewArrivalsImg = () => {
-  // State for visible books
+  const [books, setBooks] = useState([]);
   const [visibleBooks, setVisibleBooks] = useState(12);
 
-  // Handle load more
+  useEffect(() => {
+    fetchBooksFromServer();
+  }, []);
+
+  const fetchBooksFromServer = async () => {
+    try {
+      const response = await ImagesApiGet();
+      console.log("Books Get response:", response);
+      setBooks(response.books || []);
+    } catch (error) {
+      console.error("Error loading books: ", error);
+    }
+  };
+
+  const navigate = useNavigate();
+  const handleAddImages = () => {
+    navigate("/addImages");
+  }
+
   const handleLoadMore = () => {
     setVisibleBooks(prev => Math.min(prev + 12, books.length));
   };
 
+  const handleDeleteImages = async (bookId) => {
+    try {
+      const response = await ImagesApiDelete(bookId);
+      console.log(("Books Delete response:", response));
+      setBooks(prevBooks => prevBooks.filter(book => book._id !== bookId));
+    } catch (error) {
+      console.log("Error Delete books: ", error);
+    }
+  }
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 py-8 text-center">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm mb-6">
         <Link to="/" className="text-gray-600 hover:text-orange-500">Home</Link>
@@ -21,10 +50,18 @@ const NewArrivalsImg = () => {
         <span className="text-gray-800">New Arrivals</span>
       </div>
 
-      {/* Title */}
-      <h1 className="text-2xl font-bold mb-6 pb-2 border-b-2 border-orange-500 inline-block">
-        New Arrivals
-      </h1>
+      <div className='flex justify-between items-center mb-6'>
+        {/* Title */}
+        <h1 className="text-2xl font-bold pb-2 border-b-2 border-orange-500 inline-block">
+          New Arrivals
+        </h1>
+        <button
+          onClick={handleAddImages}
+          className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition'
+        >
+          Add Images
+        </button>
+      </div>
 
       {/* Sort and Results Count */}
       <div className="flex justify-between items-center mb-8">
@@ -45,7 +82,24 @@ const NewArrivalsImg = () => {
       {/* Books Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
         {books.slice(0, visibleBooks).map((book) => (
-          <div key={book.id} className="group relative border border-gray-300 hover:shadow-lg transition-shadow ">
+          <div
+            key={book._id}
+            className="group relative border border-gray-300 hover:shadow-lg transition-shadow"
+          >
+
+            {/* Edit */}
+            <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
+              <MdEdit size={20} />
+            </div>
+
+            {/* Delete */}
+            <div
+              onClick={() => handleDeleteImages(book._id)}
+              className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
+            >
+              <MdDelete size={20} />
+            </div>
+
             {/* Discount Badge */}
             <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded-sm z-10">
               {book.discount}% OFF
@@ -54,7 +108,7 @@ const NewArrivalsImg = () => {
             {/* Book Image Container with Overlay */}
             <div className="relative mb-4 overflow-hidden px-4 pt-2">
               <img
-                src={book.image}
+                src={`${import.meta.env.VITE_BACKEND_URL}/${book.image}`}
                 alt={book.title}
                 className="w-60 h-60 object-cover"
               />

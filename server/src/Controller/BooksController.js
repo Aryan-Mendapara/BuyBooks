@@ -4,12 +4,25 @@ const createBooks = async (req, res) => {
     try {
         const { title, author, Publisher, price, originalPrice, discount } = req.body
         const image = req.file ? req.file.path : null
+        console.log("Form data received:", req.body);
 
-        const newBooks = new Image({ title, author, image, Publisher, price, originalPrice, discount });
+        const newBooks = new Image({ 
+            title, 
+            author, 
+            image, 
+            Publisher, 
+            price, 
+            originalPrice, 
+            discount, 
+            // category 
+        });
+        console.log("Saved Book:", newBooks);
+
         await newBooks.save();
 
         res.status(201).json({ message: 'Book created successfully', newBooks })
     } catch (error) {
+        console.error("Create Book Error: ", error);
         res.status(500).json({ message: 'Failed to create book'});
     }
 };

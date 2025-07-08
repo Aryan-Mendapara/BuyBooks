@@ -26,7 +26,12 @@ const booksSchema = new mongooes.Schema({
     image: {
         type: String,
     },
-    createdAt : {
+    // category: {
+    //     type: String,
+    //     enum: ['newarrival', 'bestseller'],
+    //     required: true
+    // },
+    createdAt: {
         type: Date,
         default: Date.now
     }
@@ -34,4 +39,4 @@ const booksSchema = new mongooes.Schema({
 
 const Image = mongooes.model("Image", booksSchema);
 
-module.exports = {Image}
+module.exports = { Image }

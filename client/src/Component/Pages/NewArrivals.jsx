@@ -1,36 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import { FaChevronLeft, FaChevronRight, FaShoppingCart } from 'react-icons/fa'
-import { books } from '../data/ImageData'
 import { useNavigate } from 'react-router-dom';
-// import ImagesApiPost from '../ApiServer/ImagesApi';
+import { ImagesApiGet } from '../ApiServer/NewArrivalImgApi';
+import { MdDelete, MdEdit } from 'react-icons/md';
 
 function NewArrivals() {
     const [isAnimating, setIsAnimating] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [bookList, setBookList] = useState([]); // 👈 dynamic books
-    const booksToShow = 5;
-    const slideBy = 1;
+    const [bookList, setBookList] = useState([]);
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     // 👇 Fetch books from backend
-    //     const fetchBooks = async () => {
-    //         try {
-    //             const data = await ImagesApiPost(); // call API
-    //             setBookList(data.books || []); // replace 'books' with actual key from response
-    //         } catch (err) {
-    //             console.error('Failed to load books:', err);
-    //         }
-    //     };
-    //     fetchBooks();
-    // }, []);
+    const booksToShow = 5;
+    const slideBy = 1;
+
+    useEffect(() => {
+        const fetchBooks = async () => {
+            try {
+                const data = await ImagesApiGet();
+                // const filtered = data.books?.filter(book => book.category === 'newarrival');
+                // setBookList(filtered || []);
+                setBookList(data.books || []);
+            } catch (error) {
+                console.error("Failed to load books:", error);
+            }
+        };
+        fetchBooks();
+    }, []);
 
     useEffect(() => {
         const timer = setInterval(() => {
             if (!isAnimating) {
                 handleNext();
             }
-        }, 5000); // Changed to 5 seconds
+        }, 5000);
 
         return () => clearInterval(timer);
     }, [currentIndex, isAnimating]);
@@ -38,27 +40,37 @@ function NewArrivals() {
     const handleNext = () => {
         if (isAnimating) return;
         setIsAnimating(true);
-        setCurrentIndex((prevIndex) => {
-            // Move by one book at a time
-            const nextIndex = prevIndex + slideBy >= books.length - booksToShow ? 0 : prevIndex + slideBy;
-            return nextIndex;
-        });
+        setCurrentIndex((prevIndex) =>
+            prevIndex + slideBy >= bookList.length - booksToShow ? 0 : prevIndex + slideBy
+        );
         setTimeout(() => setIsAnimating(false), 500);
     };
 
     const handlePrev = () => {
         if (isAnimating) return;
         setIsAnimating(true);
-        setCurrentIndex((prevIndex) => {
-            // Move by one book at a time
-            const nextIndex = prevIndex === 0 ? books.length - booksToShow : prevIndex - slideBy;
-            return nextIndex;
-        });
+        setCurrentIndex((prevIndex) =>
+            prevIndex === 0 ? bookList.length - booksToShow : prevIndex - slideBy
+        );
         setTimeout(() => setIsAnimating(false), 500);
     };
 
+    const handleNavigate = () => {
+        navigate('/bestsellersimg');
+    };
+
+    const handleDeleteImages = async (bookId) => {
+        try {
+            const response = await ImagesApiDelete(bookId);
+            console.log(("Books Delete response:", response));
+            setBookList(prevBooks => prevBooks.filter(book => book._id !== bookId));
+        } catch (error) {
+            console.log("Error Delete books: ", error);
+        }
+    }
+
     return (
-        <div className='bg-gray-100'>
+        <div className='bg-gray-100 text-center'>
             {/* New Arrivals */}
             <div className="max-w-6xl mx-auto px-2 py-8">
                 {/* Title */}
@@ -90,26 +102,40 @@ function NewArrivals() {
                                 width: 'max-content' // Changed: Let container adjust to content
                             }}
                         >
-                            {books.map((book) => (
+                            {bookList.map((book) => (
                                 <div
-                                    key={book.id}
+                                    key={book._id}
                                     className="w-52 flex-shrink-0 group relative border border-gray-300 hover:shadow-lg transition-shadow"
                                 >
+                                    {/* Edit */}
+                                    <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
+                                        <MdEdit size={20} />
+                                    </div>
+
+                                    {/* Delete */}
+                                    <div
+                                        onClick={() => handleDeleteImages(book._id)}
+                                        className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
+                                    >
+                                        <MdDelete size={20} />
+                                    </div>
+
                                     {/* Discount Badge */}
                                     <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded-sm z-10">
                                         {book.discount}% OFF
                                     </div>
 
-                                    {/* Book Image Container with Overlay */}
+                                    {/* Book Image */}
                                     <div className="relative mb-4 overflow-hidden px-4 pt-2">
                                         <div className="relative pb-[133%]"> {/* 4:3 aspect ratio */}
                                             <img
-                                                src={book.image}
+                                                src={`${import.meta.env.VITE_BACKEND_URL}/${book.image}`}
                                                 alt={book.title}
                                                 className="absolute inset-0 w-60 h-60 object-contain"
                                             />
                                         </div>
-                                        {/* Overlay with Cart Button */}
+
+                                        {/* Cart Button */}
                                         <div className="absolute inset-0 bg-opacity-40 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                             <button className="w-full bg-orange-500 text-white py-2 px-4 rounded-t flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                                                 <FaShoppingCart />

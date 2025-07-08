@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
-import { ImagesApiGet } from '../ApiServer/ImagesApi';
+import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/NewArrivalImgApi';
+import { MdDelete, MdEdit } from "react-icons/md";
 
 const BestSellerImg = () => {
   const [books, setBooks] = useState([]);
@@ -10,14 +11,14 @@ const BestSellerImg = () => {
   useEffect(() => {
     fetchBooksFromServer();
   }, []);
-  
+
   const fetchBooksFromServer = async () => {
     try {
       const response = await ImagesApiGet();
-      console.log("Books response:", response);
+      console.log("Books Get response:", response);
       setBooks(response.books || []);
     } catch (error) {
-      console.error("Error loading books:", error);
+      console.error("Error loading books: ", error);
     }
   };
 
@@ -30,8 +31,18 @@ const BestSellerImg = () => {
     setVisibleBooks(prev => Math.min(prev + 12, books.length));
   };
 
+  const handleDeleteImages = async (bookId) => {
+    try {
+      const response = await ImagesApiDelete(bookId);
+      console.log(("Books Delete response:", response));
+      setBooks(prevBooks => prevBooks.filter(book => book._id !== bookId));
+    } catch (error) {
+      console.log("Error Delete books: ", error);
+    }
+  }
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 py-8 text-center">
       <div className="flex items-center gap-2 text-sm mb-6">
         <Link to="/" className="text-gray-600 hover:text-orange-500">Home</Link>
         <span className="text-gray-400">&gt;</span>
@@ -69,22 +80,38 @@ const BestSellerImg = () => {
       {/* Book Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
         {books.slice(0, visibleBooks).map((book) => (
-          <div 
-            key={book._id} 
+          <div
+            key={book._id}
             className="group relative border border-gray-300 hover:shadow-lg transition-shadow"
           >
+
+            {/* Edit */}
+            <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
+              <MdEdit size={20} />
+            </div>
+
+            {/* Delete */}
+            <div
+              onClick={() => handleDeleteImages(book._id)}
+              className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
+            >
+              <MdDelete size={20} />
+            </div>
+
             {/* Discount */}
             {book.discount && (
               <div className='absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded-sm z-10'>
                 {book.discount}% OFF
               </div>
             )}
+
             <div className="relative mb-4 overflow-hidden px-4 pt-2">
               <img
-                src={`${import.meta.env.VITE_BACKEND_URL}${book.image}`}
+                src={`${import.meta.env.VITE_BACKEND_URL}/${book.image}`}
                 alt={book.title}
                 className="w-60 h-60 object-cover"
               />
+
               <div className="absolute inset-0 bg-opacity-40 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <button className="w-full bg-orange-500 text-white py-2 px-4 rounded-t flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                   <FaShoppingCart />
