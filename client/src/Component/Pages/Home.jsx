@@ -2,16 +2,19 @@ import React, { useEffect, useState } from 'react';
 import schoolbooks from '../../assets/img/schoolbooks.jpg';
 import bestseller from '../../assets/img/bestseller.jpg';
 import BBIDiscountOffer from '../../assets/img/BBIDiscountOffer.jpg';
-
+import PopularAuthor from '../../assets/img/PopularAuthor.png';
+import BBILanguagesbanner from '../../assets/img/BBILanguagesbanner.jpg'
 import NewArrivals from './NewArrivals';
 import BestSeller from './bestsellers';
 import SchoolBooks from './SchoolBooks';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import FictionNonFictionBooks from './FictionNonFictionBooks';
+import BooksbyCategories from './BooksbyCategories';
 
 function Home() {
   const images = [
-    schoolbooks, 
-    bestseller
+    schoolbooks,
+    bestseller,
   ];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -51,9 +54,9 @@ function Home() {
         <button
           onClick={handlePrev}
           disabled={isAnimating}
-          className='absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow hover:bg-white transition'
+          className='absolute top-1/2 -translate-y-1/2 z-10 bg-black/70 p-5 shadow'
         >
-          <FaChevronLeft className='text-xl text-gray-700' />
+          <FaChevronLeft className='text-xl text-white' />
         </button>
 
         {/* Slide Image */}
@@ -61,15 +64,15 @@ function Home() {
           src={images[currentIndex]}
           alt="Slide"
           className="w-full h-full object-cover transition-all duration-700"
-        />
+        />        
 
         {/* Next Button */}
         <button
           onClick={handleNext}
           disabled={isAnimating}
-          className='absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow hover:bg-white transition'
+          className='absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black/70 p-5 shadow'
         >
-          <FaChevronRight className='text-xl text-gray-700' />
+          <FaChevronRight className='text-xl text-white' />
         </button>
       </div>
 
@@ -80,16 +83,37 @@ function Home() {
       </div>
 
       {/* Advertisement */}
-      <div>
+      <div className='w-auto'>
         <img
           src={BBIDiscountOffer}
           className='w-full object-cover'
-          alt="BBIDiscountOffer"
         />
       </div>
 
       {/* School Books Section */}
       <SchoolBooks />
+
+      {/* Advertisement */}
+      <div className='w-auto'>
+        <img
+          src={PopularAuthor}
+          className='w-full object-cover'
+        />
+      </div>
+
+      {/* Fiction & Non Fiction Books */}
+      <FictionNonFictionBooks />      
+
+      {/* Advertisement */}
+      <div className='w-auto'>
+        <img
+          src={BBILanguagesbanner}
+          className='w-full object-cover'
+        />
+      </div>
+
+      {/* Books by Categories */}
+      <BooksbyCategories />
     </div>
   );
 }

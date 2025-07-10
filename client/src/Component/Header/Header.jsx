@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
 import logo from "../../assets/img/logo.png"
 import { FaHeart, FaHome, FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Header() {
     const categories = [
-        "Bestsellers",
-        "New Arrivals",
-        "Pre Order",
-        "Children & Young Adult",
-        "Fiction & Non Fiction",
-        "School Education",
-        "Higher Education",
-        "Test Prep",
-        "Games & Puzzles"
+        { id: 1, name: 'Bestsellers', path: '/bestsellersimg' },
+        { id: 2, name: 'New Arrivals', path: '/newarrivalsimg' },
+        { id: 3, name: 'Pre Order', path: '/pre-order' },
+        { id: 4, name: 'Children & Young Adult', path: '/children-young-adult' },
+        { id: 5, name: 'Fiction & Non Fiction', path: '/fictionnonfictionbooksimg' },
+        { id: 6, name: 'School Education', path: '/schoolbooksimg' },
+        { id: 7, name: 'Higher Education', path: '/higher-education' },
+        { id: 8, name: 'Test Prep', path: '/test-prep' },
+        { id: 9, name: 'Games & Puzzles', path: '/games-puzzles' }
     ];
 
     const [search, setSearch] = useState("");
@@ -26,10 +26,10 @@ function Header() {
                 {/* Logo */}
                 <div className=''>
                     <button
-                        onClick={() => {navigate('/')}}
+                        onClick={() => { navigate('/') }}
                     >
                         <img src={logo} />
-                    </button>                    
+                    </button>
                 </div>
                 {/* Search Bar */}
                 <div className='flex items-center border border-black max-w-xl w-full rounded-lg overflow-hidden'>
@@ -47,7 +47,7 @@ function Header() {
                 {/* Login */}
                 <div className='flex items-center justify-center px-5'>
                     <button
-                        onClick={() => {navigate('/login')}}
+                        onClick={() => { navigate('/login') }}
                         className='bg-orange-500 p-2 rounded-lg cursor-pointer'
                     >
                         <span className='px-3 flex items-center mx-1 text-white hover:text-black'><FaUser />
@@ -59,35 +59,36 @@ function Header() {
                 </div>
             </div>
             <div className='bg-neutral-700 w-full h-12 text-white flex items-center px-19 overflow-x-auto text-sm'>
-                <div>
-                    <button 
-                        onClick={() => {navigate('/')}}
-                        className='cursor-pointer mr-1'
-                    >
-                        <FaHome size={20} />
-                    </button>                    
-                </div>
-                {categories.map((category, index) => (                
+                <ul className='flex items-center space-x-6 py-3 overflow-x-auto text-[13px]'>
+                  <li>
+                    <Link to="/" className='hover:text-orange-500 flex items-center gap-1'>
+                      <FaHome className="text-lg" />
+                    </Link>
+                  </li>
+                  {categories.map((item) => (
+                    <li key={item.id}>
+                      <Link
+                        to={item.path}
+                        className='hover:text-orange-500 whitespace-nowrap transition-colors duration-200'
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul> 
+                <div className='bg-orange-500 h-full flex items-center justify-center w-12 mx-1 ml-3'>
                     <button
-                        key={index}
-                        className='px-5 py-2 h-full flex items-center hover:bg-orange-500'
-                    >
-                        {category}
-                    </button>
-                ))}
-                <div className='bg-orange-500 h-full flex items-center justify-center w-12'>                    
-                    <button
-                        onClick={() => {navigate('/login')}}
+                        onClick={() => { navigate('/login') }}
                         className='cursor-pointer'
                     >
                         <FaHeart size={20} />
-                    </button>                    
+                    </button>
                 </div>
                 <div className='bg-orange-500 h-full flex items-center justify-center w-12 ml-1'>
                     <button
                         className='cursor-pointer'
                     >
-                    <FaShoppingCart size={20} />
+                        <FaShoppingCart size={20} />
                     </button>
                 </div>
             </div>

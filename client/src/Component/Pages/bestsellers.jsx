@@ -76,7 +76,7 @@ const BestSeller = () => {
         <h2 className='text-4xl font-bold'>
           Bestseller Books
         </h2>
-        <div className='w-68 h-1 bg-orange-500 mx-auto mt-2'></div>
+        <div className='w-68 h-0.5 bg-orange-500 mx-auto mt-2'></div>
       </div>
 
       {/* Slider Container */}
@@ -85,7 +85,7 @@ const BestSeller = () => {
         <button
           onClick={handlePrev}
           disabled={isAnimating}
-          className='absolute -left-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed'
+          className='absolute cursor-pointer left-1 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed'
         >
           <FaChevronLeft className='text-xl text-gray-600' />
         </button>
@@ -161,7 +161,7 @@ const BestSeller = () => {
         <button
           onClick={handleNext}
           disabled={isAnimating}
-          className='absolute -right-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed'
+          className='absolute cursor-pointer right-1 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed'
         >
           <FaChevronRight className='text-xl text-gray-600' />
         </button>

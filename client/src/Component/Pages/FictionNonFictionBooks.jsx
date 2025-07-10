@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { FaChevronLeft, FaChevronRight, FaShoppingCart } from 'react-icons/fa'
+import React, { useEffect, useState } from 'react';
+import { FaChevronLeft, FaChevronRight, FaShoppingCart } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/NewArrivalImgApi';
 import { MdDelete, MdEdit } from 'react-icons/md';
+import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/NewArrivalImgApi';
 
-function NewArrivals() {
+const FictionNonFictionBooks = () => {
     const [isAnimating, setIsAnimating] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [bookList, setBookList] = useState([]);
@@ -17,7 +17,7 @@ function NewArrivals() {
         const fetchBooks = async () => {
             try {
                 const data = await ImagesApiGet();
-                // const filtered = data.books?.filter(book => book.category === 'newarrival');
+                // const filtered = data.books?.filter(book => book.category === 'bestseller');
                 // setBookList(filtered || []);
                 setBookList(data.books || []);
             } catch (error) {
@@ -56,7 +56,7 @@ function NewArrivals() {
     };
 
     const handleNavigate = () => {
-        navigate('/bestsellersimg');
+        navigate('/fictionnonfictionbooksimg');
     };
 
     const handleDeleteImages = async (bookId) => {
@@ -70,43 +70,42 @@ function NewArrivals() {
     }
 
     return (
-        <div className='bg-gray-100 text-center'>
-            {/* New Arrivals */}
+        <div className='bg-gray-100 text-center py-10 mx-auto'>
             <div className="max-w-6xl mx-auto px-2 py-8">
                 {/* Title */}
-                <div className="text-center mb-6">
-                    <h2 className="text-4xl font-bold">
-                        New Arrival
+                <div className='mb-6 text-center'>
+                    <h2 className='text-4xl font-bold'>
+                        Fiction & Non Fiction Books
                     </h2>
-                    <div className="w-50 h-0.5 bg-orange-500 mx-auto mt-2"></div>
+                    <div className='w-68 h-0.5 bg-orange-500 mx-auto mt-2'></div>
                 </div>
 
                 {/* Slider Container */}
-                <div className="relative overflow-clip">
-                    {/* Previous Button */}
+                <div className='relative overflow-clip'>
+                    {/* Prev Button */}
                     <button
                         onClick={handlePrev}
                         disabled={isAnimating}
-                        className="absolute cursor-pointer left-1 top-1/2 -translate-y- z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                        className='absolute cursor-pointer left-1 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed'
                     >
-                        <FaChevronLeft className="text-xl text-gray-600" />
+                        <FaChevronLeft className='text-xl text-gray-600' />
                     </button>
 
-                    {/* Books Row Container */}
+                    {/* Books Container */}
                     <div>
                         <div
-                            className="flex gap-6 transition-transform duration-500 ease-in-out"
+                            className='flex gap-6 transition-transform duration-500 ease-in-out'
                             style={{
-                                // Changed: Calculate translation based on card width + gap
-                                transform: `translateX(-${currentIndex * (208 + 24)}px)`, // 208px (w-52) + 24px (gap-6)
-                                width: 'max-content' // Changed: Let container adjust to content
+                                transform: `translateX(-${currentIndex * (208 + 24)}px)`,
+                                width: 'max-content',
                             }}
                         >
                             {bookList.map((book) => (
                                 <div
                                     key={book._id}
-                                    className="w-52 flex-shrink-0 group relative border border-gray-300 hover:shadow-lg transition-shadow"
+                                    className='w-50 flex-shrink-0 group relative border border-gray-300 hover:shadow-lg transition-shadow'
                                 >
+
                                     {/* Edit */}
                                     <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
                                         <MdEdit size={20} />
@@ -120,41 +119,39 @@ function NewArrivals() {
                                         <MdDelete size={20} />
                                     </div>
 
-                                    {/* Discount Badge */}
-                                    <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded-sm z-10">
-                                        {book.discount}% OFF
-                                    </div>
+                                    {/* Discount */}
+                                    {book.discount && (
+                                        <div className='absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded-sm z-10'>
+                                            {book.discount}% OFF
+                                        </div>
+                                    )}
 
-                                    {/* Book Image */}
-                                    <div className="relative mb-4 overflow-hidden px-4 pt-2">
-                                        <div className="relative pb-[133%]"> {/* 4:3 aspect ratio */}
+                                    {/* Image */}
+                                    <div className='relative mb-4 overflow-hidden px-4 pt-2'>
+                                        <div className='relative pb-[133%]'>
                                             <img
                                                 src={`${import.meta.env.VITE_BACKEND_URL}/${book.image}`}
                                                 alt={book.title}
-                                                className="absolute inset-0 w-60 h-60 object-contain"
+                                                className='absolute inset-0 w-60 h-60 object-contain'
                                             />
                                         </div>
 
                                         {/* Cart Button */}
-                                        <div className="absolute inset-0 bg-opacity-40 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <button className="w-full bg-orange-500 text-white py-2 px-4 rounded-t flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                                        <div className='absolute inset-0 bg-opacity-40 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+                                            <button className='w-full bg-orange-500 text-white py-2 px-4 rounded-t flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300'>
                                                 <FaShoppingCart />
                                                 Add to cart
                                             </button>
                                         </div>
                                     </div>
 
-                                    {/* Book Details */}
-                                    <div className="px-4 pb-4">
-                                        <h3 className="text-sm font-medium mb-2 line-clamp-2 min-h-[2.5rem]">
-                                            {book.title}
-                                        </h3>
-
-                                        {/* Price */}
-                                        <div className="mt-auto">
-                                            <span className="text-lg font-bold text-orange-500">₹{book.price}</span>
-                                            <span className="text-sm text-gray-500 line-through ml-2">₹{book.originalPrice}</span>
-                                        </div>
+                                    {/* Book Info */}
+                                    <div className='px-4'>
+                                        <h3 className='text-sm font-medium mb-2'>{book.title}</h3>
+                                        <span className='text-lg font-bold text-orange-500'>₹{book.price}</span>
+                                        {book.originalPrice && (
+                                            <span className='text-sm text-gray-500 line-through ml-2'>₹{book.originalPrice}</span>
+                                        )}
                                     </div>
                                 </div>
                             ))}
@@ -165,24 +162,24 @@ function NewArrivals() {
                     <button
                         onClick={handleNext}
                         disabled={isAnimating}
-                        className="absolute cursor-pointer right-1 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                        className='absolute cursor-pointer right-1 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed'
                     >
-                        <FaChevronRight className="text-xl text-gray-600" />
+                        <FaChevronRight className='text-xl text-gray-600' />
                     </button>
                 </div>
 
                 {/* View More Button */}
-                <div className="text-center mt-6">
+                <div className='text-center mt-6'>
                     <button
-                        onClick={() => navigate('/newarrivalsimg')}
-                        className="inline-block bg-orange-500 text-white px-6 py-2 text-sm rounded hover:bg-orange-600 transition-colors"
+                        onClick={handleNavigate}
+                        className='inline-block bg-orange-500 text-white px-6 py-2 text-sm rounded hover:bg-orange-600 transition-colors'
                     >
                         VIEW MORE
                     </button>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default NewArrivals
+export default FictionNonFictionBooks
