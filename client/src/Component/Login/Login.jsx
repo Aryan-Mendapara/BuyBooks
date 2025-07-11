@@ -1,47 +1,36 @@
 import React, { useState } from 'react';
 import { FaUser } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
-import LoginUser from '../ApiServer/LoginApi';
+import { LoginUser, verifyOtp } from '../ApiServer/LoginApi';
 
 function Login() {
     const [mobileno, setMobileno] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [otp, setOtp] = useState("");
-    const [generateOtp, setGenerateOtp] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
     const navigate = useNavigate();
 
-    const handleGenerateOtp = () => {
-        // Clear messages
-        setError("");
-        setSuccess("");
+    // handleGenerateOtp
+    const handleVerifyOtp = async () => {
+        try {
+            const response = await verifyOtp({ email, otp }); // ✅ Pass both values
+            console.log("OTP Verify Response:", response);
+            setSuccess("Login successfully");
 
-        // Mobile number validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (
-            !/^\d{10}$/.test(mobileno) ||
-            !emailRegex.test(email) ||
-            password.length < 6
-        ) {
-            setError("Please fill in all fields correctly");
-            return;
+            // Optional: Navigate after successful verification
+            setTimeout(() => {
+                navigate("/");
+            }, 1000);
+        } catch (error) {
+            console.error(error);
+            setError(error.response?.data?.message || "Failed to verify OTP");
         }
-
-        if (otp !== generateOtp || !otp) {
-            setError("Invalid or missing OTP");
-            return;
-        }
-
-        // All valid — Generate OTP
-        const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-        setGenerateOtp(otpCode);
-        setOtp(otpCode); // Clear user's input
-        setSuccess(`OTP generated: ${otpCode}`);
-        console.log("Generated OTP:", otpCode); // Optional for dev
     };
+
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -63,18 +52,15 @@ function Login() {
         if (password.length < 6) {
             setError("Password must be at least 6 characters");
             return;
-        }        
+        }
 
         try {
             const response = await LoginUser({
-                body: { mobileno, email, password, otp },
+                body: { mobileno, email, password },
             });
 
-            setSuccess("Login successful!");
-            console.log("Server response:", response);
-            setTimeout(() => {
-                navigate("/");
-            }, 1000);
+            setSuccess("Otp Generate successful!");
+            console.log("Server response:", response);            
 
         } catch (error) {
             const message = error.response?.data?.message || "Login failed. Try again.";
@@ -82,22 +68,6 @@ function Login() {
         }
     };
 
-    const handleLogin = async (body) => {
-        try {
-            const response = await LoginUser({
-                mobileno, email, password
-            });
-            setSuccess("User Login Successfull!");
-            console.log("Server response : ", response);
-            setTimeout(() => {
-                navigate("/");
-            }, 1000);
-
-        } catch (error) {
-            const message = error.response?.data?.message || "Login failed. Try again.";
-            setError(message);
-        }
-    }
 
     return (
         <div className='flex justify-center bg-gray-50 pt-20'>
@@ -140,11 +110,12 @@ function Login() {
                     {/* Generate OTP */}
                     <button
                         type="button"
-                        onClick={handleGenerateOtp}
-                        className='bg-orange-500 w-full p-2 rounded-lg mt-4 text-white hover:bg-orange-600 transition'
+                        onClick={handleSubmit} // ✅ Attach the login handler
+                        className='bg-orange-500 w-full p-2 rounded-lg mt-4 text-white hover:bg-orange-600 transition cursor-pointer'
                     >
-                        Generate OTP
+                        Login
                     </button>
+
 
                     {/* OTP Input */}
                     <input
@@ -158,11 +129,11 @@ function Login() {
 
                     {/* Submit/Login */}
                     <button
-                        onClick={handleLogin}
-                        className='bg-orange-500 w-full p-2 rounded-lg mt-4 text-white flex items-center justify-center hover:bg-orange-600 transition'
+                        onClick={handleVerifyOtp}
+                        className='bg-orange-500 w-full p-2 rounded-lg mt-4 text-white flex items-center justify-center hover:bg-orange-600 transition cursor-pointer'
                     >
                         <FaUser className='mr-2' />
-                        Login
+                        Verify Otp
                     </button>
                 </form>
 

@@ -9,7 +9,7 @@ function Header() {
         { id: 2, name: 'New Arrivals', path: '/newarrivalsimg' },
         { id: 3, name: 'Pre Order', path: '/pre-order' },
         { id: 4, name: 'Children & Young Adult', path: '/children-young-adult' },
-        { id: 5, name: 'Fiction & Non Fiction', path: '/fictionnonfictionbooksimg' },
+        { id: 5, name: 'Fiction & Non Fiction', path: '/fiction-non-fiction-booksimg' },
         { id: 6, name: 'School Education', path: '/schoolbooksimg' },
         { id: 7, name: 'Higher Education', path: '/higher-education' },
         { id: 8, name: 'Test Prep', path: '/test-prep' },
@@ -86,6 +86,7 @@ function Header() {
                 </div>
                 <div className='bg-orange-500 h-full flex items-center justify-center w-12 ml-1'>
                     <button
+                        onClick={() => { navigate('/cart') }}
                         className='cursor-pointer'
                     >
                         <FaShoppingCart size={20} />

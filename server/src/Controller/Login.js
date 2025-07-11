@@ -5,42 +5,85 @@ const sendEmail = require("../Models/sendMail");
 // -----------------------------
 // Login controller
 // -----------------------------
+// const addLogin = async (req, res) => {
+//     try {
+//         const { email, mobileno, password } = req.body;
+//         console.log(">>> Login Request:", req.body);
+
+//         if (!/^\d{10}$/.test(mobileno)) {
+//             return res.status(400).json({ message: "Please enter valid mobile number" });
+//         }
+
+//         const existLogin = await Login.findOne({ email });
+//         if (!existLogin) {
+//             return res.status(400).json({ message: "User does not exist" });
+//         }
+
+//         const isPasswordValid = await bcrypt.compare(password, existLogin.password);
+//         if (!isPasswordValid) {
+//             return res.status(401).json({ message: "Invalid email or password" });
+//         }
+
+//         // Generate OTP
+//         const otp = Math.floor(100000 + Math.random() * 900000).toString();
+//         const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
+
+//         // Send Email
+//         await sendEmail(email, 'Login OTP Verification', `Your OTP is: ${otp}`);
+
+//         // Update OTP in DB
+//         await Login.updateOne({ email }, { $set: { otp, otp_expires: otpExpiry } });
+
+//         res.status(200).json({ message: "Login successful. OTP sent to your email." });
+
+//     } catch (error) {
+//         console.error("Login Error:", error);
+//         res.status(500).json({ message: "Internal Server Error" });
+//     }
+// };
+
 const addLogin = async (req, res) => {
-    try {
-        const { email, mobileno, password } = req.body;
-        console.log(">>> Login Request:", req.body);
+  try {
+    const { email, mobileno, password } = req.body;
+    console.log(">>> Login Request:", req.body);
 
-        if (!/^\d{10}$/.test(mobileno)) {
-            return res.status(400).json({ message: "Please enter valid mobile number" });
-        }
-
-        const existLogin = await Login.findOne({ email });
-        if (!existLogin) {
-            return res.status(400).json({ message: "User does not exist" });
-        }
-
-        const isPasswordValid = await bcrypt.compare(password, existLogin.password);
-        if (!isPasswordValid) {
-            return res.status(401).json({ message: "Invalid email or password" });
-        }
-
-        // Generate OTP
-        const otp = Math.floor(100000 + Math.random() * 900000).toString();
-        const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
-
-        // Send Email
-        await sendEmail(email, 'Login OTP Verification', `Your OTP is: ${otp}`);
-
-        // Update OTP in DB
-        await Login.updateOne({ email }, { $set: { otp, otp_expires: otpExpiry } });
-
-        res.status(200).json({ message: "Login successful. OTP sent to your email." });
-
-    } catch (error) {
-        console.error("Login Error:", error);
-        res.status(500).json({ message: "Internal Server Error" });
+    if (!/^\d{10}$/.test(mobileno)) {
+      return res.status(400).json({ message: "Please enter valid mobile number" });
     }
+
+    const existLogin = await Login.findOne({ email });
+    if (!existLogin) {
+      return res.status(400).json({ message: "User does not exist" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, existLogin.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    // Generate OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
+
+    // Send Email
+    try {
+      await sendEmail(email, 'Login OTP Verification', `Your OTP is: ${otp}`);
+    } catch (emailError) {
+      console.error("❌ Failed to send email:", emailError);
+      return res.status(500).json({ message: "Failed to send OTP email" });
+    }
+
+    // Update OTP in DB
+    await Login.updateOne({ email }, { $set: { otp, otp_expires: otpExpiry } });
+
+    res.status(200).json({ message: "Login successful. OTP sent to your email." });
+
+  } catch (error) {
+    console.error("❌ Login Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };
+
 
 // -----------------------------
 // Register controller
