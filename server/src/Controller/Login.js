@@ -65,6 +65,16 @@ const addLogin = async (req, res) => {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
 
+    const user = new Login({
+      email,
+      mobileno,
+      otp,
+      otp_expires: otpExpiry,
+      isVerified: false      
+    })
+
+    await user.save();
+
     // Send Email
     try {
       await sendEmail(email, 'Login OTP Verification', `Your OTP is: ${otp}`);

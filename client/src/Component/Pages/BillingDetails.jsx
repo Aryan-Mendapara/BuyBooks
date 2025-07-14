@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function Order() {
+const BillingDetails = () => {
     const order = [
         { title: "Product" },
         { title: "Description" },
@@ -44,4 +44,4 @@ function Order() {
     );
 }
 
-export default Order;
+export default BillingDetails;

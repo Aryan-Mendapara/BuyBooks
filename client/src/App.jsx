@@ -13,7 +13,8 @@ import ChildrenAndYoungAdultBooks from './Component/Pages/ChildrenAndYoungAdultB
 import HigherEducation from './Component/Pages/HigherEducation'
 import TestPrep from './Component/Pages/TestPrep'
 import GamesPuzzles from './Component/Pages/GamesPuzzles'
-import Order from './Component/Pages/Order'
+import BillingDetails from './Component/Pages/BillingDetails'
+import WishList from './Component/Pages/WishList'
 
 function App() {
   return (
@@ -33,7 +34,8 @@ function App() {
             <Route path='/higher-education' element={<HigherEducation/>} />
             <Route path='/test-prep' element={<TestPrep/>} />
             <Route path='/games-puzzles' element={<GamesPuzzles/>} />            
-            <Route path='/cart' element={<Order/>} />
+            <Route path='/billing-details' element={<BillingDetails/>} />
+            <Route path='/wishlist' element={<WishList/>} />
           </Routes>
         </Layout>
       </BrowserRouter>

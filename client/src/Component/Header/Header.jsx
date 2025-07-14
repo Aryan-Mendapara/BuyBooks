@@ -78,7 +78,7 @@ function Header() {
                 </ul> 
                 <div className='bg-orange-500 h-full flex items-center justify-center w-12 mx-1 ml-3'>
                     <button
-                        onClick={() => { navigate('/login') }}
+                        onClick={() => { navigate('/wishlist') }}
                         className='cursor-pointer'
                     >
                         <FaHeart size={20} />
@@ -86,7 +86,7 @@ function Header() {
                 </div>
                 <div className='bg-orange-500 h-full flex items-center justify-center w-12 ml-1'>
                     <button
-                        onClick={() => { navigate('/cart') }}
+                        onClick={() => { navigate('/billing-details') }}
                         className='cursor-pointer'
                     >
                         <FaShoppingCart size={20} />
