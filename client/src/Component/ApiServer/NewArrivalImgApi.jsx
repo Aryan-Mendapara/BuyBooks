@@ -1,10 +1,10 @@
 import axios from 'axios';
-import React from 'react'
 
+// POST: Add a new book (with image)
 export const ImagesApiPost = async (formdata) => {
     try {
     const response = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/books/file/import`,
+      `${import.meta.env.VITE_BACKEND_URL}/books/new/import`,
       formdata,
       {
         headers: {
@@ -21,11 +21,11 @@ export const ImagesApiPost = async (formdata) => {
   }
 }
 
-export const ImagesApiGet = async (formdata) => {
+// GET: Fetch all new arrival books
+export const ImagesApiGet = async () => {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/books/file/get`,
-      formdata
+      `${import.meta.env.VITE_BACKEND_URL}/books/new/get`
     );
     console.log("New Get : ",response);
     return response.data;
@@ -35,10 +35,11 @@ export const ImagesApiGet = async (formdata) => {
   }
 }
 
+// DELETE: Remove a book by ID
 export const ImagesApiDelete = async (bookId) => {
   try {
     const response = await axios.delete(
-      `${import.meta.env.VITE_BACKEND_URL}/books/file/delete/${bookId}`,      
+      `${import.meta.env.VITE_BACKEND_URL}/books/new/delete/${bookId}`,      
     );
     console.log("New Delete : ",response);
     return response.data;

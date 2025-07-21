@@ -5,7 +5,7 @@ import Home from './Component/Pages/Home'
 import Layout from './Component/Utils/Layout'
 import NewArrivalsImg from './Component/ViewMore/NewArrivalsImg'
 import BestSellerImg from './Component/ViewMore/BestSellerImg'
-import ImagesData from './Component/data/BestSellersData'
+import ImagesData from './Component/data/AddBooks'
 import SchoolBooksImg from './Component/ViewMore/SchoolBooksImg'
 import FictionNonFictionBooksImg from './Component/ViewMore/FictionNonFictionBooksImg'
 import PreOrder from './Component/Pages/PreOrder'
@@ -15,6 +15,7 @@ import TestPrep from './Component/Pages/TestPrep'
 import GamesPuzzles from './Component/Pages/GamesPuzzles'
 import BillingDetails from './Component/Pages/BillingDetails'
 import WishList from './Component/Pages/WishList'
+import AddToCart from './Component/AddToCart/AddToCart'
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route path='/games-puzzles' element={<GamesPuzzles/>} />            
             <Route path='/billing-details' element={<BillingDetails/>} />
             <Route path='/wishlist' element={<WishList/>} />
+            <Route path='/addtocart/:id' element={<AddToCart/>} />
           </Routes>
         </Layout>
       </BrowserRouter>

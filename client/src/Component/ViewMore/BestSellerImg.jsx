@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
-import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/NewArrivalImgApi';
+import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/BestSellersImgApi';
 import { MdDelete, MdEdit } from "react-icons/md";
 
 const BestSellerImg = () => {

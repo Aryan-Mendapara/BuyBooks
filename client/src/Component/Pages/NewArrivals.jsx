@@ -41,7 +41,7 @@ function NewArrivals() {
         if (isAnimating) return;
         setIsAnimating(true);
         setCurrentIndex((prevIndex) =>
-            prevIndex + slideBy >= bookList.length - booksToShow ? 0 : prevIndex + slideBy
+            prevIndex === 0 ? bookList.length - booksToShow : prevIndex - slideBy
         );
         setTimeout(() => setIsAnimating(false), 500);
     };
@@ -50,13 +50,9 @@ function NewArrivals() {
         if (isAnimating) return;
         setIsAnimating(true);
         setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? bookList.length - booksToShow : prevIndex - slideBy
+            prevIndex + slideBy >= bookList.length - booksToShow ? 0 : prevIndex + slideBy
         );
         setTimeout(() => setIsAnimating(false), 500);
-    };
-
-    const handleNavigate = () => {
-        navigate('/bestsellersimg');
     };
 
     const handleDeleteImages = async (bookId) => {
@@ -131,13 +127,17 @@ function NewArrivals() {
                                             <img
                                                 src={`${import.meta.env.VITE_BACKEND_URL}/${book.image}`}
                                                 alt={book.title}
-                                                className="absolute inset-0 w-60 h-60 object-contain"
+                                                className="absolute inset-0 w-60 h-60 object-contain cursor-pointer"
+                                                onClick={() => navigate(`/addtocart/${book._id}`)}
                                             />
                                         </div>
 
                                         {/* Cart Button */}
                                         <div className="absolute inset-0 bg-opacity-40 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <button className="w-full bg-orange-500 text-white py-2 px-4 rounded-t flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                                            <button
+                                                className="w-full bg-orange-500 text-white py-2 px-4 rounded-t flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 cursor-pointer"
+                                                onClick={() => navigate('/billing-details')}
+                                            >
                                                 <FaShoppingCart />
                                                 Add to cart
                                             </button>
@@ -146,7 +146,10 @@ function NewArrivals() {
 
                                     {/* Book Details */}
                                     <div className="px-4 pb-4">
-                                        <h3 className="text-sm font-medium mb-2 line-clamp-2 min-h-[2.5rem]">
+                                        <h3 
+                                            className="text-sm font-medium mb-2 line-clamp-2 min-h-[2.5rem] cursor-pointer"
+                                            onClick={() => navigate(`/addtocart/${book._id}`)}
+                                        >
                                             {book.title}
                                         </h3>
 
@@ -175,7 +178,7 @@ function NewArrivals() {
                 <div className="text-center mt-6">
                     <button
                         onClick={() => navigate('/newarrivalsimg')}
-                        className="inline-block bg-orange-500 text-white px-6 py-2 text-sm rounded hover:bg-orange-600 transition-colors"
+                        className="inline-block bg-orange-500 cursor-pointer text-white px-6 py-2 text-sm rounded hover:bg-orange-600 transition-colors"
                     >
                         VIEW MORE
                     </button>

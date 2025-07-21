@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaShoppingCart } from 'react-icons/fa'
-import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/NewArrivalImgApi';
 import { MdDelete, MdEdit } from 'react-icons/md';
+import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/NewArrivalImgApi';
 
 const NewArrivalsImg = () => {
   const [books, setBooks] = useState([]);

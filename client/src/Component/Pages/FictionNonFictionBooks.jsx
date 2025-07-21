@@ -40,8 +40,8 @@ const FictionNonFictionBooks = () => {
     const handleNext = () => {
         if (isAnimating) return;
         setIsAnimating(true);
-        setCurrentIndex((prevIndex) =>
-            prevIndex + slideBy >= bookList.length - booksToShow ? 0 : prevIndex + slideBy
+        setCurrentIndex((prevIndex) =>            
+            prevIndex === 0 ? bookList.length - booksToShow : prevIndex - slideBy
         );
         setTimeout(() => setIsAnimating(false), 500);
     };
@@ -50,7 +50,7 @@ const FictionNonFictionBooks = () => {
         if (isAnimating) return;
         setIsAnimating(true);
         setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? bookList.length - booksToShow : prevIndex - slideBy
+            prevIndex + slideBy >= bookList.length - booksToShow ? 0 : prevIndex + slideBy
         );
         setTimeout(() => setIsAnimating(false), 500);
     };
@@ -103,7 +103,7 @@ const FictionNonFictionBooks = () => {
                             {bookList.map((book) => (
                                 <div
                                     key={book._id}
-                                    className='w-50 flex-shrink-0 group relative border border-gray-300 hover:shadow-lg transition-shadow'
+                                    className='w-52 flex-shrink-0 group relative border border-gray-300 hover:shadow-lg transition-shadow'
                                 >
 
                                     {/* Edit */}
@@ -138,7 +138,10 @@ const FictionNonFictionBooks = () => {
 
                                         {/* Cart Button */}
                                         <div className='absolute inset-0 bg-opacity-40 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
-                                            <button className='w-full bg-orange-500 text-white py-2 px-4 rounded-t flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300'>
+                                            <button 
+                                                className='w-full bg-orange-500 text-white py-2 px-4 rounded-t flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 cursor-pointer'
+                                                onClick={() => navigate('/billing-details')}
+                                            >                                                    
                                                 <FaShoppingCart />
                                                 Add to cart
                                             </button>
@@ -172,7 +175,7 @@ const FictionNonFictionBooks = () => {
                 <div className='text-center mt-6'>
                     <button
                         onClick={handleNavigate}
-                        className='inline-block bg-orange-500 text-white px-6 py-2 text-sm rounded hover:bg-orange-600 transition-colors'
+                        className='inline-block bg-orange-500 cursor-pointer text-white px-6 py-2 text-sm rounded hover:bg-orange-600 transition-colors'
                     >
                         VIEW MORE
                     </button>

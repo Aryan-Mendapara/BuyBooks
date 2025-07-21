@@ -37,7 +37,7 @@ const BooksbyCategories = () => {
                         {/* Hover Action Button */}
                         <div className="absolute inset-0 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">                            
                             <button
-                                className="w-full h-full border border-orange-500 hover:bg-orange-400 transition-colors px-6 py-2 font-semibold"
+                                className="w-full h-full border border-orange-500 hover:bg-orange-400 transition-colors px-6 py-2 font-semibold cursor-pointer"
                             >
                                 {category}
                             </button>
@@ -49,7 +49,7 @@ const BooksbyCategories = () => {
             {/* View All Categories Button */}
             <div className="mt-8">
                 <button
-                    className="text-orange-500 border border-orange-500 hover:bg-orange-500 hover:text-white transition-colors px-6 py-2 font-semibold"
+                    className="text-orange-500 border border-orange-500 hover:bg-orange-500 hover:text-white transition-colors px-6 py-2 font-semibold cursor-pointer"
                 >
                     VIEW ALL CATEGORIES
                 </button>
