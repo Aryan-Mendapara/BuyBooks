@@ -7,9 +7,11 @@ import useBookList from '../Utils/useBookList';
 
 const FictionNonFictionBooksImg = () => {
   const navigate = useNavigate();
+  
   const handleAddImages = () => {
     navigate("/addImages");
   };
+
   const {
     books,
     visibleBooks,

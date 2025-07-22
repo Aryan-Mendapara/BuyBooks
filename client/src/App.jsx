@@ -5,7 +5,7 @@ import Home from './Component/Pages/Home'
 import Layout from './Component/Utils/Layout'
 import NewArrivalsImg from './Component/ViewMore/NewArrivalsImg'
 import BestSellerImg from './Component/ViewMore/BestSellerImg'
-import ImagesData from './Component/data/AddBooks'
+import AddBooks from './Component/data/AddBooks'
 import SchoolBooksImg from './Component/ViewMore/SchoolBooksImg'
 import FictionNonFictionBooksImg from './Component/ViewMore/FictionNonFictionBooksImg'
 import PreOrder from './Component/Pages/PreOrder'
@@ -15,7 +15,7 @@ import TestPrep from './Component/Pages/TestPrep'
 import GamesPuzzles from './Component/Pages/GamesPuzzles'
 import BillingDetails from './Component/Pages/BillingDetails'
 import WishList from './Component/Pages/WishList'
-import AddToCart from './Component/AddToCart/AddToCart'
+import AddToCart from './Component/ImageDetails/ImagesInfo'
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
             <Route path='/newarrivalsimg' element={<NewArrivalsImg/>} />
             <Route path='/bestsellersimg' element={<BestSellerImg/>} />
             <Route path='/schoolbooksimg' element={<SchoolBooksImg/>} />
-            <Route path='/addImages' element={<ImagesData/>} />
+            <Route path='/addImages' element={<AddBooks/>} />
             <Route path='fiction-non-fiction-booksimg' element={<FictionNonFictionBooksImg/>} />
             <Route path='/pre-order' element={<PreOrder/>} />
             <Route path='/children-young-adult' element={<ChildrenAndYoungAdultBooks/>} />

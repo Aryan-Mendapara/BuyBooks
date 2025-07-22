@@ -4,7 +4,7 @@ import React from 'react'
 export const ImagesApiPost = async (formdata) => {
     try {
     const response = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/books/file/import`,
+      `${import.meta.env.VITE_BACKEND_URL}/books/Best/import`,
       formdata,
       {
         headers: {
@@ -21,10 +21,10 @@ export const ImagesApiPost = async (formdata) => {
   }
 }
 
-export const ImagesApiGet = async (formdata) => {
+export const BestApiGet = async (formdata) => {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/books/file/get`,
+      `${import.meta.env.VITE_BACKEND_URL}/books/Best/get`,
       formdata
     );
     console.log("Best Get : ",response);
@@ -35,10 +35,10 @@ export const ImagesApiGet = async (formdata) => {
   }
 }
 
-export const ImagesApiDelete = async (bookId) => {
+export const  BestApiDelete = async (bookId) => {
   try {
     const response = await axios.delete(
-      `${import.meta.env.VITE_BACKEND_URL}/books/file/delete/${bookId}`,      
+      `${import.meta.env.VITE_BACKEND_URL}/books/Best/delete/${bookId}`,      
     );
     console.log("Best Delete : ",response);
     return response.data;

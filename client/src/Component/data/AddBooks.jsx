@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { ImagesApiPost } from '../ApiServer/NewArrivalImgApi';
 import { useNavigate } from 'react-router-dom';
 
-function ImagesData() {
+function AddBooks() {
     // const[showPopup, setShowPopup] = useState(true);
     const [formData, setFormData] = useState({
     title: '',
@@ -136,4 +136,4 @@ function ImagesData() {
     )
 }
 
-export default ImagesData
+export default AddBooks
