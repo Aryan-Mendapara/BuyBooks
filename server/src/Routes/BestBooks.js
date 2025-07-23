@@ -1,11 +1,11 @@
 const express = require("express");
-const router = express.Router();
+const books = express.Router();
 const uploads = require("../Middleware/multerStorage");
-const { AddBestBooks, getBestBooks, deleteBestBooks } = require("../Controller/BestSeller");
-// const {createBooks, getBooks, deleteBooks} = require("../Controller/BooksController");
+const { createBooks, getBooks, deleteBooks } = require("../Controller/BooksController");
+// const { AddBestBooks, getBestBooks, deleteBestBooks } = require("../Controller/BestSeller");
 
-router.post('/import',uploads.single('image'),AddBestBooks);
-router.get('/get', getBestBooks);
-router.delete('/delete/:id', deleteBestBooks);
+books.post('/import',uploads.single('image'),createBooks);
+books.get('/get', getBooks);
+books.delete('/delete/:id', deleteBooks);
 
-module.exports = router
+module.exports = books

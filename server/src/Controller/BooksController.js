@@ -1,7 +1,7 @@
 const { Image } = require("../Models/booksModels");
 const { NewBooks } = require("../Models/NewArrival");
 
-const AddNewBooks = async (req, res) => {
+const createBooks = async (req, res) => {
     try {
         const { title, author, Publisher, price, originalPrice, discount } = req.body
         const image = req.file ? req.file.path : null
@@ -28,9 +28,9 @@ const AddNewBooks = async (req, res) => {
     }
 };
 
-const getNewBooks = async (req, res) => {
+const getBooks = async (req, res) => {
     try {
-        // console.log("Fetching new books...");
+        console.log("Fetching new books...");
         const books = await Image.find();
         res.status(201).json({ message: 'All Books get successfully', books});
     } catch (error) {
@@ -38,7 +38,7 @@ const getNewBooks = async (req, res) => {
     }
 }
 
-const deleteNewBooks = async (req,res) => {
+const deleteBooks = async (req,res) => {
     try {
         const books = await Image.findByIdAndDelete(req.params.id);
         if (!books) {
@@ -50,4 +50,4 @@ const deleteNewBooks = async (req,res) => {
     }
 }
 
-module.exports = {AddNewBooks, getNewBooks, deleteNewBooks}
+module.exports = {createBooks, getBooks, deleteBooks}

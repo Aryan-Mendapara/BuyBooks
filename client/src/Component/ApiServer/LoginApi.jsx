@@ -14,6 +14,21 @@ export const LoginUser = async ({ body }) => {
     throw error;
   }
 }
+
+export const LoginDelete = async (id) => {
+  try {
+    const response = await axios.delete(
+      `${import.meta.env.VITE_BACKEND_URL}/books/login/delete/${id}`
+    );
+
+    console.log("Login Delete Response:", response);
+    return response.data;  
+  } catch (error) {
+    console.log("Login Delete API error:", error);
+    throw error;    
+  }
+}
+
 export const verifyOtp = async ({ email, otp }) => {
   try {
     const response = await axios.post(
