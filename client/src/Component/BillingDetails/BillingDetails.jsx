@@ -54,7 +54,9 @@ const BillingDetails = () => {
     }
   };
 
-  const totalPrice = cartItems.reduce((acc, item) => acc + item.OurPrice * item.quantity, 0);
+const totalPrice = Array.isArray(cartItems)
+  ? cartItems.reduce((acc, item) => acc + item.OurPrice * item.quantity, 0)
+  : 0;
 
   return (
     <div className="bg-gray-100 flex flex-col items-center py-10">
@@ -62,7 +64,12 @@ const BillingDetails = () => {
         <thead>
           <tr className="bg-orange-500 text-white font-semibold text-sm text-center">
             {order.map((title, index) => (
-              <th key={index} className="px-2 py-3 border border-gray-300">{title}</th>
+              <th 
+                key={index} 
+                className="px-2 py-3 border border-gray-300"
+              >
+                {title}
+              </th>
             ))}
           </tr>
         </thead>

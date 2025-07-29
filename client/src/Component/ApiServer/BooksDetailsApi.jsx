@@ -1,10 +1,9 @@
 import axios from 'axios';
-import React from 'react'
 
 export const ImagesApiPost = async (formdata) => {
     try {
     const response = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/books/Best/import`,
+      `${import.meta.env.VITE_BACKEND_URL}/books/images/import`,
       formdata,
       {
         headers: {
@@ -12,7 +11,7 @@ export const ImagesApiPost = async (formdata) => {
         },
       }
     );
-    console.log("Best Post :",response);
+    console.log("New Post : ",response);
     return response.data;
     
   } catch (error) {
@@ -21,13 +20,12 @@ export const ImagesApiPost = async (formdata) => {
   }
 }
 
-export const BestApiGet = async (formdata) => {
+export const ImagesApiGet = async () => {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/books/Best/get`,
-      formdata
+      `${import.meta.env.VITE_BACKEND_URL}/books/images/get`
     );
-    console.log("Best Get : ",response);
+    console.log("New Get : ",response);
     return response.data;
   } catch (error) {
     console.log("Images API Get error: ", error);
@@ -35,12 +33,12 @@ export const BestApiGet = async (formdata) => {
   }
 }
 
-export const  BestApiDelete = async (bookId) => {
+export const ImagesApiDelete = async (bookId) => {
   try {
     const response = await axios.delete(
-      `${import.meta.env.VITE_BACKEND_URL}/books/Best/delete/${bookId}`,      
+      `${import.meta.env.VITE_BACKEND_URL}/books/images/delete/${bookId}`,      
     );
-    console.log("Best Delete : ",response);
+    console.log("New Delete : ",response);
     return response.data;
   } catch (error) {
     console.log("Images API Delete error", error);

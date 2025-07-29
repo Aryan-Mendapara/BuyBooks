@@ -72,12 +72,7 @@ function Home() {
           <FaChevronLeft className='text-xl text-white' />
         </button>
 
-        {/* Slide Image */}
-        {/* <img
-          src={images[currentIndex]}
-          alt="Slide"
-          className="w-full h-full object-cover transition-all duration-700"
-        />*/}
+        {/* Slide Image */}        
 
         <Link to={images[currentIndex].path}>
           <img

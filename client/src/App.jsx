@@ -13,7 +13,7 @@ import ChildrenAndYoungAdultBooks from './Component/Pages/ChildrenAndYoungAdultB
 import HigherEducation from './Component/Pages/HigherEducation'
 import TestPrep from './Component/Pages/TestPrep'
 import GamesPuzzles from './Component/Pages/GamesPuzzles'
-import WishList from './Component/Pages/WishList'
+import WishList from './Component/WishList/WishList'
 import AddToCart from './Component/ImageDetails/ImagesInfo'
 import BillingDetails from './Component/BillingDetails/BillingDetails'
 

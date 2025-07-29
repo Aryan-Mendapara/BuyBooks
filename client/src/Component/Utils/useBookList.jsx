@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ImagesApiGet, ImagesApiDelete } from '../ApiServer/NewArrivalImgApi';
+import { ImagesApiGet, ImagesApiDelete } from '../ApiServer/BooksDetailsApi';
 
 export default function useBookList() {
   const [books, setBooks] = useState([]);

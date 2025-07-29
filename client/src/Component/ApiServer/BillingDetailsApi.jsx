@@ -1,9 +1,23 @@
 import axios from 'axios';
 
-export const BillingApiGet = async (userId) => {
+export const BillingApiPost = async (book) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/books/billing/import`,
+      book
+    );
+    return response.data;
+  } catch (error) {
+    console.error("BillingApiPost error:", error);
+    throw error;
+  }
+};
+
+
+export const BillingApiGet = async () => {
     try {
         const response = await axios.get(
-            `${import.meta.env.VITE_BACKEND_URL}/books/billing/get/${userId}`
+            `${import.meta.env.VITE_BACKEND_URL}/books/billing/get`
         );
         return response.data;
     } catch (error) {

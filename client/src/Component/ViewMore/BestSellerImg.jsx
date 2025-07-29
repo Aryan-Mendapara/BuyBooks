@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 import { MdDelete, MdEdit } from "react-icons/md";
-import { BestApiDelete, BestApiGet } from '../ApiServer/BestSellersImgApi';
+import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/BooksDetailsApi';
 
 const BestSellerImg = () => {
   const [books, setBooks] = useState([]);
@@ -14,7 +14,7 @@ const BestSellerImg = () => {
 
   const fetchBooksFromServer = async () => {
     try {
-      const response = await BestApiGet();
+      const response = await ImagesApiGet();
       console.log("Books Get response:", response);
       setBooks(response.books || []);
     } catch (error) {
@@ -33,7 +33,7 @@ const BestSellerImg = () => {
 
   const handleDeleteImages = async (bookId) => {
     try {
-      const response = await BestApiDelete(bookId);
+      const response = await ImagesApiDelete(bookId);
       console.log(("Books Delete response:", response));
       setBooks(prevBooks => prevBooks.filter(book => book._id !== bookId));
     } catch (error) {

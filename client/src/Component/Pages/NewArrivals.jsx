@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { FaChevronLeft, FaChevronRight, FaShoppingCart } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom';
-import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/NewArrivalImgApi';
 import { MdDelete, MdEdit } from 'react-icons/md';
+import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/BooksDetailsApi';
 
 function NewArrivals() {
     const [isAnimating, setIsAnimating] = useState(false);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/NewArrivalImgApi';
+import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/BooksDetailsApi';
 import { Link, useNavigate } from 'react-router-dom';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { FaShoppingCart } from 'react-icons/fa';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { ImagesApiPost } from '../ApiServer/NewArrivalImgApi';
 import { useNavigate } from 'react-router-dom';
+import { ImagesApiPost } from '../ApiServer/BooksDetailsApi';
 
 function AddBooks() {
     // const[showPopup, setShowPopup] = useState(true);

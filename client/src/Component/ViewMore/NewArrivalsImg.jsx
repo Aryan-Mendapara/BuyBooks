@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaShoppingCart } from 'react-icons/fa'
 import { MdDelete, MdEdit } from 'react-icons/md';
-import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/NewArrivalImgApi';
+import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/BooksDetailsApi';
 
 const NewArrivalsImg = () => {
   const [books, setBooks] = useState([]);
@@ -57,7 +57,7 @@ const NewArrivalsImg = () => {
         </h1>
         <button
           onClick={handleAddImages}
-          className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition'
+          className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition cursor-pointer'
         >
           Add Images
         </button>

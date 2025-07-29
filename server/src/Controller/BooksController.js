@@ -1,5 +1,4 @@
 const { Image } = require("../Models/booksModels");
-const { NewBooks } = require("../Models/NewArrival");
 
 const createBooks = async (req, res) => {
     try {
@@ -7,7 +6,7 @@ const createBooks = async (req, res) => {
         const image = req.file ? req.file.path : null
         console.log("Form data received:", req.body);
 
-        const newBooks = new NewBooks({ 
+        const newBooks = new Image({ 
             title, 
             author, 
             image, 
