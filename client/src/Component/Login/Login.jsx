@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { FaUser } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { LoginUser, verifyOtp } from '../ApiServer/LoginApi';
+import { login } from '../Redux/Slice/authSlice';
+import { useDispatch } from 'react-redux';
 
 function Login() {
     const [mobileno, setMobileno] = useState("");
@@ -10,7 +12,7 @@ function Login() {
     const [otp, setOtp] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
-
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     // handleGenerateOtp
@@ -19,6 +21,13 @@ function Login() {
             const response = await verifyOtp({ email, otp }); // ✅ Pass both values
             console.log("OTP Verify Response:", response);
             setSuccess("Login successfully");
+            if (response.token) {
+                localStorage.setItem("token", response.token);
+                localStorage.setItem("userId", response.user._id);
+                dispatch(login());
+            }
+
+            // dispatch(login()); // 👈 Update Redux state
 
             // Optional: Navigate after successful verification
             setTimeout(() => {
@@ -29,8 +38,6 @@ function Login() {
             setError(error.response?.data?.message || "Failed to verify OTP");
         }
     };
-
-
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -60,7 +67,7 @@ function Login() {
             });
 
             setSuccess("Otp Generate successful!");
-            console.log("Server response:", response);            
+            console.log("Server response:", response);
 
         } catch (error) {
             const message = error.response?.data?.message || "Login failed. Try again.";

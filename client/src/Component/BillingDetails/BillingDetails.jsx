@@ -24,7 +24,13 @@ const BillingDetails = () => {
     try {
       const data = await BillingApiGet();
       console.log("✅ Billing data:", data);
-      setCartItems(data);
+
+      // Check if data.books or data.billing or another key holds the array
+      const items = Array.isArray(data)
+        ? data
+        : data.billing || data.books || [];
+
+      setCartItems(items.map(item => ({ ...item, quantity: item.quantity || 1 })));
     } catch (err) {
       console.error("❌ Error fetching billing items:", err);
     }
@@ -32,6 +38,7 @@ const BillingDetails = () => {
 
   fetchBillingItems();
 }, []);
+
 
 
   const handleQuantityChange = (id, action) => {

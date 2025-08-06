@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaShoppingCart } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { MdDelete, MdEdit } from 'react-icons/md';
-import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/BooksDetailsApi';
+import { ImagesApiDelete, ImagesApiGet } from '../../ApiServer/BooksDetailsApi';
 
 const BestSeller = () => {
   const [isAnimating, setIsAnimating] = useState(false);

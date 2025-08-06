@@ -1,30 +1,48 @@
-const Login = require("../Models/Login");
+// verifyOtpController.js
+const jwt = require('jsonwebtoken');
+const Login = require('../Models/Login');
 
-const VarifyOtp = async (req, res) => {
-    const { email, otp } = req.body;
-    console.log(">>>>>>>", req.body);
+const verifyOtp = async (req, res) => {
+  const { email, otp } = req.body;
 
-    try {
-        const user = await Login.findOne({ email });
+  const user = await Login.findOne({ email });
 
-        if (!user) return res.status(400).json({ message: "user not found" });
-        if (user.isVerified) return res.status(200).json({ message: "Already verified" });
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' });
+  }
 
-        if (user.otp !== otp || user.otp_expires < Date.now())
- {
-            return res.status(400).json({ message: 'Invalid or expired OTP' });
-        }
+  // Example logic for already verified
+  if (user.isVerified) {
+    const token = jwt.sign({ id: user._id }, "SECRET_KEY", { expiresIn: "1d" });
 
-        user.isVerified = true;
-        user.otp = null;
-        user.otp_expires = null;
-        await user.save();
+    return res.status(200).json({
+      message: "Already verified",
+      token,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email
+      }
+    });
+  }
 
-        return res.status(200).json({ message: "Email verified successfully" });
+  if (user.otp !== otp) {
+    return res.status(400).json({ message: "Invalid OTP" });
+  }
 
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+  user.isVerified = true;
+  await user.save();
+
+  const token = jwt.sign({ id: user._id }, "SECRET_KEY", { expiresIn: "1d" });
+
+  return res.status(200).json({
+    message: "OTP verified",
+    token,
+    user: {
+      _id: user._id,
+      name: user.name,
+      email: user.email
     }
-}
-
-module.exports = VarifyOtp;
+  });
+};
+module.exports = verifyOtp;

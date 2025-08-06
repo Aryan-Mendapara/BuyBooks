@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FaChevronLeft, FaChevronRight, FaShoppingCart } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom';
-import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/BooksDetailsApi';
+import { ImagesApiDelete, ImagesApiGet } from '../../ApiServer/BooksDetailsApi';
 import { MdDelete, MdEdit } from 'react-icons/md';
 
 const SchoolBooks = () => {

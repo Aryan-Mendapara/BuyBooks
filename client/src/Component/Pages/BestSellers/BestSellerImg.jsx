@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { ImagesApiDelete, ImagesApiGet } from '../ApiServer/BooksDetailsApi';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { MdDelete, MdEdit } from 'react-icons/md';
 import { FaShoppingCart } from 'react-icons/fa';
+import { MdDelete, MdEdit } from "react-icons/md";
+import { ImagesApiDelete, ImagesApiGet } from '../../ApiServer/BooksDetailsApi';
 
-const PreOrder = () => {
+const BestSellerImg = () => {
   const [books, setBooks] = useState([]);
   const [visibleBooks, setVisibleBooks] = useState(12);
 
@@ -46,12 +46,12 @@ const PreOrder = () => {
       <div className="flex items-center gap-2 text-sm mb-6">
         <Link to="/" className="text-gray-600 hover:text-orange-500">Home</Link>
         <span className="text-gray-400">&gt;</span>
-        <span className="text-gray-800">Per Order</span>
+        <span className="text-gray-800">Best Sellers</span>
       </div>
 
       <div className='flex justify-between items-center mb-6'>
         <h1 className="text-2xl font-bold pb-1 border-b-2 border-orange-500">
-          Per Order
+          Best Sellers
         </h1>
         <button
           onClick={handleAddImages}
@@ -143,4 +143,4 @@ const PreOrder = () => {
   );
 };
 
-export default PreOrder
+export default BestSellerImg;

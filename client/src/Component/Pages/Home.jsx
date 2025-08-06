@@ -10,12 +10,12 @@ import boxsets from '../../assets/img/boxsets.jpg';
 import BBIDiscountOffer from '../../assets/img/BBIDiscountOffer.jpg';
 import PopularAuthor from '../../assets/img/PopularAuthor.png';
 import BBILanguagesbanner from '../../assets/img/BBILanguagesbanner.jpg'
-import NewArrivals from './NewArrivals';
-import BestSeller from './bestsellers';
-import SchoolBooks from './SchoolBooks';
+import NewArrivals from './NewArrivals/NewArrivals';
+import BestSeller from './BestSellers/BestSellers';
+import SchoolBooks from './SchoolBooks/SchoolBooks';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import FictionNonFictionBooks from './FictionNonFictionBooks';
-import BooksbyCategories from './BooksbyCategories';
+import FictionNonFictionBooks from './FictionNonFiction/FictionNonFictionBooks';
+import BooksbyCategories from './BooksbyCategories/BooksbyCategories';
 import { Link } from 'react-router-dom';
 
 function Home() {

@@ -3,6 +3,8 @@ import logo from "../../assets/img/logo.png";
 import { FaHeart, FaHome, FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { LoginDelete } from '../ApiServer/LoginApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../Redux/Slice/authSlice';
 
 function Header() {
     const categories = [
@@ -18,34 +20,53 @@ function Header() {
     ];
 
     const [search, setSearch] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const token = localStorage.getItem("token"); // or sessionStorage.getItem if you store there
-        setIsLoggedIn(!!token); // true if token exists
-    }, []);
+    const wishlistCount = useSelector((state) => state.wishlist?.items?.length);
+    const cartCount = useSelector((state) => state.billing?.items?.length);
+    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+    const dispatch = useDispatch();
+    // useEffect(() => {
+    //     const token = localStorage.getItem("token");
+    //     // isLoggedIn(!!token);
+    // }, []);
+
+    // const handleLogout = async () => {
+    //     try {
+    //         const userId = localStorage.getItem("userId");
+    //         if (userId) {
+    //             await LoginDelete(userId);
+    //         }
+    //         localStorage.removeItem("token");
+    //         localStorage.removeItem("userId");
+    //         setIsLoggedIn(false);
+    //         navigate('/login');
+    //     } catch (error) {
+    //         console.error("Logout error:", error);
+    //     }
+    // };
 
     const handleLogout = async () => {
-        try {
-            const userId = localStorage.getItem("userId");
-            if (userId) {
-                await LoginDelete(userId);
-            }
+  try {
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      await LoginDelete(userId);
+    }
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
 
-            localStorage.removeItem("token");
-            localStorage.removeItem("userId");
-
-            setIsLoggedIn(false); // update state
-            navigate('/login');
-        } catch (error) {
-            console.error("Logout error:", error);
-        }
-    };
+    dispatch(logout()); // 👈 update Redux state
+    navigate('/login');
+  } catch (error) {
+    console.error("Logout error:", error);
+  }
+};
 
 
     return (
         <div>
+            {/* Top Header */}
             <div className='bg-white flex top-0 left-0 h-20 items-center justify-between ml-19'>
                 {/* Logo */}
                 <div>
@@ -94,7 +115,7 @@ function Header() {
                 </div>
             </div>
 
-            {/* Navigation Categories */}
+            {/* Categories Navigation */}
             <div className='bg-neutral-700 w-full h-12 text-white flex items-center px-19 overflow-x-auto text-sm'>
                 <ul className='flex items-center space-x-6 py-3 overflow-x-auto text-[13px]'>
                     <li>
@@ -113,14 +134,34 @@ function Header() {
                         </li>
                     ))}
                 </ul>
-                <div className='bg-orange-500 h-full flex items-center justify-center w-12 mx-1 ml-3'>
-                    <button onClick={() => navigate('/wishlist')} className='cursor-pointer'>
+
+                {/* Wishlist Icon with Badge */}
+                <div className='relative bg-orange-500 h-full flex items-center justify-center w-12 mx-1 ml-3'>
+                    <button
+                        onClick={() => navigate('/wishlist')}
+                        className='cursor-pointer relative'
+                    >
                         <FaHeart size={20} />
+                        {wishlistCount > 0 && (
+                            <span className="absolute -top-3.5 -right-3.5 bg-red-600 text-white text-xs font-bold w-7 h-5 flex items-center justify-center rounded-full">
+                                {wishlistCount}
+                            </span>
+                        )}
                     </button>
                 </div>
-                <div className='bg-orange-500 h-full flex items-center justify-center w-12 ml-1'>
-                    <button onClick={() => navigate('/billing-details')} className='cursor-pointer'>
+
+                {/* Cart Icon with Badge */}
+                <div className='relative bg-orange-500 h-full flex items-center justify-center w-12 ml-1'>
+                    <button
+                        onClick={() => navigate('/billing-details')}
+                        className='cursor-pointer relative'
+                    >
                         <FaShoppingCart size={20} />
+                        {cartCount > 0 && (
+                            <span className="absolute -top-3.5 -right-3.5 bg-red-600 text-white text-xs font-bold w-7 h-5 flex items-center justify-center rounded-full">
+                                {cartCount}
+                            </span>
+                        )}
                     </button>
                 </div>
             </div>
