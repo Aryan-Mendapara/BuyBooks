@@ -95,7 +95,7 @@ const ServiceInfoBanner = () => {
       </div>
 
       {/* Newsletter */}
-      <div className="bg-orange-600 text-white text-center w-full h-116 py-20">
+      <div className="bg-orange-600 text-white text-center w-full h-122 py-20">
         <div>
           <h1 className="text-5xl">SUBSCRIBE TO BUYBOOKSINDIA NEWSLETTER</h1>
         </div>

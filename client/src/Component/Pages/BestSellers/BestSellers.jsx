@@ -3,6 +3,9 @@ import { FaChevronLeft, FaChevronRight, FaShoppingCart } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { ImagesApiDelete, ImagesApiGet } from '../../ApiServer/BooksDetailsApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { BillingApiPost } from '../../ApiServer/BillingDetailsApi';
+import { addToBillingDetails } from '../../Redux/Slice/BillingDetailsSlice';
 
 const BestSeller = () => {
   const [isAnimating, setIsAnimating] = useState(false);
@@ -12,6 +15,26 @@ const BestSeller = () => {
 
   const booksToShow = 5;
   const slideBy = 1;
+
+  const dispatch = useDispatch();
+  const BillingdetailsItems = useSelector(state => state.billingdetails.items);
+
+  const handleAddToCart = async (book) => {
+    const exists = BillingdetailsItems.find(item => item._id === book._id);
+    if (exists) {
+      alert('Already in cart!');
+      return;
+    }
+
+    try {
+      await BillingApiPost(book);
+      dispatch(addToBillingDetails(book));
+      alert('Added to cart!');
+    } catch (error) {
+      console.error("Failed to add book to cart:", error);
+      alert("Something went wrong while adding the book to the cart.");
+    }
+  };
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -102,7 +125,8 @@ const BestSeller = () => {
             {bookList.map((book) => (
               <div
                 key={book._id}
-                className='w-52 flex-shrink-0 group relative border border-gray-300 hover:shadow-lg transition-shadow'
+                onClick={() => navigate(`/addtocart/${book._id}`)}
+                className='w-52 flex-shrink-0 group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer'
               >
 
                 {/* Edit */}
@@ -137,9 +161,9 @@ const BestSeller = () => {
 
                   {/* Cart Button */}
                   <div className='absolute inset-0 bg-opacity-40 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
-                    <button 
+                    <button
                       className='w-full bg-orange-500 text-white py-2 px-4 rounded-t flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 cursor-pointer'
-                      onClick={() => navigate('/billing-details')}
+                      onClick={() => handleAddToCart(book)}
                     >
                       <FaShoppingCart />
                       Add to cart
@@ -149,7 +173,9 @@ const BestSeller = () => {
 
                 {/* Book Info */}
                 <div className='px-4'>
-                  <h3 className='text-sm font-medium mb-2'>{book.title}</h3>
+                  <h3 className='text-sm font-medium mb-2 cursor-pointer'>
+                    {book.title}
+                  </h3>
                   <span className='text-lg font-bold text-orange-500'>₹{book.price}</span>
                   {book.originalPrice && (
                     <span className='text-sm text-gray-500 line-through ml-2'>₹{book.originalPrice}</span>

@@ -48,20 +48,20 @@ function Header() {
     // };
 
     const handleLogout = async () => {
-  try {
-    const userId = localStorage.getItem("userId");
-    if (userId) {
-      await LoginDelete(userId);
-    }
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
+        try {
+            const userId = localStorage.getItem("userId");
+            if (userId) {
+                await LoginDelete(userId);
+            }
+            localStorage.removeItem("token");
+            localStorage.removeItem("userId");
 
-    dispatch(logout()); // 👈 update Redux state
-    navigate('/login');
-  } catch (error) {
-    console.error("Logout error:", error);
-  }
-};
+            dispatch(logout()); // 👈 update Redux state
+            // navigate('/login');
+        } catch (error) {
+            console.error("Logout error:", error);
+        }
+    };
 
 
     return (

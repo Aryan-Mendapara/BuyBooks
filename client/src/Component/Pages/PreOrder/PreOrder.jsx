@@ -82,7 +82,8 @@ const PreOrder = () => {
         {books.slice(0, visibleBooks).map((book) => (
           <div
             key={book._id}
-            className="group relative border border-gray-300 hover:shadow-lg transition-shadow"
+            className="group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer"
+            onClick={() => navigate(`/addtocart/${book._id}`)}
           >
 
             {/* Edit */}

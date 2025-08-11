@@ -20,24 +20,24 @@ const BillingDetails = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-  const fetchBillingItems = async () => {
-    try {
-      const data = await BillingApiGet();
-      console.log("✅ Billing data:", data);
+    const fetchBillingItems = async () => {
+      try {
+        const data = await BillingApiGet();
+        console.log("✅ Billing data:", data);
 
-      // Check if data.books or data.billing or another key holds the array
-      const items = Array.isArray(data)
-        ? data
-        : data.billing || data.books || [];
+        // Check if data.books or data.billing or another key holds the array
+        const items = Array.isArray(data)
+          ? data
+          : data.billing || data.books || [];
 
-      setCartItems(items.map(item => ({ ...item, quantity: item.quantity || 1 })));
-    } catch (err) {
-      console.error("❌ Error fetching billing items:", err);
-    }
-  };
+        setCartItems(items.map(item => ({ ...item, quantity: item.quantity || 1 })));
+      } catch (err) {
+        console.error("❌ Error fetching billing items:", err);
+      }
+    };
 
-  fetchBillingItems();
-}, []);
+    fetchBillingItems();
+  }, []);
 
 
 
@@ -61,9 +61,9 @@ const BillingDetails = () => {
     }
   };
 
-const totalPrice = Array.isArray(cartItems)
-  ? cartItems.reduce((acc, item) => acc + item.OurPrice * item.quantity, 0)
-  : 0;
+  const totalPrice = Array.isArray(cartItems)
+    ? cartItems.reduce((acc, item) => acc + item.OurPrice * item.quantity, 0)
+    : 0;
 
   return (
     <div className="bg-gray-100 flex flex-col items-center py-10">
@@ -71,8 +71,8 @@ const totalPrice = Array.isArray(cartItems)
         <thead>
           <tr className="bg-orange-500 text-white font-semibold text-sm text-center">
             {order.map((title, index) => (
-              <th 
-                key={index} 
+              <th
+                key={index}
                 className="px-2 py-3 border border-gray-300"
               >
                 {title}
@@ -150,12 +150,20 @@ const totalPrice = Array.isArray(cartItems)
         )}
       </table>
 
-      <button
-        className="mt-6 px-6 py-2 bg-white border border-gray-400 hover:bg-gray-100 transition rounded text-sm font-medium cursor-pointer"
-        onClick={() => navigate('/')}
-      >
-        Continue shopping
-      </button>
+      <div className='flex gap-4'>
+        <button
+          className="mt-6 px-6 py-2 bg-white border border-gray-400 hover:bg-gray-100 transition rounded text-sm font-medium cursor-pointer"
+          onClick={() => navigate('/')}
+        >
+          Continue shopping
+        </button>
+
+        <button
+          className='mt-6 px-6 py-2 bg-white border border-gray-400 hover:bg-gray-100 transition rounded text-sm font-medium cursor-pointer'
+        >
+          Continue Checkout
+        </button>
+      </div>
     </div>
   );
 };

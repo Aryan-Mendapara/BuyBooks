@@ -116,8 +116,8 @@ function Login() {
 
                     {/* Generate OTP */}
                     <button
-                        type="button"
-                        onClick={handleSubmit}
+                        type="submit"
+                        // onClick={handleSubmit}
                         className='bg-orange-500 w-full p-2 rounded-lg mt-4 text-white hover:bg-orange-600 transition cursor-pointer'
                     >
                         Login
@@ -153,3 +153,5 @@ function Login() {
 }
 
 export default Login;
+
+

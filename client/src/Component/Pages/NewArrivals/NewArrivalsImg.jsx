@@ -3,10 +3,33 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FaShoppingCart } from 'react-icons/fa'
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { ImagesApiDelete, ImagesApiGet } from '../../ApiServer/BooksDetailsApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { BillingApiPost } from '../../ApiServer/BillingDetailsApi';
+import { addToBillingDetails } from '../../Redux/Slice/BillingDetailsSlice';
 
 const NewArrivalsImg = () => {
   const [books, setBooks] = useState([]);
   const [visibleBooks, setVisibleBooks] = useState(12);
+
+  const dispatch = useDispatch();
+  const BillingdetailsItems = useSelector(state => state.billingdetails.items);
+
+  const handleAddToCart = async (book) => {
+    const exists = BillingdetailsItems.find(item => item._id === book._id);
+    if (exists) {
+      alert('Already in cart!');
+      return;
+    }
+
+    try {
+      await BillingApiPost(book);
+      dispatch(addToBillingDetails(book));
+      alert('Added to cart!');
+    } catch (error) {
+      console.error("Failed to add book to cart:", error);
+      alert("Something went wrong while adding the book to the cart.");
+    }
+  };
 
   useEffect(() => {
     fetchBooksFromServer();
@@ -84,7 +107,8 @@ const NewArrivalsImg = () => {
         {books.slice(0, visibleBooks).map((book) => (
           <div
             key={book._id}
-            className="group relative border border-gray-300 hover:shadow-lg transition-shadow"
+            className="group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer"
+            onClick={() => navigate(`/addtocart/${book._id}`)}
           >
 
             {/* Edit */}
@@ -114,7 +138,10 @@ const NewArrivalsImg = () => {
               />
               {/* Overlay with Cart Button */}
               <div className="absolute inset-0 bg-opacity-40 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <button className="w-full bg-orange-500 text-white py-2 px-4 rounded-t flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <button
+                  className="w-full bg-orange-500 text-white py-2 px-4 rounded-t flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+                  onClick={() => handleAddToCart(book)}
+                >
                   <FaShoppingCart />
                   Add to cart
                 </button>

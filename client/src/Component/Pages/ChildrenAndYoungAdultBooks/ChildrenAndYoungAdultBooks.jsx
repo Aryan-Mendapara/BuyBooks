@@ -59,7 +59,8 @@ const ChildrenAndYoungAdultBooks = () =>{
             {books.slice(0, visibleBooks).map((book) => (
               <div
                 key={book._id}
-                className="group relative border border-gray-300 hover:shadow-lg transition-shadow"
+                className="group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer"
+                onClick={() => navigate(`/addtocart/${book._id}`)}
               >
                 <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
                   <MdEdit size={20} />
