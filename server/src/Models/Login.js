@@ -16,7 +16,7 @@ const LoginSchema = new mongoose.Schema({
     otp: {
         type: String,
     },
-    otp_expires: {
+    otpExpires: {
         type: Date,
        
     },
@@ -27,4 +27,4 @@ const LoginSchema = new mongoose.Schema({
 
 const Login = mongoose.model("Login", LoginSchema);
 
-module.exports = Login
+module.exports = Login;

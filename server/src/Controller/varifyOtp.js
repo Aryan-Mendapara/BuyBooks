@@ -92,6 +92,29 @@ const verifyOtp = async (req, res) => {
     console.error("Verify OTP Error:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
+
+  // try {
+  //   const { email, otp } = req.body;
+
+  //   const user = await login.findOne({ email });
+
+  //   if (!user) return res.status(404).json({ message: "User not found" });
+
+  //   if (user.otp !== otp || Date.now() > user.otpExpires) {
+  //     return res.status(400).json({ message: "Invalid or expired OTP" });
+  //   }
+
+  //   // OTP verified → login success
+  //   user.otp = null;
+  //   user.otpExpires = null;
+  //   await user.save();
+
+  //   return res.status(200).json({ message: "Login successful" });
+
+  // } catch (err) {
+  //   console.error("Verify OTP error:", err);
+  //   return res.status(500).json({ message: "Server error" });
+  // }
 };
 
 module.exports = verifyOtp;
