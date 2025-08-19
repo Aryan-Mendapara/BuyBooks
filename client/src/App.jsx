@@ -16,6 +16,7 @@ import GamesPuzzles from './Component/Pages/GamesPuzzles/GamesPuzzles.jsx'
 import WishList from './Component/WishList/WishList.jsx'
 import AddToCart from './Component/ImageDetails/ImagesInfo'
 import BillingDetails from './Component/BillingDetails/BillingDetails'
+import Account from './Component/Account/Account.jsx'
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path='/billing-details' element={<BillingDetails/>} />
             <Route path='/wishlist' element={<WishList/>} />
             <Route path='/addtocart/:id' element={<AddToCart/>} />
+            <Route path='/myaccount' element={<Account />} />
           </Routes>
         </Layout>
       </BrowserRouter>

@@ -14,13 +14,13 @@ const addLogin = async (req, res) => {
 
     if (!user) {
       // Auto create user with random password
-      const randomPassword = crypto.randomBytes(6).toString("hex");
-      const hashedPassword = await bcrypt.hash(randomPassword, 10);
+      // const randomPassword = crypto.randomBytes(6).toString("hex");
+      // const hashedPassword = await bcrypt.hash(Password, 10);
 
-      user = new login({
+      user = new Login({
         email,
         mobileno,
-        password: hashedPassword
+        // password: hashedPassword
       });
       await user.save();
     }

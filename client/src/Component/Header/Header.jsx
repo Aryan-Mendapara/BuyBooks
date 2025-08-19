@@ -20,32 +20,14 @@ function Header() {
     ];
 
     const [search, setSearch] = useState("");
-    // const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
 
     const wishlistCount = useSelector((state) => state.wishlist?.items?.length);
     const cartCount = useSelector((state) => state.billing?.items?.length);
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-    const dispatch = useDispatch();
-    // useEffect(() => {
-    //     const token = localStorage.getItem("token");
-    //     // isLoggedIn(!!token);
-    // }, []);
 
-    // const handleLogout = async () => {
-    //     try {
-    //         const userId = localStorage.getItem("userId");
-    //         if (userId) {
-    //             await LoginDelete(userId);
-    //         }
-    //         localStorage.removeItem("token");
-    //         localStorage.removeItem("userId");
-    //         setIsLoggedIn(false);
-    //         navigate('/login');
-    //     } catch (error) {
-    //         console.error("Logout error:", error);
-    //     }
-    // };
+    const dispatch = useDispatch();
 
     const handleLogout = async () => {
         try {
@@ -57,11 +39,17 @@ function Header() {
             localStorage.removeItem("userId");
 
             dispatch(logout()); // 👈 update Redux state
+            setMenuOpen(false); // Close the menu if open
             // navigate('/login');
         } catch (error) {
             console.error("Logout error:", error);
         }
     };
+
+    const handleAccount = () => {
+        setMenuOpen(false); // Close the menu if open
+        navigate("/myaccount");
+    }
 
 
     return (
@@ -90,17 +78,36 @@ function Header() {
                 </div>
 
                 {/* Login/Logout Button */}
-                <div className='flex items-center justify-center px-5'>
+                <div className='flex items-center justify-center px-10'>
                     {isLoggedIn ? (
-                        <button
-                            onClick={handleLogout}
-                            className='bg-red-500 p-2 rounded-lg cursor-pointer'
-                        >
-                            <span className='px-3 flex items-center mx-1 text-white hover:text-black'>
-                                <FaUser />
-                                <span className='ml-2'>Logout</span>
-                            </span>
-                        </button>
+                        <div className='relative'>
+                            <button
+                                onClick={() => setMenuOpen(!menuOpen)}
+                                className='bg-orange-500 p-2 rounded-full cursor-pointer'
+                            >
+                                <span className='px-3 flex items-center text-white hover:text-black'>
+                                    <FaUser />
+                                </span>
+                            </button>
+
+                            {/* Dropdown Menu */}
+                            {menuOpen && (
+                                <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg overflow-hidden z-50">
+                                    <button
+                                        onClick={handleAccount}
+                                        className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
+                                    >
+                                        Account
+                                    </button>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
+                                    >
+                                        Logout
+                                    </button>                                   
+                                </div>
+                            )}
+                        </div>
                     ) : (
                         <button
                             onClick={() => navigate('/login')}

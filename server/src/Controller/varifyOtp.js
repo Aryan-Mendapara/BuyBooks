@@ -53,13 +53,15 @@ const Login = require('../Models/Login');
 const verifyOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
-    if (!email || !otp) return res.status(400).json({ message: "Email and OTP required" });
+    if (!email || !otp) 
+      return res.status(400).json({ message: "Email and OTP required" });
 
     const user = await Login.findOne({ email });
-    if (!user) return res.status(404).json({ message: "User not found" });
+    if (!user) 
+      return res.status(404).json({ message: "User not found" });
 
     // check expiry field name (we used otp_expires in some places)
-    const expiry = user.otp_expires || user.otpExpiry;
+    const expiry = user.otpExpires || user.otp_Expires;
     const storedOtp = user.otp;
 
     if (!storedOtp || storedOtp !== otp) {
@@ -73,7 +75,7 @@ const verifyOtp = async (req, res) => {
     // mark verified and clear otp fields
     user.isVerified = true;
     user.otp = null;
-    user.otp_expires = null;
+    user.otpExpires = null;
     await user.save();
 
     // generate JWT
