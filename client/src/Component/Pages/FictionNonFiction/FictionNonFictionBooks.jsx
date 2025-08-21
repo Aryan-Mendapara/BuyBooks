@@ -39,7 +39,7 @@ const FictionNonFictionBooks = () => {
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                const data = await ImagesApiGet();
+                const data = await ImagesApiGet('fiction');
                 // const filtered = data.books?.filter(book => book.category === 'bestseller');
                 // setBookList(filtered || []);
                 setBookList(data.books || []);
@@ -50,6 +50,7 @@ const FictionNonFictionBooks = () => {
         fetchBooks();
     }, []);
 
+    // ✅ Auto Slide
     useEffect(() => {
         const timer = setInterval(() => {
             if (!isAnimating) {
@@ -58,10 +59,11 @@ const FictionNonFictionBooks = () => {
         }, 5000);
 
         return () => clearInterval(timer);
-    }, [currentIndex, isAnimating]);
+    }, [currentIndex, isAnimating, bookList]);
 
+    // ✅ Next
     const handleNext = () => {
-        if (isAnimating) return;
+        if (isAnimating || bookList.length <= booksToShow) return;
         setIsAnimating(true);
         setCurrentIndex((prevIndex) =>
             prevIndex === 0 ? bookList.length - booksToShow : prevIndex - slideBy
@@ -69,8 +71,9 @@ const FictionNonFictionBooks = () => {
         setTimeout(() => setIsAnimating(false), 500);
     };
 
+    // ✅ Prev
     const handlePrev = () => {
-        if (isAnimating) return;
+        if (isAnimating || bookList.length <= booksToShow) return;
         setIsAnimating(true);
         setCurrentIndex((prevIndex) =>
             prevIndex + slideBy >= bookList.length - booksToShow ? 0 : prevIndex + slideBy
@@ -79,7 +82,7 @@ const FictionNonFictionBooks = () => {
     };
 
     const handleNavigate = () => {
-        navigate('/fictionnonfictionbooksimg');
+        navigate('/fiction-non-fiction-booksimg');
     };
 
     const handleDeleteImages = async (bookId) => {

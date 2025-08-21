@@ -20,10 +20,11 @@ export const ImagesApiPost = async (formdata) => {
   }
 }
 
-export const ImagesApiGet = async () => {
+export const ImagesApiGet = async (category) => {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/books/images/get`
+      `${import.meta.env.VITE_BACKEND_URL}/books/images/get`,
+      { params: category ? { category } : {} }
     );
     console.log("New Get : ",response);
     return response.data;

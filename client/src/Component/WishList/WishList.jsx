@@ -4,36 +4,25 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import { FaShoppingCart } from 'react-icons/fa';
 import { BillingApiPost } from '../ApiServer/BillingDetailsApi';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToWishlist } from '../Redux/Slice/wishlistSlice';
-import { useNavigate } from 'react-router-dom';
+import { addToBillingDetails } from '../Redux/Slice/BillingDetailsSlice';
 
 const WishList = () => {
   const wishlistHeaders = ["Product", "Description", "Availability", "Action"];
   const [wishItems, setWishItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const WishlistItems = useSelector(state => state.wishlist.items);
-  const auth = useSelector(state => state.auth); // 👈 check user login
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  // ✅ Redirect if not logged in
-  useEffect(() => {
-    if (!auth?.isLoggedIn) {
-      navigate("/login");
-    }
-  }, [auth, navigate]);
+  const BillingdetailsItems = useSelector(state => state.billingdetails.items);
+  const dispatch = useDispatch(); // ✅ FIXED
 
   const handleAddToCart = async (book) => {
-    const exists = WishlistItems.find(item => item._id === book._id);
+    const exists = BillingdetailsItems.find(item => item._id === book._id);
     if (exists) {
       alert('Already in cart!');
       return;
     }
-
     try {
       await BillingApiPost(book);
-      dispatch(addToWishlist(book));
+      dispatch(addToBillingDetails(book));
       alert('Added to cart!');
     } catch (error) {
       console.error("Failed to add book to cart:", error);
@@ -45,8 +34,16 @@ const WishList = () => {
     const fetchWishlistItems = async () => {
       try {
         const response = await wishlistApiGet();
+        console.log("✅ Wishlist full response:", response);
         const books = response?.data?.books ?? response?.books ?? [];
-        setWishItems(Array.isArray(books) ? books : []);
+        console.log("✅ Extracted books:", books);
+
+        if (Array.isArray(books)) {
+          setWishItems(books);
+        } else {
+          console.warn("⚠️ 'books' is not an array", books);
+          setWishItems([]);
+        }
       } catch (err) {
         console.error("❌ Error fetching wishlist items:", err);
         setWishItems([]);
@@ -54,11 +51,8 @@ const WishList = () => {
         setLoading(false);
       }
     };
-
-    if (auth?.isLoggedIn) {
-      fetchWishlistItems();
-    }
-  }, [auth]);
+    fetchWishlistItems();
+  }, []);
 
   const handleDelete = async (id) => {
     try {
@@ -85,7 +79,6 @@ const WishList = () => {
             ))}
           </tr>
         </thead>
-
         <tbody>
           {loading ? (
             <tr>
@@ -98,7 +91,7 @@ const WishList = () => {
               <tr key={item._id || idx} className="text-center text-sm border-t border-gray-300">
                 <td className='p-2 border border-gray-300'>
                   <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}/${item.image?.replace(/\\/g, '/')}`}
+                    src={`${import.meta.env.VITE_BACKEND_URL}/${item.image?.replace(/\\/g, '/')}`} // ✅ FIXED
                     alt={item.title || 'No title'}
                     className="h-16 w-16 mx-auto object-contain"
                   />
@@ -110,9 +103,9 @@ const WishList = () => {
                   <div className='text-green-500'>In Stock</div>
                 </td>
                 <td className='p-2 flex justify-center gap-2'>
-                  <button 
+                  <button
                     className='bg-orange-500 text-white px-4 py-1 rounded hover:bg-orange-600 cursor-pointer'
-                    onClick={() => handleAddToCart(item)} // ✅ FIX book → item
+                    onClick={() => handleAddToCart(item)} // ✅ FIXED (was book)
                   >
                     <FaShoppingCart size={20} />
                   </button>

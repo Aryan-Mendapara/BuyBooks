@@ -22,26 +22,23 @@ function NewArrivals() {
     const handleAddToCart = async (book) => {
         const exists = BillingdetailsItems.find(item => item._id === book._id);
         if (exists) {
-          alert('Already in cart!');
-          return;
+            alert('Already in cart!');
+            return;
         }
-    
         try {
-          await BillingApiPost(book);
-          dispatch(addToBillingDetails(book));
-          alert('Added to cart!');
+            await BillingApiPost(book);
+            dispatch(addToBillingDetails(book));
+            alert('Added to cart!');
         } catch (error) {
-          console.error("Failed to add book to cart:", error);
-          alert("Something went wrong while adding the book to the cart.");
+            console.error("Failed to add book to cart:", error);
+            alert("Something went wrong while adding the book to the cart.");
         }
-      };
+    };
 
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                const data = await ImagesApiGet();
-                // const filtered = data.books?.filter(book => book.category === 'newarrival');
-                // setBookList(filtered || []);
+                const data = await ImagesApiGet('newarrival');
                 setBookList(data.books || []);
             } catch (error) {
                 console.error("Failed to load books:", error);
@@ -50,38 +47,44 @@ function NewArrivals() {
         fetchBooks();
     }, []);
 
+    // ✅ Auto Slide
     useEffect(() => {
         const timer = setInterval(() => {
-            if (!isAnimating) {
-                handleNext();
-            }
-        }, 5000);
+            handleNext();
+        }, 3000);
 
         return () => clearInterval(timer);
-    }, [currentIndex, isAnimating]);
+    }, [bookList]);
 
+    // ✅ Next
     const handleNext = () => {
-        if (isAnimating) return;
+        if (isAnimating || bookList.length <= booksToShow) return;
         setIsAnimating(true);
-        setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? bookList.length - booksToShow : prevIndex - slideBy
-        );
+
+        setCurrentIndex((prevIndex) => {
+            const nextIndex = prevIndex + slideBy;
+            return nextIndex > bookList.length - booksToShow ? 0 : nextIndex;
+        });
+
         setTimeout(() => setIsAnimating(false), 500);
     };
 
+    // ✅ Prev
     const handlePrev = () => {
-        if (isAnimating) return;
+        if (isAnimating || bookList.length <= booksToShow) return;
         setIsAnimating(true);
-        setCurrentIndex((prevIndex) =>
-            prevIndex + slideBy >= bookList.length - booksToShow ? 0 : prevIndex + slideBy
-        );
+
+        setCurrentIndex((prevIndex) => {
+            const nextIndex = prevIndex - slideBy;
+            return nextIndex < 0 ? bookList.length - booksToShow : nextIndex;
+        });
+
         setTimeout(() => setIsAnimating(false), 500);
     };
 
     const handleDeleteImages = async (bookId) => {
         try {
-            const response = await ImagesApiDelete(bookId);
-            console.log(("Books Delete response:", response));
+            await ImagesApiDelete(bookId);
             setBookList(prevBooks => prevBooks.filter(book => book._id !== bookId));
         } catch (error) {
             console.log("Error Delete books: ", error);
@@ -90,35 +93,31 @@ function NewArrivals() {
 
     return (
         <div className='bg-gray-100 text-center'>
-            {/* New Arrivals */}
             <div className="max-w-6xl mx-auto px-2 py-8">
                 {/* Title */}
                 <div className="text-center mb-6">
-                    <h2 className="text-4xl font-bold">
-                        New Arrival
-                    </h2>
+                    <h2 className="text-4xl font-bold">New Arrival</h2>
                     <div className="w-50 h-0.5 bg-orange-500 mx-auto mt-2"></div>
                 </div>
 
                 {/* Slider Container */}
-                <div className="relative overflow-clip">
-                    {/* Previous Button */}
+                <div className="relative overflow-hidden">
+                    {/* Prev */}
                     <button
                         onClick={handlePrev}
                         disabled={isAnimating}
-                        className="absolute cursor-pointer left-1 top-1/2 -translate-y- z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="absolute left-1 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         <FaChevronLeft className="text-xl text-gray-600" />
                     </button>
 
-                    {/* Books Row Container */}
+                    {/* Books Row */}
                     <div>
                         <div
                             className="flex gap-6 transition-transform duration-500 ease-in-out"
                             style={{
-                                // Changed: Calculate translation based on card width + gap
-                                transform: `translateX(-${currentIndex * (208 + 24)}px)`, // 208px (w-52) + 24px (gap-6)
-                                width: 'max-content' // Changed: Let container adjust to content
+                                transform: `translateX(-${currentIndex * (208 + 24)}px)`,
+                                width: 'max-content'
                             }}
                         >
                             {bookList.map((book) => (
@@ -134,7 +133,10 @@ function NewArrivals() {
 
                                     {/* Delete */}
                                     <div
-                                        onClick={() => handleDeleteImages(book._id)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDeleteImages(book._id);
+                                        }}
                                         className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
                                     >
                                         <MdDelete size={20} />
@@ -147,11 +149,11 @@ function NewArrivals() {
 
                                     {/* Book Image */}
                                     <div className="relative mb-4 overflow-hidden px-4 pt-2">
-                                        <div className="relative pb-[133%]"> {/* 4:3 aspect ratio */}
+                                        <div className="relative pb-[133%]">
                                             <img
                                                 src={`${import.meta.env.VITE_BACKEND_URL}/${book.image}`}
                                                 alt={book.title}
-                                                className="absolute inset-0 w-60 h-60 object-contain"                                                
+                                                className="absolute inset-0 w-60 h-60 object-contain"
                                             />
                                         </div>
 
@@ -159,7 +161,10 @@ function NewArrivals() {
                                         <div className="absolute inset-0 bg-opacity-40 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                             <button
                                                 className="w-full bg-orange-500 text-white py-2 px-4 rounded-t flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 cursor-pointer"
-                                                onClick={() => handleAddToCart(book)}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleAddToCart(book);
+                                                }}
                                             >
                                                 <FaShoppingCart />
                                                 Add to cart
@@ -169,13 +174,9 @@ function NewArrivals() {
 
                                     {/* Book Details */}
                                     <div className="px-4 pb-4">
-                                        <h3 
-                                            className="text-sm font-medium mb-2 line-clamp-2 min-h-[2.5rem]"                                            
-                                        >
+                                        <h3 className="text-sm font-medium mb-2 line-clamp-2 min-h-[2.5rem]">
                                             {book.title}
                                         </h3>
-
-                                        {/* Price */}
                                         <div className="mt-auto">
                                             <span className="text-lg font-bold text-orange-500">₹{book.price}</span>
                                             <span className="text-sm text-gray-500 line-through ml-2">₹{book.originalPrice}</span>
@@ -186,17 +187,17 @@ function NewArrivals() {
                         </div>
                     </div>
 
-                    {/* Next Button */}
+                    {/* Next */}
                     <button
                         onClick={handleNext}
                         disabled={isAnimating}
-                        className="absolute cursor-pointer right-1 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="absolute right-1 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         <FaChevronRight className="text-xl text-gray-600" />
                     </button>
                 </div>
 
-                {/* View More Button */}
+                {/* View More */}
                 <div className="text-center mt-6">
                     <button
                         onClick={() => navigate('/newarrivalsimg')}

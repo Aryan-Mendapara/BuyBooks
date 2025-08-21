@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { LoginDelete } from '../ApiServer/LoginApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../Redux/Slice/authSlice';
+import { TbLogout } from "react-icons/tb";
 
 function Header() {
     const categories = [
@@ -24,7 +25,7 @@ function Header() {
     const navigate = useNavigate();
 
     const wishlistCount = useSelector((state) => state.wishlist?.items?.length);
-    const cartCount = useSelector((state) => state.billing?.items?.length);
+    const cartCount = useSelector((state) => state.billingdetails?.items?.length);
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
     const dispatch = useDispatch();
@@ -40,7 +41,6 @@ function Header() {
 
             dispatch(logout()); // 👈 update Redux state
             setMenuOpen(false); // Close the menu if open
-            // navigate('/login');
         } catch (error) {
             console.error("Logout error:", error);
         }
@@ -48,7 +48,7 @@ function Header() {
 
     const handleAccount = () => {
         setMenuOpen(false); // Close the menu if open
-        navigate("/myaccount");
+        navigate("/my-account");
     }
 
 
@@ -97,13 +97,19 @@ function Header() {
                                         onClick={handleAccount}
                                         className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
                                     >
-                                        Account
+                                        <span className='flex items-center mx-1'>                                            
+                                                <FaUser />
+                                            <span className='ml-2'>Account</span>
+                                        </span>                                        
                                     </button>
                                     <button
                                         onClick={handleLogout}
                                         className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
                                     >
-                                        Logout
+                                        <span className='flex items-center mx-1'>
+                                            <TbLogout size={23} />
+                                        <span className='ml-2'>Logout</span>
+                                        </span>
                                     </button>                                   
                                 </div>
                             )}
@@ -145,7 +151,7 @@ function Header() {
                 {/* Wishlist Icon with Badge */}
                 <div className='relative bg-orange-500 h-full flex items-center justify-center w-12 mx-1 ml-3'>
                     <button
-                        onClick={() => navigate('/wishlist')}
+                        onClick={() => isLoggedIn ? navigate('/wishlist') : navigate('/login')}
                         className='cursor-pointer relative'
                     >
                         <FaHeart size={20} />
@@ -160,7 +166,7 @@ function Header() {
                 {/* Cart Icon with Badge */}
                 <div className='relative bg-orange-500 h-full flex items-center justify-center w-12 ml-1'>
                     <button
-                        onClick={() => navigate('/billing-details')}
+                        onClick={() => isLoggedIn ? navigate('/billing-details') : navigate('/login')}
                         className='cursor-pointer relative'
                     >
                         <FaShoppingCart size={20} />

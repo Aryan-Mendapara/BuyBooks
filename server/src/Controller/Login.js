@@ -42,6 +42,20 @@ const addLogin = async (req, res) => {
   }
 };
 
+const getLogin = async (req, res) => {
+  try {    
+    const user = await Login.find()    
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "User fetched successfully", user });
+  } catch (error) {
+    console.error("Get Login User Error:", error);
+    res.status(500).json({ message: "Failed to get user" });
+  }
+};
+
 const deleteLogin = async (req, res) => {
   try {
     const login = await Login.findByIdAndDelete(req.params.id);
@@ -54,4 +68,4 @@ const deleteLogin = async (req, res) => {
   }
 }
 
-module.exports = { addLogin, deleteLogin };
+module.exports = { addLogin, deleteLogin, getLogin };

@@ -37,7 +37,7 @@ const NewArrivalsImg = () => {
 
   const fetchBooksFromServer = async () => {
     try {
-      const response = await ImagesApiGet();
+      const response = await ImagesApiGet('newarrival');
       console.log("Books Get response:", response);
       setBooks(response.books || []);
     } catch (error) {
@@ -103,7 +103,7 @@ const NewArrivalsImg = () => {
       </div>
 
       {/* Books Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 w-[68rem] mx-15 gap-6">
         {books.slice(0, visibleBooks).map((book) => (
           <div
             key={book._id}

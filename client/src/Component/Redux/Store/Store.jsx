@@ -6,7 +6,7 @@ import BillingDetailsSlice from '../Slice/BillingDetailsSlice';
 export const store = configureStore({
   reducer: {
     wishlist: wishlistSlice,
-    billingdetails: BillingDetailsSlice,
+    billingdetails: BillingDetailsSlice, 
     auth: authReducer,
   }
 });

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ImagesApiGet, ImagesApiDelete } from '../ApiServer/BooksDetailsApi';
 
-export default function useBookList() {
+export default function useBookList(category) {
   const [books, setBooks] = useState([]);
   const [visibleBooks, setVisibleBooks] = useState(12);
   const [loading, setLoading] = useState(false);
@@ -10,13 +10,13 @@ export default function useBookList() {
   useEffect(() => {
     fetchBooksFromServer();
     // eslint-disable-next-line
-  }, []);
+  }, [category]);
 
   const fetchBooksFromServer = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await ImagesApiGet();
+      const response = await ImagesApiGet(category);
       setBooks(response.books || []);
     } catch (err) {
       setError('Failed to load books.');

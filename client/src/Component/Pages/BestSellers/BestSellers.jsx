@@ -36,12 +36,11 @@ const BestSeller = () => {
     }
   };
 
+  // ✅ Fetch Books
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const data = await ImagesApiGet();
-        // const filtered = data.books?.filter(book => book.category === 'bestseller');
-        // setBookList(filtered || []);
+        const data = await ImagesApiGet('bestseller');
         setBookList(data.books || []);
       } catch (error) {
         console.error("Failed to load books:", error);
@@ -50,18 +49,19 @@ const BestSeller = () => {
     fetchBooks();
   }, []);
 
+  // ✅ Auto Slide
   useEffect(() => {
     const timer = setInterval(() => {
       if (!isAnimating) {
         handleNext();
       }
-    }, 5000);
-
+    }, 3000);
     return () => clearInterval(timer);
-  }, [currentIndex, isAnimating]);
+  }, [currentIndex, isAnimating, bookList]);
 
+  // ✅ Next
   const handleNext = () => {
-    if (isAnimating) return;
+    if (isAnimating || bookList.length <= booksToShow) return;
     setIsAnimating(true);
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? bookList.length - booksToShow : prevIndex - slideBy
@@ -69,8 +69,9 @@ const BestSeller = () => {
     setTimeout(() => setIsAnimating(false), 500);
   };
 
+  // ✅ Prev
   const handlePrev = () => {
-    if (isAnimating) return;
+    if (isAnimating || bookList.length <= booksToShow) return;
     setIsAnimating(true);
     setCurrentIndex((prevIndex) =>
       prevIndex + slideBy >= bookList.length - booksToShow ? 0 : prevIndex + slideBy
@@ -84,13 +85,12 @@ const BestSeller = () => {
 
   const handleDeleteImages = async (bookId) => {
     try {
-      const response = await ImagesApiDelete(bookId);
-      console.log(("Books Delete response:", response));
+      await ImagesApiDelete(bookId);
       setBookList(prevBooks => prevBooks.filter(book => book._id !== bookId));
     } catch (error) {
       console.log("Error Delete books: ", error);
     }
-  }
+  };
 
   return (
     <div className='bg-white text-center py-10 max-w-6xl mx-auto'>
@@ -102,8 +102,8 @@ const BestSeller = () => {
         <div className='w-68 h-0.5 bg-orange-500 mx-auto mt-2'></div>
       </div>
 
-      {/* Slider Container */}
-      <div className='relative overflow-clip'>
+      {/* Slider */}
+      <div className='relative overflow-hidden'>
         {/* Prev Button */}
         <button
           onClick={handlePrev}
@@ -113,7 +113,7 @@ const BestSeller = () => {
           <FaChevronLeft className='text-xl text-gray-600' />
         </button>
 
-        {/* Books Container */}
+        {/* Books */}
         <div>
           <div
             className='flex gap-6 transition-transform duration-500 ease-in-out'
@@ -128,7 +128,6 @@ const BestSeller = () => {
                 onClick={() => navigate(`/addtocart/${book._id}`)}
                 className='w-52 flex-shrink-0 group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer'
               >
-
                 {/* Edit */}
                 <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
                   <MdEdit size={20} />
@@ -136,7 +135,7 @@ const BestSeller = () => {
 
                 {/* Delete */}
                 <div
-                  onClick={() => handleDeleteImages(book._id)}
+                  onClick={(e) => { e.stopPropagation(); handleDeleteImages(book._id); }}
                   className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
                 >
                   <MdDelete size={20} />
@@ -159,11 +158,11 @@ const BestSeller = () => {
                     />
                   </div>
 
-                  {/* Cart Button */}
+                  {/* Cart */}
                   <div className='absolute inset-0 bg-opacity-40 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
                     <button
                       className='w-full bg-orange-500 text-white py-2 px-4 rounded-t flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 cursor-pointer'
-                      onClick={() => handleAddToCart(book)}
+                      onClick={(e) => { e.stopPropagation(); handleAddToCart(book); }}
                     >
                       <FaShoppingCart />
                       Add to cart
@@ -171,7 +170,7 @@ const BestSeller = () => {
                   </div>
                 </div>
 
-                {/* Book Info */}
+                {/* Info */}
                 <div className='px-4'>
                   <h3 className='text-sm font-medium mb-2 cursor-pointer'>
                     {book.title}
@@ -196,7 +195,7 @@ const BestSeller = () => {
         </button>
       </div>
 
-      {/* View More Button */}
+      {/* View More */}
       <div className='text-center mt-6'>
         <button
           onClick={handleNavigate}

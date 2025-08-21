@@ -18,7 +18,7 @@ const FictionNonFictionBooksImg = () => {
     error,
     handleLoadMore,
     handleDeleteImages
-  } = useBookList();
+  } = useBookList('fiction');
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 text-center">
@@ -44,6 +44,7 @@ const FictionNonFictionBooksImg = () => {
         <div className="text-center py-8">Loading...</div>
       ) : (
         <>
+          {/* Sort and Results Count */}
           <div className="flex justify-between items-center mb-8">
             <div className="flex items-center gap-2">
               <span>Sort:</span>
@@ -58,26 +59,33 @@ const FictionNonFictionBooksImg = () => {
               Total ({books.length} results)
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
+
+          {/* Books Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 w-[68rem] mx-15 gap-6">
             {books.slice(0, visibleBooks).map((book) => (
               <div
                 key={book._id}
                 className="group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer"
                 onClick={() => navigate(`/addtocart/${book._id}`)}
               >
+                {/* Edit Button */}
                 <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
                   <MdEdit size={20} />
                 </div>
+
+                {/* Delete Button */}
                 <div
                   onClick={() => handleDeleteImages(book._id)}
                   className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
                 >
                   <MdDelete size={20} />
                 </div>
+
                 {/* Discount Badge */}
                 <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded-sm z-10">
                   {book.discount}% OFF
                 </div>
+
                 {/* Book Image Container with Overlay */}
                 <div className="relative mb-4 overflow-hidden px-4 pt-2">
                   <img
@@ -85,6 +93,7 @@ const FictionNonFictionBooksImg = () => {
                     alt={book.title}
                     className="w-60 h-60 object-cover"
                   />
+
                   {/* Overlay with Cart Button */}
                   <div className="absolute inset-0 bg-opacity-40 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <button className="w-full bg-orange-500 text-white py-2 px-4 rounded-t flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
@@ -93,11 +102,13 @@ const FictionNonFictionBooksImg = () => {
                     </button>
                   </div>
                 </div>
+
                 {/* Book Details */}
                 <div className='px-4'>
                   <h3 className="text-sm font-medium mb-1 h-auto">
                     {book.title}
                   </h3>
+
                   {/* Price */}
                   <span className="text-lg font-bold text-orange-500">₹{book.price}</span>
                   <span className="text-sm text-gray-500 line-through ml-2">₹{book.originalPrice}</span>

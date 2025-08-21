@@ -11,6 +11,7 @@ function AddBooks() {
     price: '',
     originalPrice: '',
     discount: '',
+    category: 'Select Category',
     image: null,
     imageUrl: ''
   });
@@ -29,7 +30,7 @@ function AddBooks() {
   };
 
   const handleSaveToServer = async () => {
-    if (!formData.title || !formData.author || !formData.Publisher || !formData.price || !formData.originalPrice || !formData.discount || !formData.image) {
+    if (!formData.title || !formData.author || !formData.Publisher || !formData.price || !formData.originalPrice || !formData.discount || !formData.category || !formData.image) {
       alert("Please fill all fields");
       return;
     }
@@ -42,11 +43,12 @@ function AddBooks() {
       data.append('price', formData.price);
       data.append('originalPrice', formData.originalPrice);
       data.append('discount', formData.discount);
+      data.append('category', formData.category);
       data.append('image', formData.image);
 
       await ImagesApiPost(data);
       alert("Book saved to server successfully!");
-      navigate("/bestsellersimg");
+      navigate("/");
     } catch (error) {
       alert("Failed to save book.");
     }
@@ -107,6 +109,23 @@ function AddBooks() {
                             placeholder="discount"
                             className="border p-2 rounded w-full"
                         />
+                        <select
+                            name="category"
+                            value={formData.category}
+                            onChange={handleFormChange}
+                            className="border p-2 rounded w-full"
+                        >
+                            <option value="Select Category">--- Select Category ---</option>
+                            <option value="bestseller">Bestseller</option>
+                            <option value="newarrival">New Arrival</option>
+                            <option value="school">School</option>
+                            <option value="fiction">Fiction/Non-Fiction</option>
+                            <option value="children">Children & Young Adult</option>
+                            <option value="games">Games & Puzzles</option>
+                            <option value="higher">Higher Education</option>
+                            <option value="testprep">Test Prep</option>
+                            <option value="preorder">Pre Order</option>
+                        </select>
                         <input
                             type="file"
                             name="image"
@@ -118,7 +137,7 @@ function AddBooks() {
 
                     <div className='text-center flex justify-center gap-5'>
                         <button
-                            onClick={() => navigate('/bestsellersimg')} 
+                            onClick={() => navigate('/')} 
                             className='bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 cursor-pointer'
                         >
                             Cancle

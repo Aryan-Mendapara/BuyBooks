@@ -26,11 +26,11 @@ const booksSchema = new mongooes.Schema({
     image: {
         type: String,
     },
-    // category: {
-    //     type: String,
-    //     enum: ['newarrival', 'bestseller'],
-    //     required: true
-    // },
+    category: {
+        type: String,
+        enum: ['bestseller', 'newarrival', 'school', 'fiction', 'children', 'games', 'higher', 'testprep', 'preorder'],
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now

@@ -17,6 +17,20 @@ export const LoginUser = async ({ body }) => {
   }
 }
 
+export const LoginGet = async () => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/books/login/getlogin`
+    );
+    console.log("Login Get Response:", response);
+    return response.data;
+  }
+  catch (error) {
+    console.log("Login Get API error:", error);
+    throw error;
+  }
+}
+
 // export const LoginUser = async (body) => { 
 //   try {
 //     const response = await axios.post(
