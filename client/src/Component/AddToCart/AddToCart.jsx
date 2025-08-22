@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToWishlist } from '../Redux/Slice/wishlistSlice';
 import { addToBillingDetails } from '../Redux/Slice/BillingDetailsSlice';
 
-const ImagesInfo = () => {
+const AddToCart = () => {
   const { id } = useParams();
   const [book, setBook] = useState(null);
   const navigate = useNavigate();
@@ -134,4 +134,4 @@ const ImagesInfo = () => {
   );
 };
 
-export default ImagesInfo;
+export default AddToCart;

@@ -13,3 +13,15 @@ export const addAddress = async (address) => {
         throw error;
     }
 }
+
+export const getAddress = async () => {
+    try {
+        const response = await axios.get(
+            `${import.meta.env.VITE_BACKEND_URL}/books/ShippingAddress/get`
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching shipping addresses:", error);
+        throw error;
+    }
+}

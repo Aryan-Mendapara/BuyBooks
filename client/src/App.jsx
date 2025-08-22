@@ -5,7 +5,6 @@ import Home from './Component/Pages/Home'
 import Layout from './Component/Utils/Layout'
 import NewArrivalsImg from './Component/Pages/NewArrivals/NewArrivalsImg'
 import BestSellerImg from './Component/Pages/BestSellers/BestSellerImg'
-import AddBooks from './Component/AddBooks/AddBooks'
 import SchoolBooksImg from './Component/Pages/SchoolBooks/SchoolBooksImg'
 import FictionNonFictionBooksImg from './Component/Pages/FictionNonFiction/FictionNonFictionBooksImg.jsx'
 import PreOrder from './Component/Pages/PreOrder/PreOrder.jsx'
@@ -14,11 +13,13 @@ import HigherEducation from './Component/Pages/HigherEducation/HigherEducation.j
 import TestPrep from './Component/Pages/TestPrep/TestPrep.jsx'
 import GamesPuzzles from './Component/Pages/GamesPuzzles/GamesPuzzles.jsx'
 import WishList from './Component/WishList/WishList.jsx'
-import AddToCart from './Component/ImageDetails/ImagesInfo'
+import AddToCart from './Component/AddToCart/AddToCart.jsx'
 import BillingDetails from './Component/BillingDetails/BillingDetails'
 import Account from './Component/Account/Account.jsx'
 import ShippingAddress from './Component/Shipping/ShippingAddress/ShippingAddress.jsx'
 import OrderSummary from './Component/Shipping/OrderSummary/OrderSummary.jsx'
+import TermsAndConditions from './Component/Shipping/TermsAndConditions/TermsAndConditions.jsx'
+import AddBooks from './Component/Add&EditBooks/AddBooks.jsx'
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path='/bestsellersimg' element={<BestSellerImg/>} />
             <Route path='/schoolbooksimg' element={<SchoolBooksImg/>} />
             <Route path='/addImages' element={<AddBooks/>} />
+            <Route path='/editbook/:id' element={<AddBooks/>} />
             <Route path='fiction-non-fiction-booksimg' element={<FictionNonFictionBooksImg/>} />
             <Route path='/pre-order' element={<PreOrder/>} />
             <Route path='/children-young-adult' element={<ChildrenAndYoungAdultBooks/>} />
@@ -44,6 +46,7 @@ function App() {
             <Route path='/my-account' element={<Account />} />
             <Route path='/shipping-address' element={<ShippingAddress/>} />
             <Route path='/order-summary' element={<OrderSummary/>} />
+            <Route path='/terms-and-conditions' element={<TermsAndConditions/>} />
           </Routes>
         </Layout>
       </BrowserRouter>

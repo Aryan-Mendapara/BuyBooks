@@ -135,7 +135,7 @@ const BestSeller = () => {
 
                 {/* Delete */}
                 <div
-                  onClick={(e) => { e.stopPropagation(); handleDeleteImages(book._id); }}
+                  onClick={(e) => handleDeleteImages(book._id)}
                   className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
                 >
                   <MdDelete size={20} />

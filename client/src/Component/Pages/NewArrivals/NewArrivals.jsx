@@ -91,6 +91,13 @@ function NewArrivals() {
         }
     }
 
+    const handleEdit = (e, book) => {
+        e.stopPropagation(); // prevent triggering navigate on card
+        // Navigate to an edit page or open a modal with book data
+        navigate(`/editbook/${book._id}`, { state: { book } });
+    };
+
+
     return (
         <div className='bg-gray-100 text-center'>
             <div className="max-w-6xl mx-auto px-2 py-8">
@@ -124,23 +131,28 @@ function NewArrivals() {
                                 <div
                                     key={book._id}
                                     className="w-52 flex-shrink-0 group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer"
-                                    onClick={() => navigate(`/addtocart/${book._id}`)}
+                                    
                                 >
                                     {/* Edit */}
-                                    <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
+                                    <div
+                                        onClick={(e) => handleEdit(e, book)}
+                                        className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
+                                    >
                                         <MdEdit size={20} />
                                     </div>
 
                                     {/* Delete */}
                                     <div
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleDeleteImages(book._id);
-                                        }}
+                                        onClick={(e) => handleDeleteImages(book._id)}
                                         className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
                                     >
                                         <MdDelete size={20} />
                                     </div>
+
+                                    <div
+                                        onClick={() => navigate(`/addtocart/${book._id}`)}
+                                        className="flex flex-col h-full"
+                                    >
 
                                     {/* Discount Badge */}
                                     <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded-sm z-10">
@@ -181,6 +193,7 @@ function NewArrivals() {
                                             <span className="text-lg font-bold text-orange-500">₹{book.price}</span>
                                             <span className="text-sm text-gray-500 line-through ml-2">₹{book.originalPrice}</span>
                                         </div>
+                                    </div>
                                     </div>
                                 </div>
                             ))}
