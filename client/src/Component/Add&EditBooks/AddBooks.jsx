@@ -7,6 +7,19 @@ function AddBooks() {
   const { state } = useLocation(); // will contain book if editing
   const isEdit = !!state?.book;
 
+  const Category = [
+    "Select Category",
+    "newarrival",
+    "bestseller",    
+    "school",
+    "fiction",
+    "children",
+    "games",
+    "higher",
+    "testprep",
+    "preorder"        
+  ]
+
   const [formData, setFormData] = useState({
     title: '',
     author: '',
@@ -82,33 +95,93 @@ function AddBooks() {
         <h2 className='text-xl font-bold mb-4 text-center'>{isEdit ? "Edit Book" : "Add New Book"}</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <input name="title" value={formData.title} onChange={handleFormChange} placeholder="Title" className="border p-2 rounded w-full" />
-          <input name="author" value={formData.author} onChange={handleFormChange} placeholder="Author" className="border p-2 rounded w-full" />
-          <input name="Publisher" value={formData.Publisher} onChange={handleFormChange} placeholder="Publisher" className="border p-2 rounded w-full" />
-          <input name="price" value={formData.price} onChange={handleFormChange} placeholder="Price" className="border p-2 rounded w-full" />
-          <input name="originalPrice" value={formData.originalPrice} onChange={handleFormChange} placeholder="Original Price" className="border p-2 rounded w-full" />
-          <input name="discount" value={formData.discount} onChange={handleFormChange} placeholder="Discount" className="border p-2 rounded w-full" />
+          <input 
+            name="title" 
+            value={formData.title} 
+            onChange={handleFormChange} 
+            placeholder="Title" 
+            className="border p-2 rounded w-full"
+          />
+
+          <input 
+            name="author" 
+            value={formData.author} 
+            onChange={handleFormChange} 
+            placeholder="Author" 
+            className="border p-2 rounded w-full" 
+          />
+
+          <input 
+            name="Publisher" 
+            value={formData.Publisher} 
+            onChange={handleFormChange} 
+            placeholder="Publisher" 
+            className="border p-2 rounded w-full" 
+          />
+
+          <input 
+            name="price" 
+            value={formData.price}
+            onChange={handleFormChange} 
+            placeholder="Price" 
+            className="border p-2 rounded w-full" 
+          />
+
+          <input 
+            name="originalPrice" 
+            value={formData.originalPrice} 
+            onChange={handleFormChange} 
+            placeholder="Original Price" 
+            className="border p-2 rounded w-full" 
+          />
+
+          <input 
+            name="discount" 
+            value={formData.discount} 
+            onChange={handleFormChange} 
+            placeholder="Discount" 
+            className="border p-2 rounded w-full" 
+          />
 
           {/* Category disabled on edit */}
-          <select name="category" value={formData.category} onChange={handleFormChange} className="border p-2 rounded w-full" disabled={isEdit}>
-            <option value="Select Category">--- Select Category ---</option>
-            <option value="bestseller">Bestseller</option>
-            <option value="newarrival">New Arrival</option>
-            <option value="school">School</option>
-            <option value="fiction">Fiction/Non-Fiction</option>
-            <option value="children">Children & Young Adult</option>
-            <option value="games">Games & Puzzles</option>
-            <option value="higher">Higher Education</option>
-            <option value="testprep">Test Prep</option>
-            <option value="preorder">Pre Order</option>
+          <select 
+            name="category" 
+            value={formData.category} 
+            onChange={handleFormChange} 
+            className="border p-2 rounded w-full" 
+            disabled={isEdit}
+          >
+            {Category.map((cat) => (
+              <option 
+                key={cat} 
+              >
+                {cat}
+              </option>
+            ))}                      
           </select>
 
-          <input type="file" name="image" accept="image/*" onChange={handleFormChange} className="border p-2 rounded w-full cursor-pointer" />
+          <input 
+            type="file" 
+            name="image" 
+            accept="image/*" 
+            onChange={handleFormChange} 
+            className="border p-2 rounded w-full cursor-pointer" 
+          />
         </div>
 
         <div className='text-center flex justify-center gap-5'>
-          <button onClick={() => navigate('/')} className='bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 cursor-pointer'>Cancel</button>
-          <button onClick={handleSaveToServer} className='bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 cursor-pointer'>{isEdit ? "Update Book" : "Save Book"}</button>
+          <button 
+            onClick={() => navigate('/')} 
+            className='bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 cursor-pointer'
+          >
+            Cancel
+          </button>
+          <button 
+            onClick={handleSaveToServer} 
+            className='bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 cursor-pointer'
+          >
+            {isEdit ? "Update Book" : "Save Book"}
+          </button>
         </div>
       </div>
     </div>

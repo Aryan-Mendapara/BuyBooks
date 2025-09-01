@@ -51,14 +51,14 @@ const SchoolBooks = () => {
   }, []);
 
   // ✅ Auto Slide
-    useEffect(() => {
-      const timer = setInterval(() => {
-        if (!isAnimating) {
-          handleNext();
-        }
-      }, 3000);
-      return () => clearInterval(timer);
-    }, [currentIndex, isAnimating, bookList]);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (!isAnimating) {
+        handleNext();
+      }
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [currentIndex, isAnimating, bookList]);
 
   // ✅ Next
   const handleNext = () => {
@@ -93,6 +93,12 @@ const SchoolBooks = () => {
       console.log("Error Delete books: ", error);
     }
   }
+
+  const handleEdit = (e, book) => {
+    e.stopPropagation(); // prevent triggering navigate on card
+    // Navigate to an edit page or open a modal with book data
+    navigate(`/editbook/${book._id}`, { state: { book } });
+  };
 
 
   return (
@@ -133,7 +139,10 @@ const SchoolBooks = () => {
               >
 
                 {/* Edit */}
-                <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
+                <div
+                  onClick={(e) => handleEdit(e, book)}
+                  className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
+                >
                   <MdEdit size={20} />
                 </div>
 

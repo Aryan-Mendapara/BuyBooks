@@ -95,6 +95,12 @@ const FictionNonFictionBooks = () => {
         }
     }
 
+    const handleEdit = (e, book) => {
+        e.stopPropagation(); // prevent triggering navigate on card
+        // Navigate to an edit page or open a modal with book data
+        navigate(`/editbook/${book._id}`, { state: { book } });
+    };
+
     return (
         <div className='bg-gray-100 text-center py-10 mx-auto'>
             <div className="max-w-6xl mx-auto px-2 py-8">
@@ -134,7 +140,10 @@ const FictionNonFictionBooks = () => {
                                 >
 
                                     {/* Edit */}
-                                    <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
+                                    <div 
+                                        onClick={(e) => handleEdit(e, book)}
+                                        className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
+                                    >
                                         <MdEdit size={20} />
                                     </div>
 

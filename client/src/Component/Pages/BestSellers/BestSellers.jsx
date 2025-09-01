@@ -92,6 +92,12 @@ const BestSeller = () => {
     }
   };
 
+  const handleEdit = (e, book) => {
+    e.stopPropagation(); // prevent triggering navigate on card
+    // Navigate to an edit page or open a modal with book data
+    navigate(`/editbook/${book._id}`, { state: { book } });
+  };
+
   return (
     <div className='bg-white text-center py-10 max-w-6xl mx-auto'>
       {/* Title */}
@@ -129,7 +135,10 @@ const BestSeller = () => {
                 className='w-52 flex-shrink-0 group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer'
               >
                 {/* Edit */}
-                <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
+                <div
+                  onClick={(e) => handleEdit(e, book)}
+                  className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
+                >
                   <MdEdit size={20} />
                 </div>
 

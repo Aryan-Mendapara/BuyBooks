@@ -41,6 +41,12 @@ const HigherEducation = () => {
     }
   }
 
+  const handleEdit = (e, book) => {
+    e.stopPropagation(); // prevent triggering navigate on card
+    // Navigate to an edit page or open a modal with book data
+    navigate(`/editbook/${book._id}`, { state: { book } });
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 text-center">
       <div className="flex items-center gap-2 text-sm mb-6">
@@ -87,7 +93,10 @@ const HigherEducation = () => {
           >
 
             {/* Edit */}
-            <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
+            <div
+              onClick={(e) => handleEdit(e, book)}
+              className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
+            >
               <MdEdit size={20} />
             </div>
 

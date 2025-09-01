@@ -13,13 +13,14 @@ import HigherEducation from './Component/Pages/HigherEducation/HigherEducation.j
 import TestPrep from './Component/Pages/TestPrep/TestPrep.jsx'
 import GamesPuzzles from './Component/Pages/GamesPuzzles/GamesPuzzles.jsx'
 import WishList from './Component/WishList/WishList.jsx'
-import AddToCart from './Component/AddToCart/AddToCart.jsx'
 import BillingDetails from './Component/BillingDetails/BillingDetails'
 import Account from './Component/Account/Account.jsx'
 import ShippingAddress from './Component/Shipping/ShippingAddress/ShippingAddress.jsx'
 import OrderSummary from './Component/Shipping/OrderSummary/OrderSummary.jsx'
 import TermsAndConditions from './Component/Shipping/TermsAndConditions/TermsAndConditions.jsx'
 import AddBooks from './Component/Add&EditBooks/AddBooks.jsx'
+import ImgInfo from './Component/ImgInfo/ImgInfo.jsx'
+import SearchBar from './Component/SearchBar/Searchbar.jsx'
 
 function App() {
   return (
@@ -29,12 +30,13 @@ function App() {
           <Routes>            
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
+            <Route path='/serch' element={<SearchBar/>} />
             <Route path='/newarrivalsimg' element={<NewArrivalsImg/>} />
             <Route path='/bestsellersimg' element={<BestSellerImg/>} />
             <Route path='/schoolbooksimg' element={<SchoolBooksImg/>} />
             <Route path='/addImages' element={<AddBooks/>} />
             <Route path='/editbook/:id' element={<AddBooks/>} />
-            <Route path='fiction-non-fiction-booksimg' element={<FictionNonFictionBooksImg/>} />
+            <Route path='/fiction-non-fiction-booksimg' element={<FictionNonFictionBooksImg/>} />
             <Route path='/pre-order' element={<PreOrder/>} />
             <Route path='/children-young-adult' element={<ChildrenAndYoungAdultBooks/>} />
             <Route path='/higher-education' element={<HigherEducation/>} />
@@ -42,7 +44,7 @@ function App() {
             <Route path='/games-puzzles' element={<GamesPuzzles/>} />            
             <Route path='/billing-details' element={<BillingDetails/>} />
             <Route path='/wishlist' element={<WishList/>} />
-            <Route path='/addtocart/:id' element={<AddToCart/>} />
+            <Route path='/addtocart/:id' element={<ImgInfo/>} />
             <Route path='/my-account' element={<Account />} />
             <Route path='/shipping-address' element={<ShippingAddress/>} />
             <Route path='/order-summary' element={<OrderSummary/>} />
