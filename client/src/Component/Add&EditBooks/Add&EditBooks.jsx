@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ImagesApiPost } from '../ApiServer/BooksDetailsApi';
 
-function AddBooks() {
+function Add_EditBooks() {
   const navigate = useNavigate();
   const { state } = useLocation(); // will contain book if editing
   const isEdit = !!state?.book;
@@ -148,8 +148,7 @@ function AddBooks() {
             name="category" 
             value={formData.category} 
             onChange={handleFormChange} 
-            className="border p-2 rounded w-full" 
-            disabled={isEdit}
+            className="border p-2 rounded w-full cursor-pointer"          
           >
             {Category.map((cat) => (
               <option 
@@ -171,7 +170,7 @@ function AddBooks() {
 
         <div className='text-center flex justify-center gap-5'>
           <button 
-            onClick={() => navigate('/')} 
+            onClick={() => navigate(-1)} 
             className='bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 cursor-pointer'
           >
             Cancel
@@ -188,4 +187,4 @@ function AddBooks() {
   );
 }
 
-export default AddBooks;
+export default Add_EditBooks;

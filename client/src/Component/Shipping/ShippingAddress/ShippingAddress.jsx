@@ -234,7 +234,7 @@ function ShippingAddress() {
                 <div className='flex justify-center mt-6'>
                     <button
                         onClick={handleSubmit}
-                        className='px-6 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition'
+                        className='px-6 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition cursor-pointer'
                     >
                         Continue Checkout
                     </button>

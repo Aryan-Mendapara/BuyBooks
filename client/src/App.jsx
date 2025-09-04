@@ -18,9 +18,9 @@ import Account from './Component/Account/Account.jsx'
 import ShippingAddress from './Component/Shipping/ShippingAddress/ShippingAddress.jsx'
 import OrderSummary from './Component/Shipping/OrderSummary/OrderSummary.jsx'
 import TermsAndConditions from './Component/Shipping/TermsAndConditions/TermsAndConditions.jsx'
-import AddBooks from './Component/Add&EditBooks/AddBooks.jsx'
 import ImgInfo from './Component/ImgInfo/ImgInfo.jsx'
-import SearchBar from './Component/SearchBar/Searchbar.jsx'
+import Payment from './Component/Shipping/Payment/Payment.jsx'
+import Add_EditBooks from './Component/Add&EditBooks/Add&EditBooks.jsx'
 
 function App() {
   return (
@@ -30,12 +30,11 @@ function App() {
           <Routes>            
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
-            <Route path='/serch' element={<SearchBar/>} />
             <Route path='/newarrivalsimg' element={<NewArrivalsImg/>} />
             <Route path='/bestsellersimg' element={<BestSellerImg/>} />
             <Route path='/schoolbooksimg' element={<SchoolBooksImg/>} />
-            <Route path='/addImages' element={<AddBooks/>} />
-            <Route path='/editbook/:id' element={<AddBooks/>} />
+            <Route path='/addImages' element={<Add_EditBooks/>} />
+            <Route path='/editbook/:id' element={<Add_EditBooks/>} />
             <Route path='/fiction-non-fiction-booksimg' element={<FictionNonFictionBooksImg/>} />
             <Route path='/pre-order' element={<PreOrder/>} />
             <Route path='/children-young-adult' element={<ChildrenAndYoungAdultBooks/>} />
@@ -49,6 +48,7 @@ function App() {
             <Route path='/shipping-address' element={<ShippingAddress/>} />
             <Route path='/order-summary' element={<OrderSummary/>} />
             <Route path='/terms-and-conditions' element={<TermsAndConditions/>} />
+            <Route path='/payment' element={<Payment/>} />
           </Routes>
         </Layout>
       </BrowserRouter>

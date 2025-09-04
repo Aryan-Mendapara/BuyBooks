@@ -70,12 +70,12 @@ function Account() {
                     <h2 className="text-xl font-semibold text-gray-800 mb-4">
                         My Account
                     </h2>
-                    <button className="w-full text-left px-4 py-2 mb-3 rounded-lg bg-orange-500 text-white hover:bg-orange-600 transition">
+                    <button className="w-full text-left px-4 py-2 mb-3 rounded-lg bg-orange-500 text-white hover:bg-orange-600 transition cursor-pointer">
                         Account
                     </button>
                     <button
                         onClick={handleLogout}
-                        className="w-full text-left px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition"
+                        className="w-full text-left px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition cursor-pointer"
                     >
                         Logout
                     </button>

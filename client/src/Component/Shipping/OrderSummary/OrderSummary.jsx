@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BillingApiGet } from '../../ApiServer/BillingDetailsApi';
 import pay_icons from '../../../assets/img/pay_icons.png';
 import { getAddress } from '../../ApiServer/ShippingAddress';
+import { useNavigate } from 'react-router-dom';
 
 function OrderSummary() {
     const order = [
@@ -19,6 +20,7 @@ function OrderSummary() {
     const [cartItems, setCartItems] = useState([]);
     const [giftWrap, setGiftWrap] = useState(false);
     const [comments, setComments] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const ShippingAddress = async () => {
@@ -62,7 +64,7 @@ function OrderSummary() {
     const grandTotal = itemsTotal + shipping + giftCharge;
 
     return (
-        <div className='mt-3 mb-3'>
+        <div className='mt-3 mb-3 w-auto h-auto'>
             <div>
                 <h1 className='flex justify-center mb-1 text-2xl'>Shopping Cart Order Summary</h1>
                 <div className='w-82 h-0.5 bg-orange-500 mx-auto mt-2'></div>
@@ -276,7 +278,10 @@ function OrderSummary() {
 
                     {/* Order Button */}
                     <div className='flex justify-center'>
-                        <button className='bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded m-5 cursor-pointer'>
+                        <button
+                            onClick={() => navigate("/payment", { state: { grandTotal } })}
+                            className='bg-orange-500 hover:bg-orange-600 text-white mt-8 font-bold py-2 px-6 rounded m-5 cursor-pointer'
+                        >
                             Order Now
                         </button>
                     </div>
