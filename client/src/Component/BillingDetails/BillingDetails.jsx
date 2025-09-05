@@ -160,7 +160,13 @@ const BillingDetails = () => {
 
         <button
           className='mt-6 px-6 py-2 bg-white border border-gray-400 hover:bg-gray-100 transition rounded text-sm font-medium cursor-pointer'
-          onClick={() => navigate('/shipping-address')}
+          onClick={() => {
+            if (cartItems.length > 0) {
+              navigate('/shipping-address')             
+            } else {
+              alert("Please add items to your cart before checkout.")
+            }
+          }}
         >
           Continue Checkout
         </button>
