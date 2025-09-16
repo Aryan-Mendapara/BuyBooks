@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Logo from '../../../assets/img/logo.png';
 import { IoIosArrowBack } from "react-icons/io";
-import { MdGTranslate, MdCreditCard } from "react-icons/md";
+import { MdGTranslate, MdCreditCard, MdAccountBalanceWallet } from "react-icons/md";
 import { useLocation, useNavigate } from 'react-router-dom';
 import paywithamex from "../../../assets/img/paywithamex.png";
 import phonepe from "../../../assets/img/phonepe.png";
@@ -16,7 +16,6 @@ import LAZYPAY from "../../../assets/img/LAZYPAY.png";
 import PAYPAL from "../../../assets/img/PAYPAL.png";
 import LRD from "../../../assets/img/LRD.png";
 import ZLS from "../../../assets/img/ZLS.png";
-import { MdAccountBalanceWallet } from "react-icons/md";
 
 function Payment() {
     const location = useLocation();
@@ -27,11 +26,13 @@ function Payment() {
         {
             title: "Pay with Amex",
             icon: [paywithamex],
-            description: "% Offer"
+            description: "% Offer",
+            path: "/payment/amex"
         },
         {
             title: "PhonePe/BHIM UPI",
-            icon: [phonepe]
+            icon: [phonepe],
+            path: "/payment/phonepe"
         },
     ];
 
@@ -39,48 +40,54 @@ function Payment() {
         {
             title: "UPI",
             icon: [googlepay, phonepe, bhimupi],
-            description: "% ₹1 - ₹100 Cashback"
+            description: "% ₹1 - ₹100 Cashback",
+            path: "/payment/upi"
         },
         {
             title: "Cards (Credit/Debit)",
             icon: [<MdCreditCard size={25} />],
-            description: "% Offer"
+            description: "% Offer",
+            path: "/payment/cards"
         },
         {
             title: "Wallet",
             icon: [phonepe, AMZPAY, BFL],
-            description: "% ₹1 - ₹150 Cashback"
+            description: "% ₹1 - ₹150 Cashback",
+            path: "/payment/wallet"
         },
         {
             title: "Net Banking",
-            icon: [ICIB, BOIB, FEDB]
+            icon: [ICIB, BOIB, FEDB],
+            path: "/payment/net-banking"
         },
         {
             title: "LazyPay",
-            icon: [LAZYPAY]
+            icon: [LAZYPAY],
+            path: "/payment/lazypay"
         },
         {
             title: "PayPal",
-            icon: [PAYPAL]
+            icon: [PAYPAL],
+            path: "/payment/paypal"
         },
         {
             title: "Pay By Rewards",
-            icon:[<MdAccountBalanceWallet size={25} />, LRD, ZLS]
+            icon:[<MdAccountBalanceWallet size={25} />, LRD, ZLS],
+            path: "/payment/rewards"
         },
         {
             title: "Google Pay",
-            icon: [googlepay]
+            icon: [googlepay],
+            path: "/payment/googlepay"
         },
     ];
 
     const grandTotal = location.state?.grandTotal ?? 0;
-
-    // Determine which payments to show based on showAll state
     const displayedPayments = showAll ? otherpayment : otherpayment.slice(0, 4);
 
     return (
         <div className="bg-gray-50 py-5 min-h-screen">
-            <div className="flex justify-center gap-4 flex-wrap">
+            <div className="flex justify-center flex-wrap">
 
                 {/* Payment Summary Card */}
                 <div className="bg-white px-6 py-6 rounded-lg shadow-md w-[400px]">
@@ -123,6 +130,7 @@ function Payment() {
                             <div
                                 key={index}
                                 className="flex items-center justify-between gap-3 border rounded-lg px-3 py-2 bg-white border-white hover:shadow-md cursor-pointer transition"
+                                onClick={() => navigate(pay.path, { state: { grandTotal } })}
                             >
                                 <div>
                                     <h1 className="font-medium text-gray-900">{pay.title}</h1>
@@ -140,6 +148,7 @@ function Payment() {
                             <div
                                 key={index}
                                 className="flex items-center justify-between border rounded-lg px-3 py-2 bg-white border-white hover:shadow-md cursor-pointer transition"
+                                onClick={() => navigate(pay.path, { state: { grandTotal } })}
                             >
                                 <div>
                                     <h1 className="font-medium text-gray-900">{pay.title}</h1>
@@ -158,7 +167,6 @@ function Payment() {
                         ))}
                     </div>
 
-                    {/* Show All / Show Less Button */}
                     {otherpayment.length > 4 && (
                         <button
                             className="mt-2 text-blue-600 text-sm font-medium hover:underline"
