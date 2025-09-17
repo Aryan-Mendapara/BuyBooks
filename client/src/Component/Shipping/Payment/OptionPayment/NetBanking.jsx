@@ -9,6 +9,14 @@ import AXIS from "../../../../assets/img/axis.png";
 import SBI from "../../../../assets/img/SBI.png";
 import KOTAK from "../../../../assets/img/KOTAK.png";
 import PUNJAB from "../../../../assets/img/PUNJAB.jpg";
+import AIRTEL from "../../../../assets/img/AIRTEL.png";
+import BARODA from "../../../../assets/img/BankOfBaroda.png";
+import IDFCNB from "../../../../assets/img/IDFCNB.png";
+import UCO from "../../../../assets/img/UCo.png";
+import UNION from "../../../../assets/img/Union.png";
+import YES from "../../../../assets/img/YES.png";
+import RBL from "../../../../assets/img/RBL.png";
+import CITYUNION from "../../../../assets/img/CITY-UNION.png";
 
 function NetBanking() {
     const [search, setSearch] = useState("");
@@ -18,6 +26,7 @@ function NetBanking() {
     const allBnaks = [
         {
             title: "Airtel Payments Bank",
+            icon: [AIRTEL],
         },
         {
             title: "ICICI Bank",
@@ -45,43 +54,31 @@ function NetBanking() {
         },
         {
             title: "Bank of Baroda",
-            icon: [HDFC],
-        },
-        {
-            title: "Canara Bank",
-            icon: [HDFC],
-        },
-        {
-            title: "IndusInd Bank",
-            icon: [HDFC],
-        },
+            icon: [BARODA],
+        },  
         {
             title: "IDFC First Bank",
-            icon: [HDFC],
+            icon: [IDFCNB],
         },
         {
             title: "UCO Bank",
-            icon: [HDFC],
+            icon: [UCO],
         },
         {
             title: "Union Bank of India",
-            icon: [HDFC],
+            icon: [UNION],
         },
         {
             title: "Yes Bank",
-            icon: [HDFC],
+            icon: [YES],
         },
         {
             title: "RBL Bank",
-            icon: [HDFC],
-        },
-        {
-            title: "Federal Bank",
-            icon: [HDFC],
+            icon: [RBL],
         },
         {
             title: "City Union Bank",
-            icon: [HDFC],
+            icon: [CITYUNION],
         },
     ];
 
@@ -102,7 +99,7 @@ function NetBanking() {
                         <h1 className="text-xl font-semibold text-green-700">₹ {grandTotal}</h1>
                     </div>
 
-                    <div className="mt-5 border-t text-gray-500 border-gray-500 pt-2">
+                    <div className="mt-100 border-t text-gray-500 border-gray-500 pt-2">
                         <h1>Secure Checkout</h1>
                         <h1 className="text-sm mt-1">Transaction Id: 608468997436043</h1>
                     </div>

@@ -62,34 +62,66 @@ function Home() {
   return (
     <div>
       {/* Image Slider */}
-      <div className="w-full h-[500px] overflow-hidden relative">
-        {/* Prev Button */}
-        <button
-          onClick={handlePrev}
-          disabled={isAnimating}
-          className='absolute top-1/2 -translate-y-1/2 z-10 bg-black/70 p-5 shadow cursor-pointer'
-        >
-          <FaChevronLeft className='text-xl text-white' />
-        </button>
+      <div className="w-full overflow-hidden relative">
+        {/* Desktop */}
+        <div className="hidden md:flex w-full h-full relative items-center justify-center">
+          {/* Prev Button */}
+          <button
+            onClick={handlePrev}
+            disabled={isAnimating}
+            className='absolute top-1/2 left-0 -translate-y-1/2 z-10 bg-black/70 p-5 shadow cursor-pointer'
+          >
+            <FaChevronLeft className='text-xl text-white' />
+          </button>
 
-        {/* Slide Image */}        
+          {/* Slide Image */}
+          <Link to={images[currentIndex].path}>
+            <img
+              src={images[currentIndex].src}
+              alt={images[currentIndex].name}
+              className="w-full h-full object-cover transition-all duration-700"
+            />
+          </Link>
 
-        <Link to={images[currentIndex].path}>
-          <img
-            src={images[currentIndex].src}
-            alt={images[currentIndex].name}
-            className="w-full h-full object-cover transition-all duration-700"
-          />
-        </Link>
+          {/* Next Button */}
+          <button
+            onClick={handleNext}
+            disabled={isAnimating}
+            className='absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black/70 p-5 shadow cursor-pointer'
+          >
+            <FaChevronRight className='text-xl text-white' />
+          </button>
+        </div>
 
-        {/* Next Button */}
-        <button
-          onClick={handleNext}
-          disabled={isAnimating}
-          className='absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black/70 p-5 shadow cursor-pointer'
-        >
-          <FaChevronRight className='text-xl text-white' />
-        </button>
+        {/* Mobile */}
+        <div className='md:hidden'>
+          {/* Prev Button */}
+          <button
+            onClick={handlePrev}
+            disabled={isAnimating}
+            className='absolute top-1/2 left-0 -translate-y-1/2 z-10 bg-black/70 rounded-full p-1 shadow cursor-pointer'
+          >
+            <FaChevronLeft className='text-xl text-white' />
+          </button>
+
+          {/* Slide Image */}
+          <Link to={images[currentIndex].path}>
+            <img
+              src={images[currentIndex].src}
+              alt={images[currentIndex].name}
+              className="w-full h-full object-cover transition-all duration-700"
+            />
+          </Link>
+
+          {/* Next Button */}
+          <button
+            onClick={handleNext}
+            disabled={isAnimating}
+            className='absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black/70 rounded-full p-1 shadow cursor-pointer'
+          >
+            <FaChevronRight className='text-xl text-white' />
+          </button>
+        </div>
       </div>
 
       {/* New Arrivals & Best Sellers */}
