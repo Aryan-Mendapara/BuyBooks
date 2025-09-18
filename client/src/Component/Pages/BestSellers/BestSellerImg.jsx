@@ -83,8 +83,9 @@ const BestSellerImg = () => {
         </div>
       </div>
 
+      {/* Desktop & large screens */}
       {/* Book Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 w-[68rem] mx-15 gap-6">
+      <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 w-[68rem] mx-15 gap-6">
         {books.slice(0, visibleBooks).map((book) => (
           <div
             key={book._id}
@@ -93,7 +94,7 @@ const BestSellerImg = () => {
           >
 
             {/* Edit */}
-            <div 
+            <div
               onClick={(e) => handleEdit(e, book)}
               className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
             >
@@ -138,19 +139,85 @@ const BestSellerImg = () => {
         ))}
       </div>
 
-      {/* Load More Button */}
-      {visibleBooks < books.length && (
-        <div className="flex justify-center mt-8">
-          <button
-            onClick={handleLoadMore}
-            className="bg-orange-500 text-white px-8 py-3 rounded-md hover:bg-orange-600 transition-colors"
+      {/* Mobile & small screens */}
+      {/* Books Grid */}
+      <div className="md:hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        {books.slice(0, visibleBooks).map((book) => (
+          <div
+            key={book._id}
+            className="group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer rounded-lg overflow-hidden"
+            onClick={() => navigate(`/addtocart/${book._id}`)}
           >
-            Load More Books
-          </button>
-        </div>
-      )}
-    </div>
-  );
+            {/* Edit */}
+            <div
+              onClick={(e) => handleEdit(e, book)}
+              className="absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer"
+            >
+              <MdEdit size={20} />
+            </div>
+
+            {/* Delete */}
+            <div
+              onClick={() => handleDeleteImages(book._id)}
+              className="absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer"
+            >
+              <MdDelete size={20} />
+            </div>
+
+            {/* Discount Badge */}
+            <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded-sm z-10">
+              {book.discount}% OFF
+            </div>
+
+            {/* Book Image Container */}
+            <div className="relative mb-4 overflow-hidden">
+              <img
+                src={`${import.meta.env.VITE_BACKEND_URL}/${book.image}`}
+                alt={book.title}
+                className="w-full h-120 p-4 object-cover"
+              />
+              {/* Overlay with Cart Button */}
+              <div className="absolute inset-0 bg-black/30 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <button
+                  className="w-full bg-orange-500 text-white py-2 px-4 flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+                  onClick={(e) => {
+                    e.stopPropagation(); // prevent navigate
+                    handleAddToCart(book);
+                  }}
+                >
+                  <FaShoppingCart />
+                  Add to cart
+                </button>
+              </div>
+            </div>
+
+            {/* Book Details */}
+            <div className="px-4 pb-4 text-center">
+              <h3 className="text-sm font-medium mb-1">{book.title}</h3>
+              <span className="text-lg font-bold text-orange-500">
+                ₹{book.price}
+              </span>
+              <span className="text-sm text-gray-500 line-through ml-2">
+                ₹{book.originalPrice}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+        {/* Load More Button */}
+        {visibleBooks < books.length && (
+          <div className="flex justify-center mt-8">
+            <button
+              onClick={handleLoadMore}
+              className="bg-orange-500 text-white px-8 py-3 rounded-md hover:bg-orange-600 transition-colors"
+            >
+              Load More Books
+            </button>
+          </div>
+        )}
+      </div>
+      );
 };
 
-export default BestSellerImg;
+      export default BestSellerImg;

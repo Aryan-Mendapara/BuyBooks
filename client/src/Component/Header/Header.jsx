@@ -57,7 +57,7 @@ function Header() {
             {/* Top Header */}
             <div className="bg-white flex flex-col md:flex-row items-center justify-between px-3 md:px-8 py-3 gap-3">
 
-                {/* Logo + Mobile Menu Toggle */}
+                {/* Logo */}
                 <div className="flex justify-center items-center w-full md:w-auto">
                     <button onClick={() => navigate('/')}>
                         <img src={logo} alt="Logo" className="h-10 md:h-12" />
@@ -68,17 +68,17 @@ function Header() {
                 <div className="flex items-center border border-black rounded-lg overflow-hidden w-full md:max-w-xl">
                     <input
                         type="text"
-                        placeholder="Search by title, author or ISBN here..."
+                        placeholder="Search by title, author or ISBN..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="w-full h-10 text-sm md:text-lg outline-none px-3 md:px-5 placeholder-gray-500"
+                        className="flex-1 h-10 text-sm md:text-lg outline-none px-3 md:px-5 placeholder-gray-500"
                     />
-                    <button className="h-10 md:h-11 px-4 md:px-5 bg-black text-white text-lg font-semibold hover:bg-gray-500 transition">
+                    <button className="h-10 md:h-11 px-4 md:px-5 bg-black text-white text-lg hover:bg-gray-600 transition">
                         <FaSearch />
                     </button>
                 </div>
 
-                {/* Login + Menu */}
+                {/* Login + Mobile Menu */}
                 <div className='flex justify-between gap-45'>
                     {/* Mobile menu button */}
                     <button
@@ -140,19 +140,19 @@ function Header() {
 
             {/* Categories Navigation */}
             <div className="bg-neutral-700 w-full text-white">
-                {/* Desktop Nav */}
-                <div className="hidden md:flex items-center h-12 px-6 text-sm">
-                    <ul className="flex items-center space-x-6">
+                {/* Desktop & Tablet Nav */}
+                <div className="hidden sm:flex items-center h-12 px-3 md:px-6 text-sm overflow-x-auto scrollbar-hide">
+                    <ul className="flex items-center space-x-4 md:space-x-6">
                         <li>
                             <Link to="/" className="hover:text-orange-500 flex items-center gap-1">
                                 <FaHome className="text-lg" />
                             </Link>
                         </li>
                         {categories.map((item) => (
-                            <li key={item.id}>
+                            <li key={item.id} className="whitespace-nowrap">
                                 <Link
                                     to={item.path}
-                                    className="hover:text-orange-500 whitespace-nowrap"
+                                    className="hover:text-orange-500"
                                 >
                                     {item.name}
                                 </Link>
@@ -162,7 +162,7 @@ function Header() {
 
                     {/* Wishlist + Cart */}
                     <div className="flex ml-auto">
-                        <div className="relative bg-orange-500 h-12 flex items-center justify-center w-12 mx-1">
+                        <div className="relative bg-orange-500 h-12 w-12 flex items-center justify-center mx-1">
                             <button
                                 onClick={() => isLoggedIn ? navigate('/wishlist') : navigate('/login')}
                                 className="relative"
@@ -175,7 +175,7 @@ function Header() {
                                 )}
                             </button>
                         </div>
-                        <div className="relative bg-orange-500 h-12 flex items-center justify-center w-12 mx-1">
+                        <div className="relative bg-orange-500 h-12 w-12 flex items-center justify-center mx-1">
                             <button
                                 onClick={() => isLoggedIn ? navigate('/billing-details') : navigate('/login')}
                                 className="relative"
@@ -191,45 +191,45 @@ function Header() {
                     </div>
                 </div>
 
-                {/* Mobile Nav (collapsible) */}
+                {/* Mobile Nav */}
                 {mobileMenu && (
-                    <div className="md:hidden flex flex-col bg-neutral-700 text-white p-4 space-y-4">
-                        {/* Home */}
-                        <button
-                            onClick={() => navigate('/')}
-                            className="relative"
+                    <div className="sm:hidden flex flex-col bg-neutral-700 text-white p-4 space-y-4">
+                        <Link 
+                            to="/" 
+                            onClick={() => setMobileMenu(false)} 
+                            className="flex items-center gap-2 hover:text-orange-500"
                         >
-                            <FaHome className="text-lg" />                            
-                        </button>
+                            <FaHome /> Home
+                        </Link>
                         {categories.map((item) => (
                             <Link
                                 key={item.id}
                                 to={item.path}
-                                className="hover:text-orange-500"
                                 onClick={() => setMobileMenu(false)}
+                                className="hover:text-orange-500"
                             >
                                 {item.name}
                             </Link>
                         ))}
-                        <div className="flex gap-4 mt-4">
-                            {/* Wishlist */}
+
+                        {/* Wishlist + Cart */}
+                        <div className="flex gap-6 mt-4">
                             <button
                                 onClick={() => isLoggedIn ? navigate('/wishlist') : navigate('/login')}
                                 className="relative"
                             >
-                                <FaHeart size={20} />
+                                <FaHeart size={22} />
                                 {wishlistCount > 0 && (
                                     <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
                                         {wishlistCount}
                                     </span>
                                 )}
                             </button>
-                            {/* Cart */}
                             <button
                                 onClick={() => isLoggedIn ? navigate('/billing-details') : navigate('/login')}
                                 className="relative"
                             >
-                                <FaShoppingCart size={20} />
+                                <FaShoppingCart size={22} />
                                 {cartCount > 0 && (
                                     <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
                                         {cartCount}

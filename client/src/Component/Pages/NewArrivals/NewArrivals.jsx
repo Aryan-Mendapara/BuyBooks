@@ -11,10 +11,10 @@ function NewArrivals() {
     const [isAnimating, setIsAnimating] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [bookList, setBookList] = useState([]);
-    const navigate = useNavigate();
-
-    const booksToShow = 5;
+    const [booksToShow, setBooksToShow] = useState(5);
     const slideBy = 1;
+    
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
     const BillingdetailsItems = useSelector(state => state.billingdetails.items);
@@ -56,15 +56,31 @@ function NewArrivals() {
         return () => clearInterval(timer);
     }, [bookList]);
 
+    // ✅ Update booksToShow based on screen size
+    useEffect(() => {
+        const updateBooksToShow = () => {
+            if (window.innerWidth < 768) {
+                setBooksToShow(2); // mobile
+            } else {
+                setBooksToShow(5); // desktop
+            }
+        };
+
+        updateBooksToShow(); // run on mount
+        window.addEventListener("resize", updateBooksToShow);
+
+        return () => window.removeEventListener("resize", updateBooksToShow);
+    }, []);
+
     // ✅ Next
     const handleNext = () => {
         if (isAnimating || bookList.length <= booksToShow) return;
         setIsAnimating(true);
 
-        setCurrentIndex((prevIndex) => {
-            const nextIndex = prevIndex + slideBy;
-            return nextIndex > bookList.length - booksToShow ? 0 : nextIndex;
-        });
+        const maxIndex = bookList.length - booksToShow;
+        setCurrentIndex((prevIndex) =>
+            prevIndex + slideBy > maxIndex ? 0 : prevIndex + slideBy
+        );
 
         setTimeout(() => setIsAnimating(false), 500);
     };
@@ -74,10 +90,10 @@ function NewArrivals() {
         if (isAnimating || bookList.length <= booksToShow) return;
         setIsAnimating(true);
 
-        setCurrentIndex((prevIndex) => {
-            const nextIndex = prevIndex - slideBy;
-            return nextIndex < 0 ? bookList.length - booksToShow : nextIndex;
-        });
+        const maxIndex = bookList.length - booksToShow;
+        setCurrentIndex((prevIndex) =>
+            prevIndex - slideBy < 0 ? maxIndex : prevIndex - slideBy
+        );
 
         setTimeout(() => setIsAnimating(false), 500);
     };
@@ -100,7 +116,7 @@ function NewArrivals() {
 
     return (
         <div className='bg-gray-100 text-center'>
-            <div className="max-w-6xl mx-auto px-2 py-8">
+            <div className="max-w-6xl mx-auto px-2 py-4">
                 {/* Title */}
                 <div className="text-center mb-6">
                     {/* Desktop & larger screens */}
@@ -222,6 +238,7 @@ function NewArrivals() {
                         </button>
                     </div>
 
+
                     {/* Mobile & small screens */}
                     <div className='md:hidden'>
                         {/* Slider Container */}
@@ -230,7 +247,7 @@ function NewArrivals() {
                             <button
                                 onClick={handlePrev}
                                 disabled={isAnimating}
-                                className="absolute left-1 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="absolute left-0.5 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 <FaChevronLeft className="text-xl text-gray-600" />
                             </button>
@@ -240,14 +257,14 @@ function NewArrivals() {
                                 <div
                                     className="flex gap-4 transition-transform duration-500 ease-in-out"
                                     style={{
-                                        transform: `translateX(-${(currentIndex * 100) / booksToShow}%)`,
-                                        width: `${(bookList.length * 100) / booksToShow}%`,
+                                        transform: `translateX(-${(currentIndex * 100) / 2}%)`,
+                                        width: `${(bookList.length * 100) / 2}%`,
                                     }}
                                 >
                                     {bookList.map((book) => (
                                         <div
                                             key={book._id}
-                                            className="flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer"
+                                            className="flex-shrink-0 w-30 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 ml-3.5 group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer"
                                         >
                                             {/* Edit */}
                                             <div
@@ -265,7 +282,10 @@ function NewArrivals() {
                                                 <MdDelete size={15} />
                                             </div>
 
-                                            <div onClick={() => navigate(`/addtocart/${book._id}`)} className="flex flex-col h-full">
+                                            <div
+                                                onClick={() => navigate(`/addtocart/${book._id}`)}
+                                                className="flex flex-col h-full"
+                                            >
                                                 {/* Discount Badge */}
                                                 <div className="absolute top-1 right-0.5 bg-red-600 text-white px-0.5 py-0.5 text-xs rounded-sm z-10">
                                                     {book.discount}% OFF
@@ -279,20 +299,6 @@ function NewArrivals() {
                                                             alt={book.title}
                                                             className="absolute inset-0 w-full h-full object-contain"
                                                         />
-                                                    </div>
-
-                                                    {/* Cart Button */}
-                                                    <div className="absolute inset-0 bg-opacity-40 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                        <button
-                                                            className="w-full bg-orange-500 text-white py-2 px-4 rounded-t flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 cursor-pointer text-sm"
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                handleAddToCart(book);
-                                                            }}
-                                                        >
-                                                            <FaShoppingCart />
-                                                            Add to cart
-                                                        </button>
                                                     </div>
                                                 </div>
 
@@ -314,7 +320,7 @@ function NewArrivals() {
                             <button
                                 onClick={handleNext}
                                 disabled={isAnimating}
-                                className="absolute right-1 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="absolute right-0.5 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 <FaChevronRight className="text-xl text-gray-600" />
                             </button>
@@ -336,7 +342,7 @@ function NewArrivals() {
                     </div>
 
                     {/* Mobile & small screens */}
-                    <div className="md:hidden mt-4">
+                    <div className="md:hidden mt-2">
                         <button
                             onClick={() => navigate('/newarrivalsimg')}
                             className="inline-block bg-orange-500 cursor-pointer text-white px-4 py-2 text-sm rounded hover:bg-orange-600 transition-colors"
