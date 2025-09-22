@@ -13,7 +13,7 @@ function NewArrivals() {
     const [bookList, setBookList] = useState([]);
     const [booksToShow, setBooksToShow] = useState(5);
     const slideBy = 1;
-    
+
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -265,6 +265,7 @@ function NewArrivals() {
                                         <div
                                             key={book._id}
                                             className="flex-shrink-0 w-30 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 ml-3.5 group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer"
+                                            onClick={() => navigate(`/addtocart/${book._id}`)}
                                         >
                                             {/* Edit */}
                                             <div
@@ -282,33 +283,29 @@ function NewArrivals() {
                                                 <MdDelete size={15} />
                                             </div>
 
-                                            <div
-                                                onClick={() => navigate(`/addtocart/${book._id}`)}
-                                                className="flex flex-col h-full"
-                                            >
-                                                {/* Discount Badge */}
-                                                <div className="absolute top-1 right-0.5 bg-red-600 text-white px-0.5 py-0.5 text-xs rounded-sm z-10">
-                                                    {book.discount}% OFF
-                                                </div>
 
-                                                {/* Book Image */}
-                                                <div className="relative mb-4 overflow-hidden px-4 pt-2">
-                                                    <div className="relative pb-[133%]">
-                                                        <img
-                                                            src={`${import.meta.env.VITE_BACKEND_URL}/${book.image}`}
-                                                            alt={book.title}
-                                                            className="absolute inset-0 w-full h-full object-contain"
-                                                        />
-                                                    </div>
-                                                </div>
+                                            {/* Discount Badge */}
+                                            <div className="absolute top-1 right-0.5 bg-red-600 text-white px-0.5 py-0.5 text-xs rounded-sm z-10">
+                                                {book.discount}% OFF
+                                            </div>
 
-                                                {/* Book Details */}
-                                                <div className="px-4 pb-4">
-                                                    <h3 className="text-sm font-medium mb-2 line-clamp-2 min-h-[2.5rem]">{book.title}</h3>
-                                                    <div className="mt-auto">
-                                                        <span className="text-lg font-bold text-orange-500">₹{book.price}</span>
-                                                        <span className="text-sm text-gray-500 line-through ml-2">₹{book.originalPrice}</span>
-                                                    </div>
+                                            {/* Book Image */}
+                                            <div className="relative mb-4 overflow-hidden px-4 pt-2">
+                                                <div className="relative pb-[133%]">
+                                                    <img
+                                                        src={`${import.meta.env.VITE_BACKEND_URL}/${book.image}`}
+                                                        alt={book.title}
+                                                        className="absolute inset-0 w-full h-full object-contain"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            {/* Book Details */}
+                                            <div className="px-4 pb-4">
+                                                <h3 className="text-sm font-medium mb-2 line-clamp-2 min-h-[2.5rem]">{book.title}</h3>
+                                                <div className="mt-auto">
+                                                    <span className="text-lg font-bold text-orange-500">₹{book.price}</span>
+                                                    <span className="text-sm text-gray-500 line-through ml-2">₹{book.originalPrice}</span>
                                                 </div>
                                             </div>
                                         </div>

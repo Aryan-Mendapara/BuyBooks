@@ -71,9 +71,9 @@ const NewArrivalsImg = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 text-center">
+    <div className="max-w-7xl mx-auto px-4 py-6 text-center">
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm mb-6">
+      <div className="flex items-center gap-2 text-sm mb-4">
         <Link to="/" className="text-gray-600 hover:text-orange-500">Home</Link>
         <span className="text-gray-400">&gt;</span>
         <span className="text-gray-800">New Arrivals</span>
@@ -84,9 +84,10 @@ const NewArrivalsImg = () => {
         <h1 className="text-2xl font-bold pb-2 border-b-2 border-orange-500 inline-block">
           New Arrivals
         </h1>
+
         <button
           onClick={handleAddImages}
-          className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition cursor-pointer'
+          className="bg-blue-600 text-white px-3 py-2 text-sm sm:px-4 sm:py-2 sm:text-base lg:px-6 lg:py-3 lg:text-lg rounded hover:bg-blue-700 transition cursor-pointer"
         >
           Add Images
         </button>
@@ -103,6 +104,7 @@ const NewArrivalsImg = () => {
             <option value="newest">Newest First</option>
           </select>
         </div>
+
         <div className="text-gray-600">
           Total ({books.length} results)
         </div>
@@ -178,7 +180,7 @@ const NewArrivalsImg = () => {
         {books.slice(0, visibleBooks).map((book) => (
           <div
             key={book._id}
-            className="group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer rounded-lg overflow-hidden"
+            className="group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer rounded-lg overflow-hidden"            
             onClick={() => navigate(`/addtocart/${book._id}`)}
           >
             {/* Edit */}
@@ -202,26 +204,13 @@ const NewArrivalsImg = () => {
               {book.discount}% OFF
             </div>
 
-            {/* Book Image Container */}
+            {/* Book Image */}
             <div className="relative mb-4 overflow-hidden">
               <img
                 src={`${import.meta.env.VITE_BACKEND_URL}/${book.image}`}
                 alt={book.title}
-                className="w-full h-110 object-cover"
-              />
-              {/* Overlay with Cart Button */}
-              <div className="absolute inset-0 bg-black/30 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <button
-                  className="w-full bg-orange-500 text-white py-2 px-4 flex items-center justify-center gap-2 hover:bg-orange-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"
-                  onClick={(e) => {
-                    e.stopPropagation(); // prevent navigate
-                    handleAddToCart(book);
-                  }}
-                >
-                  <FaShoppingCart />
-                  Add to cart
-                </button>
-              </div>
+                className="w-full h-100 p-4"
+              />              
             </div>
 
             {/* Book Details */}

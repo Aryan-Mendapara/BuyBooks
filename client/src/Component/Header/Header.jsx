@@ -79,7 +79,7 @@ function Header() {
                 </div>
 
                 {/* Login + Mobile Menu */}
-                <div className='flex justify-between gap-45'>
+                <div className='flex justify-between gap-40'>
                     {/* Mobile menu button */}
                     <button
                         onClick={() => setMobileMenu(!mobileMenu)}
@@ -128,9 +128,9 @@ function Header() {
                                 onClick={() => navigate('/login')}
                                 className="bg-orange-500 p-2 rounded-lg cursor-pointer"
                             >
-                                <span className="px-3 flex items-center mx-1 text-white hover:text-black">
+                                <span className="px-2 flex items-center text-white hover:text-black">
                                     <FaUser />
-                                    <span className="ml-2">Login</span>
+                                    <span className="ml-1">Login</span>
                                 </span>
                             </button>
                         )}
@@ -194,13 +194,14 @@ function Header() {
                 {/* Mobile Nav */}
                 {mobileMenu && (
                     <div className="sm:hidden flex flex-col bg-neutral-700 text-white p-4 space-y-4">
-                        <Link 
-                            to="/" 
-                            onClick={() => setMobileMenu(false)} 
+                        <Link
+                            to="/"
+                            onClick={() => setMobileMenu(false)}
                             className="flex items-center gap-2 hover:text-orange-500"
                         >
                             <FaHome /> Home
                         </Link>
+
                         {categories.map((item) => (
                             <Link
                                 key={item.id}
@@ -215,7 +216,10 @@ function Header() {
                         {/* Wishlist + Cart */}
                         <div className="flex gap-6 mt-4">
                             <button
-                                onClick={() => isLoggedIn ? navigate('/wishlist') : navigate('/login')}
+                                onClick={() => {
+                                    setMobileMenu(false);
+                                    isLoggedIn ? navigate('/wishlist') : navigate('/login')
+                                }}
                                 className="relative"
                             >
                                 <FaHeart size={22} />
@@ -226,7 +230,10 @@ function Header() {
                                 )}
                             </button>
                             <button
-                                onClick={() => isLoggedIn ? navigate('/billing-details') : navigate('/login')}
+                                onClick={() => {
+                                    setMobileMenu(false);
+                                    isLoggedIn ? navigate('/billing-details') : navigate('/login')
+                                }}
                                 className="relative"
                             >
                                 <FaShoppingCart size={22} />

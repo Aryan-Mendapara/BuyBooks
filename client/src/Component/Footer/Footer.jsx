@@ -4,26 +4,25 @@ import { LiaTelegramPlane } from "react-icons/lia";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 
-
 const ServiceInfoBanner = () => {
   const services = [
     {
-      icon: <FaTruck size={60} className="text-orange-500 text-3xl" />,
+      icon: <FaTruck className="text-orange-500 text-4xl sm:text-5xl lg:text-6xl" />,
       title: "Pan India Delivery",
       description: "No Minimum Order Value",
     },
     {
-      icon: <FaCreditCard size={60} className="text-orange-500 text-3xl" />,
+      icon: <FaCreditCard className="text-orange-500 text-4xl sm:text-5xl lg:text-6xl" />,
       title: "Secure Payment",
       description: "100% Secure Payment",
     },
     {
-      icon: <FaRegCheckCircle size={60} className="text-orange-500 text-3xl" />,
+      icon: <FaRegCheckCircle className="text-orange-500 text-4xl sm:text-5xl lg:text-6xl" />,
       title: "Business/Bulk orders",
       description: "Mail Us for Further Orders",
     },
     {
-      icon: <FaWhatsapp size={60} className="text-orange-500 text-3xl" />,
+      icon: <FaWhatsapp className="text-orange-500 text-4xl sm:text-5xl lg:text-6xl" />,
       title: "Quick Support",
       description: "10:00 AM - 5:00 PM (Sunday Closed)",
     },
@@ -31,25 +30,20 @@ const ServiceInfoBanner = () => {
 
   const info = [
     {
-      icon: <FaLocationDot size={30} />,
+      icon: <FaLocationDot size={28} />,
       title: "Viraj Tower - 2, 4259/3, Ansari Road, Darya Ganj, New Delhi - 110002",
     },
     {
-      icon: <FaWhatsapp size={30} />,
+      icon: <FaWhatsapp size={28} />,
       title: " +91-8287084742 ",
     },
     {
-      icon: <MdEmail size={30} />,
+      icon: <MdEmail size={28} />,
       title: "info@buybooksindia.com"
     }
   ];
 
-  const socialIcons = [
-    <FaFacebookF />,
-    <FaTwitter />,
-    <FaLinkedinIn />,
-    <FaInstagram />,
-  ];
+  const socialIcons = [<FaFacebookF />, <FaTwitter />, <FaLinkedinIn />, <FaInstagram />];
 
   const footerSections = [
     {
@@ -66,86 +60,89 @@ const ServiceInfoBanner = () => {
     },
     {
       title: "MORE BOOKS",
-      links: ["Indian Languages", 
-              "International Languages", 
-              "Award Winning Books" , 
-              "Frontlist Picks Books", 
-              "Used Books", 
-              "Exams & Age"]
+      links: ["Indian Languages", "International Languages", "Award Winning Books", "Frontlist Picks Books", "Used Books", "Exams & Age"]
     }    
-  ]
+  ];
 
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState("");
 
   return (
-    <div>
-      {/* Services */}
-      <div className="bg-gray-50 py-8">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <div className="w-full">
+      {/* Services Section */}
+      <div className="bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, index) => (
-            <div key={index} className="flex items-start space-x-4 p-4 border rounded-md bg-white shadow-sm">
+            <div 
+              key={index} 
+              className="flex flex-col sm:flex-row items-center sm:items-start gap-4 p-4 border rounded-lg bg-white shadow hover:shadow-md transition"
+            >
               {service.icon}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900">{service.title}</h3>
-                <p className="text-sm text-gray-600">{service.description}</p>
+              <div className="text-center sm:text-left">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900">{service.title}</h3>
+                <p className="text-sm sm:text-base text-gray-600">{service.description}</p>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Newsletter */}
-      <div className="bg-orange-600 text-white text-center w-full h-122 py-20">
-        <div>
-          <h1 className="text-5xl">SUBSCRIBE TO BUYBOOKSINDIA NEWSLETTER</h1>
-        </div>
-        <div className="relative py-2 flex items-center justify-center mt-4">
+      {/* Newsletter Section */}
+      <div className="bg-orange-600 text-white py-12 px-4 sm:px-6 text-center">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">SUBSCRIBE TO BUYBOOKSINDIA NEWSLETTER</h1>
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-0 mt-4">
           <input
             type="email"
-            placeholder=""
+            placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="border-2 w-[28rem] p-2"
+            className="w-full sm:w-80 md:w-96 p-2 rounded-l-md text-black focus:outline-none border border-gray-200"
           />
-          <button
-          // onClick={}
-          >
-            <LiaTelegramPlane size={30} className="-ml-[2.5rem] relative" />
+          <button className="bg-gray-200 text-orange-600 p-2 sm:px-4 rounded-r-md hover:bg-gray-300 transition">
+            <LiaTelegramPlane size={26} />
           </button>
         </div>
+      </div>
 
-        {/* Contact Info */}
-        <div className="bg-[#1f2d3d] text-white py-8 w-full text-center mt-15">
-          <div className="flex justify-center flex-wrap gap-14 mb-6">
-            {info.map((item, i) => (
-              <div
-                key={i}
-                className="flex flex-col items-center max-w-sm text-sm px-4"
-              >
-                <div className="mb-5">{item.icon}</div>
-                <p className="text-sm">{item.title}</p>
-              </div>
-            ))}
-          </div>
-          <div className="flex justify-center gap-4 text-white text-lg">
-            {socialIcons.map((icon, index) => (
-              <span key={index} className="cursor-pointer hover:text-orange-500">
-                {icon}
-              </span>
-            ))}
-          </div>
+      {/* Contact Info */}
+      <div className="bg-[#1f2d3d] text-white py-8 px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row justify-center flex-wrap gap-8 mb-6 text-center sm:text-left">
+          {info.map((item, i) => (
+            <div 
+              key={i} 
+              className="flex flex-col items-center sm:items-center gap-2 max-w-xs mx-auto"
+            >
+              <div className="mb-2">{item.icon}</div>
+              <p className="text-sm sm:text-base">{item.title}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex justify-center gap-6 text-white text-lg mt-4">
+          {socialIcons.map((icon, index) => (
+            <span 
+              key={index} 
+              className="cursor-pointer hover:text-orange-500 transition"
+            >
+              {icon}
+            </span>
+          ))}
         </div>
       </div>
 
       {/* Footer Links */}
-      <div className="bg-gray-300 py-9 px-4">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-4 gap-8 text-gray-800">
+      <div className="bg-gray-300 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-gray-800">
           {footerSections.map((section, index) => (
             <div key={index}>
-              <h4 className="font-bold border-b-2 border-orange-500 mb-3 text-3xl inline-block">{section.title}</h4>
-              <ul className="space-y-1 text-md">
+              <h4 className="font-bold border-b-2 border-orange-500 mb-3 text-xl sm:text-2xl">{section.title}</h4>
+              <ul className="space-y-1 text-sm sm:text-base">
                 {section.links.map((link, i) => (
-                  <li key={i}>{link}</li>
+                  <li 
+                    key={i} 
+                    className="hover:text-orange-500 cursor-pointer transition"
+                  >
+                    {link}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -153,15 +150,10 @@ const ServiceInfoBanner = () => {
         </div>
       </div>
 
-      <div className="bg-black text-white py-2">
-        <div className="flex justify-between text-xl">
-          <h1 className="ml-20">
-            © 2025 - All rights reserved by Swets Information Service pvt Ltd.
-          </h1>
-          <p className="flex items-end text-end mr-20">
-            Powered by : Prints Publications Pvt Ltd
-          </p>
-        </div>
+      {/* Bottom Footer */}
+      <div className="bg-black text-white py-3 px-4 sm:px-6 lg:px-8 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center">
+        <span className="text-sm sm:text-base mb-2 sm:mb-0">© 2025 - All rights reserved by Swets Information Service Pvt Ltd.</span>
+        <span className="text-sm sm:text-base">Powered by: Prints Publications Pvt Ltd</span>
       </div>
     </div>
   );

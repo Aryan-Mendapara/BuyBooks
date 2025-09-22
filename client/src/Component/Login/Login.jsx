@@ -77,7 +77,7 @@ function Login() {
 
 
     return (
-        <div className='flex justify-center bg-gray-50 pt-20'>
+        <div className='flex justify-center bg-gray-50 pt-10'>
             <div className='relative bg-white w-[32rem] text-center rounded-lg p-10 shadow-lg'>
                 <h1 className='text-orange-500 text-xl'>FILL IN THE DETAILS</h1>
 

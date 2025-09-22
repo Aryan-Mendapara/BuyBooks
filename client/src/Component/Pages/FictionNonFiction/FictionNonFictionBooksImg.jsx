@@ -6,7 +6,7 @@ import useBookList from '../../Utils/useBookList';
 
 const FictionNonFictionBooksImg = () => {
   const navigate = useNavigate();
-  
+
   const handleAddImages = () => {
     navigate("/addImages");
   };
@@ -21,23 +21,26 @@ const FictionNonFictionBooksImg = () => {
   } = useBookList('fiction');
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 text-center">
+    <div className="max-w-7xl mx-auto px-4 py-6 text-center">
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm mb-6">
+      <div className="flex items-center gap-2 text-sm mb-4">
         <Link to="/" className="text-gray-600 hover:text-orange-500">Home</Link>
         <span className="text-gray-400">&gt;</span>
         <span className="text-gray-800">Fiction & Non Fiction Books</span>
       </div>
+
       <div className='flex justify-between items-center mb-6'>
         <h1 className="text-2xl font-bold pb-2 border-b-2 border-orange-500 inline-block">
           Fiction & Non Fiction Books
         </h1>
+
         <button
           onClick={handleAddImages}
-          className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition cursor-pointer'
+          className="bg-blue-600 text-white px-3 py-2 text-sm sm:px-4 sm:py-2 sm:text-base lg:px-6 lg:py-3 lg:text-lg rounded hover:bg-blue-700 transition cursor-pointer"
         >
           Add Images
         </button>
+
       </div>
       {error && <div className="text-red-600 mb-2">{error}</div>}
       {loading ? (
@@ -55,13 +58,15 @@ const FictionNonFictionBooksImg = () => {
                 <option value="newest">Newest First</option>
               </select>
             </div>
+
             <div className="text-gray-600">
               Total ({books.length} results)
             </div>
           </div>
 
+          {/* Desktop & large screens */}
           {/* Books Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 w-[68rem] mx-15 gap-6">
+          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 w-[68rem] mx-15 gap-6">
             {books.slice(0, visibleBooks).map((book) => (
               <div
                 key={book._id}
@@ -116,6 +121,55 @@ const FictionNonFictionBooksImg = () => {
               </div>
             ))}
           </div>
+
+          {/* Mobile & small screens */}
+          {/* Books Grid */}
+          <div className="md:hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            {books.slice(0, visibleBooks).map((book) => (
+              <div
+                key={book._id}
+                className="group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer"
+                onClick={() => navigate(`/addtocart/${book._id}`)}
+              >
+                {/* Edit Button */}
+                <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
+                  <MdEdit size={20} />
+                </div>
+
+                {/* Delete Button */}
+                <div
+                  onClick={() => handleDeleteImages(book._id)}
+                  className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
+                >
+                  <MdDelete size={20} />
+                </div>
+
+                {/* Discount Badge */}
+                <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded-sm z-10">
+                  {book.discount}% OFF
+                </div>
+
+                {/* Book Image Container with Overlay */}
+                <div className="relative mb-4 overflow-hidden px-4 pt-2">
+                  <img
+                    src={`${import.meta.env.VITE_BACKEND_URL}/${book.image}`}
+                    alt={book.title}
+                    className="w-full h-100"
+                  />
+                </div>
+
+                {/* Book Details */}
+                <div className='px-4'>
+                  <h3 className="text-sm font-medium mb-1 h-auto">
+                    {book.title}
+                  </h3>
+                  <span className="text-lg font-bold text-orange-500">₹{book.price}</span>
+                  <span className="text-sm text-gray-500 line-through ml-2">₹{book.originalPrice}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
           {visibleBooks < books.length && (
             <button onClick={handleLoadMore} className="mt-6 px-6 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition">Load More</button>
           )}

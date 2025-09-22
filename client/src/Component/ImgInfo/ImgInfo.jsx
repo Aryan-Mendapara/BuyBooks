@@ -63,7 +63,7 @@ const ImgInfo = () => {
   if (!book) return <div className="mt-20 text-center text-gray-600">Loading...</div>;
 
   return (
-    <div className="px-6 md:px-20 mt-20 flex flex-col md:flex-row gap-10">
+    <div className="px-6 md:px-20 py-4 flex flex-col md:flex-row gap-10">
       <div className='border border-gray-400 p-5 flex-shrink-0'>
         <img
           src={`${import.meta.env.VITE_BACKEND_URL}/${book.image?.replace(/\\/g, '/')}`}
@@ -91,7 +91,7 @@ const ImgInfo = () => {
           <p className="mb-2"><span className='font-bold'>Availability :</span> Available</p>
           <p><span className='font-bold'>Shipping-Time :</span> Usually Ships 1-3 Days</p>
 
-          <div className='flex gap-4'>
+          <div className='flex gap-3'>
             {/* Buy Now */}
             <button
               onClick={() => {

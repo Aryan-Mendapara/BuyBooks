@@ -5,15 +5,8 @@ import { BillingApiDelete, BillingApiGet } from '../ApiServer/BillingDetailsApi'
 
 const BillingDetails = () => {
   const order = [
-    "Product",
-    "Description",
-    "Avail.",
-    "List Price",
-    "Discount(%)",
-    "Our Price",
-    "Qty",
-    "Total",
-    "Delete"
+    "Product", "Description", "Avail.", "List Price",
+    "Discount(%)", "Our Price", "Qty", "Total", "Delete"
   ];
 
   const [cartItems, setCartItems] = useState([]);
@@ -23,33 +16,23 @@ const BillingDetails = () => {
     const fetchBillingItems = async () => {
       try {
         const data = await BillingApiGet();
-        console.log("✅ Billing data:", data);
-
-        // Check if data.books or data.billing or another key holds the array
-        const items = Array.isArray(data)
-          ? data
-          : data.billing || data.books || [];
-
+        const items = Array.isArray(data) ? data : data.billing || data.books || [];
         setCartItems(items.map(item => ({ ...item, quantity: item.quantity || 1 })));
       } catch (err) {
-        console.error("❌ Error fetching billing items:", err);
+        console.error("Error fetching billing items:", err);
       }
     };
-
     fetchBillingItems();
   }, []);
 
-
-
   const handleQuantityChange = (id, action) => {
-    const updated = cartItems.map(item => {
-      if (item._id === id) {
-        const newQty = action === 'increase' ? item.quantity + 1 : item.quantity - 1;
-        return { ...item, quantity: newQty > 1 ? newQty : 1 };
-      }
-      return item;
-    });
-    setCartItems(updated);
+    setCartItems(prev =>
+      prev.map(item =>
+        item._id === id
+          ? { ...item, quantity: Math.max(1, action === 'increase' ? item.quantity + 1 : item.quantity - 1) }
+          : item
+      )
+    );
   };
 
   const handleDelete = async (id) => {
@@ -61,114 +44,169 @@ const BillingDetails = () => {
     }
   };
 
-  const totalPrice = Array.isArray(cartItems)
-    ? cartItems.reduce((acc, item) => acc + item.OurPrice * item.quantity, 0)
-    : 0;
+  const totalPrice = cartItems.reduce((acc, item) => acc + item.OurPrice * item.quantity, 0);
 
   return (
-    <div className="bg-gray-100 flex flex-col items-center py-10">
-      <table className="w-[90%] max-w-6xl">
-        <thead>
-          <tr className="bg-orange-500 text-white font-semibold text-sm text-center">
-            {order.map((title, index) => (
-              <th
-                key={index}
-                className="px-2 py-3 border border-gray-300"
-              >
-                {title}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {cartItems.length > 0 ? (
-            cartItems.map((item, idx) => (
-              <tr
-                key={idx}
-                className="text-center text-sm border-t border-gray-300 items-center"
-              >
-                <td className="px-2 py-2 border border-gray-300">
-                  <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}/${item.image}`}
-                    alt={item.Product}
-                    className="h-16 w-16 mx-auto object-contain"
-                  />
-                </td>
-                <td className="px-2 border border-gray-300">{item.Description}</td>
-                <td className="px-2 border border-gray-300">{item.Availability}</td>
-                <td className="px-2 border border-gray-300">₹{item.Price}</td>
-                <td className="px-2 border border-gray-300">{item.Discount}%</td>
-                <td className="px-2 border border-gray-300">₹{item.OurPrice}</td>
-                <td className="px-2 border border-gray-300">
-                  <div className="flex justify-center items-center gap-2">
-                    <button
-                      onClick={() => handleQuantityChange(item._id, 'decrease')}
-                      className="px-2 py-1 border border-gray-400 rounded hover:bg-gray-200 cursor-pointer"
+    <div className="bg-gray-100 py-10 flex flex-col items-center px-2">
+      {/* Desktop / Laptop Table */}
+      <div className="hidden md:block w-full max-w-6xl">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-orange-500 text-white text-sm text-center font-semibold">
+              {order.map((title, i) => (
+                <th 
+                  key={i} 
+                  className="px-2 py-3 border border-gray-300"
+                >
+                  {title}
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            {cartItems.length ? (
+              cartItems.map(item => (
+                <tr 
+                  key={item._id} 
+                  className="text-center text-sm border-t border-gray-300"
+                >
+                  <td className="px-2 py-2 border border-gray-300">
+                    <img
+                      src={`${import.meta.env.VITE_BACKEND_URL}/${item.image}`}
+                      alt={item.Product}
+                      className="h-16 w-16 mx-auto object-contain"
+                    />
+                  </td>
+                  <td className="px-2 border border-gray-300">{item.Description}</td>
+                  <td className="px-2 border border-gray-300">{item.Availability}</td>
+                  <td className="px-2 border border-gray-300">₹{item.Price}</td>
+                  <td className="px-2 border border-gray-300">{item.Discount}%</td>
+                  <td className="px-2 border border-gray-300">₹{item.OurPrice}</td>
+                  <td className="px-2 border border-gray-300">
+
+                    <div className="flex justify-center items-center gap-2">
+                      <button
+                        onClick={() => handleQuantityChange(item._id, 'decrease')}
+                        className="px-2 py-1 border rounded hover:bg-gray-200"
+                      >
+                        -
+                      </button>
+
+                      <span>{item.quantity}</span>
+
+                      <button
+                        onClick={() => handleQuantityChange(item._id, 'increase')}
+                        className="px-2 py-1 border rounded hover:bg-gray-200"
+                      >
+                        +
+                      </button>
+                    </div>                    
+                  </td>
+                  
+                  <td className="px-2 border border-gray-300">₹{item.OurPrice * item.quantity}</td>
+                  <td className="px-2 border border-gray-300">
+                    <button 
+                      onClick={() => handleDelete(item._id)} 
+                      className="hover:underline"
                     >
-                      -
+                      <RiDeleteBin6Line size={25} />
                     </button>
-                    <span>{item.quantity}</span>
-                    <button
-                      onClick={() => handleQuantityChange(item._id, 'increase')}
-                      className="px-2 py-1 border border-gray-400 rounded hover:bg-gray-200 cursor-pointer"
-                    >
-                      +
-                    </button>
-                  </div>
-                </td>
-                <td className="px-2 border border-gray-300">
-                  ₹{item.OurPrice * item.quantity}
-                </td>
-                <td className="px-2 border border-gray-300">
-                  <button
-                    onClick={() => handleDelete(item._id)}
-                    className="hover:underline cursor-pointer"
-                  >
-                    <RiDeleteBin6Line size={25} />
-                  </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td 
+                  colSpan={order.length} 
+                  className="text-center py-10 text-gray-600 text-lg"
+                >
+                  Your shopping cart is empty.
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={order.length + 1} className="text-center py-10 text-gray-600 text-lg border border-white">
-                Your shopping cart is empty.
-              </td>
-            </tr>
-          )}
-        </tbody>
-
-        {cartItems.length > 0 && (
-          <tfoot>
-            <tr>
+            )}
+          </tbody>
+          {cartItems.length > 0 && (
+            <tfoot>
+              <tr>
               <td colSpan={order.length - 1} className="border border-gray-300"></td>
               <td className="text-right text-lg font-semibold py-2 pr-8 border border-gray-300">
                 Total: ₹{totalPrice}
               </td>
-            </tr>
-          </tfoot>
-        )}
-      </table>
+              </tr>
+            </tfoot>
+          )}
+        </table>
+      </div>
 
-      <div className='flex gap-4'>
+      {/* Mobile / Tablet Card View */}
+      <div className="md:hidden w-full max-w-md flex flex-col gap-4">
+        {cartItems.length ? cartItems.map(item => (
+          <div 
+            key={item._id} 
+            className="bg-white rounded shadow p-4 flex flex-col gap-2"
+          >
+            <div className="flex justify-between items-center">
+              <img 
+                src={`${import.meta.env.VITE_BACKEND_URL}/${item.image}`} 
+                alt={item.Product} 
+                className="h-20 w-20 object-contain"
+              />
+
+              <button 
+                onClick={() => handleDelete(item._id)}
+              >
+                <RiDeleteBin6Line size={25} className="text-red-600"/>
+              </button>
+            </div>
+
+            <div className="text-sm">
+              <p className="font-semibold">{item.Description}</p>
+              <p>Availability: {item.Availability}</p>
+              <p>Price: ₹{item.OurPrice} ({item.Discount}% off)</p>
+            </div>
+
+            <div className="flex items-center justify-between mt-2">
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={() => handleQuantityChange(item._id, 'decrease')} 
+                  className="px-2 py-1 border rounded hover:bg-gray-200"
+                >
+                  -
+                </button>
+
+                <span>{item.quantity}</span>
+
+                <button 
+                  onClick={() => handleQuantityChange(item._id, 'increase')} 
+                  className="px-2 py-1 border rounded hover:bg-gray-200"
+                >
+                  +
+                </button>
+              </div>
+
+              <span className="font-semibold">₹{item.OurPrice * item.quantity}</span>
+            </div>
+          </div>
+        )) : (
+          <p className="text-center py-10 text-gray-600 text-lg">Your shopping cart is empty.</p>
+        )}
+      </div>
+
+      {/* Buttons */}
+      <div className='flex flex-col sm:flex-row gap-4 mt-6'>
         <button
-          className="mt-6 px-6 py-2 bg-white border border-gray-400 hover:bg-gray-100 transition rounded text-sm font-medium cursor-pointer"
+          className="px-6 py-2 bg-white border border-gray-400 hover:bg-gray-100 transition rounded text-sm font-medium"
           onClick={() => navigate('/')}
         >
           Continue shopping
         </button>
 
         <button
-          className='mt-6 px-6 py-2 bg-white border border-gray-400 hover:bg-gray-100 transition rounded text-sm font-medium cursor-pointer'
-          onClick={() => {
-            if (cartItems.length > 0) {
-              navigate('/shipping-address')             
-            } else {
-              alert("Please add items to your cart before checkout.")
-            }
-          }}
+          className='px-6 py-2 bg-orange-500 border border-gray-400 hover:bg-orange-600 transition rounded text-sm font-medium'
+          onClick={() => cartItems.length > 0 ? navigate('/shipping-address') : alert("Please add items to your cart before checkout.")}
         >
-          Continue Checkout
+          Proceed to Checkout
         </button>
       </div>
     </div>

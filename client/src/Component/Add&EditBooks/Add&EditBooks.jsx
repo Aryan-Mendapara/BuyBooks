@@ -91,7 +91,12 @@ function Add_EditBooks() {
   return (
     <div className='fixed inset-0 bg-black bg-opacity-60 flex justify-center items-start pt-10 z-50 overflow-y-auto'>
       <div className='bg-white w-[90%] max-w-4xl rounded shadow-lg p-6 relative'>
-        <button onClick={() => navigate('/')} className='absolute top-2 right-2 text-gray-600 hover:text-red-500 text-xl cursor-pointer'>✕</button>
+        <button 
+          onClick={() => navigate('/')} 
+          className='absolute top-2 right-2 text-gray-600 hover:text-red-500 text-xl cursor-pointer'
+        >
+          ✕
+        </button>
         <h2 className='text-xl font-bold mb-4 text-center'>{isEdit ? "Edit Book" : "Add New Book"}</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">

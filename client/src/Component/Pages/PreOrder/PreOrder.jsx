@@ -42,14 +42,14 @@ const PreOrder = () => {
   }
 
   const handleEdit = (e, book) => {
-        e.stopPropagation(); // prevent triggering navigate on card
-        // Navigate to an edit page or open a modal with book data
-        navigate(`/editbook/${book._id}`, { state: { book } });
-    };
+    e.stopPropagation(); // prevent triggering navigate on card
+    // Navigate to an edit page or open a modal with book data
+    navigate(`/editbook/${book._id}`, { state: { book } });
+  };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 text-center">
-      <div className="flex items-center gap-2 text-sm mb-6">
+    <div className="max-w-7xl mx-auto px-4 py-6 text-center">
+      <div className="flex items-center gap-2 text-sm mb-4">
         <Link to="/" className="text-gray-600 hover:text-orange-500">Home</Link>
         <span className="text-gray-400">&gt;</span>
         <span className="text-gray-800">Per Order</span>
@@ -61,7 +61,7 @@ const PreOrder = () => {
         </h1>
         <button
           onClick={handleAddImages}
-          className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition cursor-pointer'
+          className='bg-blue-600 text-white px-3 py-2 text-sm sm:px-4 sm:py-2 sm:text-base lg:px-6 lg:py-3 lg:text-lg rounded hover:bg-blue-700 transition cursor-pointer'
         >
           Add Images
         </button>
@@ -83,8 +83,9 @@ const PreOrder = () => {
         </div>
       </div>
 
+      {/* Desktop & large screens */}
       {/* Book Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 w-[68rem] mx-15 gap-6">
+      <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 w-[68rem] mx-15 gap-6">
         {books.slice(0, visibleBooks).map((book) => (
           <div
             key={book._id}
@@ -93,7 +94,7 @@ const PreOrder = () => {
           >
 
             {/* Edit */}
-            <div 
+            <div
               onClick={(e) => handleEdit(e, book)}
               className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
             >
@@ -137,6 +138,54 @@ const PreOrder = () => {
               <h3 className="text-sm font-medium mb-1">{book.title}</h3>
               <span className="text-lg font-bold text-orange-500">₹{book.price || 'N/A'}</span>
               <span className="text-sm text-gray-500 line-through ml-2">₹{book.originalPrice || ''}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Mobile & small screens */}
+      {/* Books Grid */}
+      <div className="md:hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        {books.slice(0, visibleBooks).map((book) => (
+          <div
+            key={book._id}
+            className="group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer"
+            onClick={() => navigate(`/addtocart/${book._id}`)}
+          >
+            {/* Edit Button */}
+            <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
+              <MdEdit size={20} />
+            </div>
+
+            {/* Delete Button */}
+            <div
+              onClick={() => handleDeleteImages(book._id)}
+              className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
+            >
+              <MdDelete size={20} />
+            </div>
+
+            {/* Discount Badge */}
+            <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded-sm z-10">
+              {book.discount}% OFF
+            </div>
+
+            {/* Book Image Container with Overlay */}
+            <div className="relative mb-4 overflow-hidden px-4 pt-2">
+              <img
+                src={`${import.meta.env.VITE_BACKEND_URL}/${book.image}`}
+                alt={book.title}
+                className="w-full h-100"
+              />
+            </div>
+
+            {/* Book Details */}
+            <div className='px-4'>
+              <h3 className="text-sm font-medium mb-1 h-auto">
+                {book.title}
+              </h3>
+              <span className="text-lg font-bold text-orange-500">₹{book.price}</span>
+              <span className="text-sm text-gray-500 line-through ml-2">₹{book.originalPrice}</span>
             </div>
           </div>
         ))}
