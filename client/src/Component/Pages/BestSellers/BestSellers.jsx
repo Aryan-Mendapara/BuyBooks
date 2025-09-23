@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaShoppingCart } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { MdDelete, MdEdit } from 'react-icons/md';
@@ -6,6 +6,7 @@ import { ImagesApiDelete, ImagesApiGet } from '../../ApiServer/BooksDetailsApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { BillingApiPost } from '../../ApiServer/BillingDetailsApi';
 import { addToBillingDetails } from '../../Redux/Slice/BillingDetailsSlice';
+import { ThemeContext } from '../../ThemeContext/ThemeContext';
 
 const BestSeller = () => {
   const [isAnimating, setIsAnimating] = useState(false);
@@ -13,6 +14,8 @@ const BestSeller = () => {
   const [bookList, setBookList] = useState([]);
   const [booksToShow, setBooksToShow] = useState(5);
   const slideBy = 1;
+
+  const {darkMode} = useContext(ThemeContext)
 
   const navigate = useNavigate();
 
@@ -121,7 +124,7 @@ const BestSeller = () => {
   };
 
   return (
-    <div className='bg-gray-100 text-center'>
+    <div className={`${darkMode ? 'bg-gray-900 text-center' : 'bg-gray-100 text-black'}`}>
       <div className="max-w-6xl mx-auto px-2 py-4">
         {/* Title */}
         <div className="text-center mb-6">
@@ -145,9 +148,9 @@ const BestSeller = () => {
             <button
               onClick={handlePrev}
               disabled={isAnimating}
-              className="absolute left-1 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+              className="absolute left-1 top-1/2 -translate-y-1/2 z-10 bg-white/50 p-1.5 rounded-full shadow-md hover:bg-white/60 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
-              <FaChevronLeft className="text-xl text-gray-600" />
+              <FaChevronLeft className={`text-xl ${darkMode ? 'text-white' : 'text-gray-600'}`} />
             </button>
 
             {/* Books Row */}
@@ -236,9 +239,9 @@ const BestSeller = () => {
             <button
               onClick={handleNext}
               disabled={isAnimating}
-              className="absolute right-1 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+              className="absolute right-1 top-1/2 -translate-y-1/2 z-10 bg-white/50 p-1.5 rounded-full shadow-md hover:bg-white/60 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
-              <FaChevronRight className="text-xl text-gray-600" />
+              <FaChevronRight className={`text-xl ${darkMode ? 'text-white' : 'text-gray-600'}`} />
             </button>
           </div>
 
@@ -251,9 +254,9 @@ const BestSeller = () => {
               <button
                 onClick={handlePrev}
                 disabled={isAnimating}
-                className="absolute left-0.5 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="absolute left-0.5 top-1/2 -translate-y-1/2 z-10 bg-white/50 p-1 rounded-full shadow-md hover:bg-white/60 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
-                <FaChevronLeft className="text-xl text-gray-600" />
+                <FaChevronLeft className={`text-xl ${darkMode ? 'text-white' : 'text-gray-600'}`} />
               </button>
 
               {/* Books Row */}
@@ -320,9 +323,9 @@ const BestSeller = () => {
               <button
                 onClick={handleNext}
                 disabled={isAnimating}
-                className="absolute right-0.5 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="absolute right-0.5 top-1/2 -translate-y-1/2 z-10 bg-white/50 p-1 rounded-full shadow-md hover:bg-white/60 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
-                <FaChevronRight className="text-xl text-gray-600" />
+                <FaChevronRight className={`text-xl ${darkMode ? 'text-white' : 'text-gray-600'}`} />
               </button>
             </div>
 

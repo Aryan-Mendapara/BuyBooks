@@ -22,38 +22,41 @@ import ImgInfo from './Component/ImgInfo/ImgInfo.jsx'
 import Payment from './Component/Shipping/Payment/Payment.jsx'
 import Add_EditBooks from './Component/Add&EditBooks/Add&EditBooks.jsx'
 import NetBanking from './Component/Shipping/Payment/OptionPayment/NetBanking.jsx'
+import { ThemeProvider } from './Component/ThemeContext/ThemeContext.jsx'
 
 function App() {
   return (
     <div>
-      <BrowserRouter>
-        <Layout>
-          <Routes>            
-            <Route path='/' element={<Home />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/newarrivalsimg' element={<NewArrivalsImg />} />
-            <Route path='/bestsellersimg' element={<BestSellerImg />} />
-            <Route path='/schoolbooksimg' element={<SchoolBooksImg />} />
-            <Route path='/addImages' element={<Add_EditBooks />} />
-            <Route path='/editbook/:id' element={<Add_EditBooks />} />
-            <Route path='/fiction-non-fiction-booksimg' element={<FictionNonFictionBooksImg />} />
-            <Route path='/pre-order' element={<PreOrder />} />
-            <Route path='/children-young-adult' element={<ChildrenAndYoungAdultBooks />} />
-            <Route path='/higher-education' element={<HigherEducation />} />
-            <Route path='/test-prep' element={<TestPrep />} />
-            <Route path='/games-puzzles' element={<GamesPuzzles />} />            
-            <Route path='/billing-details' element={<BillingDetails />} />
-            <Route path='/wishlist' element={<WishList />} />
-            <Route path='/addtocart/:id' element={<ImgInfo />} />
-            <Route path='/my-account' element={<Account />} />
-            <Route path='/shipping-address' element={<ShippingAddress />} />
-            <Route path='/order-summary' element={<OrderSummary />} />
-            <Route path='/terms-and-conditions' element={<TermsAndConditions />} />
-            <Route path='/payment' element={<Payment />} />
-            <Route path='/payment/net-banking' element={<NetBanking />}/>
-          </Routes>
-        </Layout>
-      </BrowserRouter>
+      <ThemeProvider>
+        <BrowserRouter>
+          <Layout>
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/newarrivalsimg' element={<NewArrivalsImg />} />
+              <Route path='/bestsellersimg' element={<BestSellerImg />} />
+              <Route path='/schoolbooksimg' element={<SchoolBooksImg />} />
+              <Route path='/addImages' element={<Add_EditBooks />} />
+              <Route path='/editbook/:id' element={<Add_EditBooks />} />
+              <Route path='/fiction-non-fiction-booksimg' element={<FictionNonFictionBooksImg />} />
+              <Route path='/pre-order' element={<PreOrder />} />
+              <Route path='/children-young-adult' element={<ChildrenAndYoungAdultBooks />} />
+              <Route path='/higher-education' element={<HigherEducation />} />
+              <Route path='/test-prep' element={<TestPrep />} />
+              <Route path='/games-puzzles' element={<GamesPuzzles />} />
+              <Route path='/billing-details' element={<BillingDetails />} />
+              <Route path='/wishlist' element={<WishList />} />
+              <Route path='/addtocart/:id' element={<ImgInfo />} />
+              <Route path='/my-account' element={<Account />} />
+              <Route path='/shipping-address' element={<ShippingAddress />} />
+              <Route path='/order-summary' element={<OrderSummary />} />
+              <Route path='/terms-and-conditions' element={<TermsAndConditions />} />
+              <Route path='/payment' element={<Payment />} />
+              <Route path='/payment/net-banking' element={<NetBanking />} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </ThemeProvider>
     </div>
   )
 }

@@ -92,7 +92,7 @@ function Add_EditBooks() {
     <div className='fixed inset-0 bg-black bg-opacity-60 flex justify-center items-start pt-10 z-50 overflow-y-auto'>
       <div className='bg-white w-[90%] max-w-4xl rounded shadow-lg p-6 relative'>
         <button 
-          onClick={() => navigate('/')} 
+          onClick={() => navigate(-1)} 
           className='absolute top-2 right-2 text-gray-600 hover:text-red-500 text-xl cursor-pointer'
         >
           ✕

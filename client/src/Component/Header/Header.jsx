@@ -1,25 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import logo from "../../assets/img/logo.png";
 import { FaHeart, FaHome, FaSearch, FaShoppingCart, FaUser, FaBars, FaTimes } from 'react-icons/fa';
+import { TbLogout, TbMoon, TbSun } from "react-icons/tb";
 import { Link, useNavigate } from 'react-router-dom';
 import { LoginDelete } from '../ApiServer/LoginApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../Redux/Slice/authSlice';
-import { TbLogout } from "react-icons/tb";
+import { ThemeContext } from '../ThemeContext/ThemeContext';
 
 function Header() {
-    const categories = [
-        { id: 1, name: 'Bestsellers', path: '/bestsellersimg' },
-        { id: 2, name: 'New Arrivals', path: '/newarrivalsimg' },
-        { id: 3, name: 'Pre Order', path: '/pre-order' },
-        { id: 4, name: 'Children & Young Adult', path: '/children-young-adult' },
-        { id: 5, name: 'Fiction & Non Fiction', path: '/fiction-non-fiction-booksimg' },
-        { id: 6, name: 'School Education', path: '/schoolbooksimg' },
-        { id: 7, name: 'Higher Education', path: '/higher-education' },
-        { id: 8, name: 'Test Prep', path: '/test-prep' },
-        { id: 9, name: 'Games & Puzzles', path: '/games-puzzles' }
-    ];
-
+    const { darkMode, toggleDarkMode } = useContext(ThemeContext);
     const [search, setSearch] = useState("");
     const [menuOpen, setMenuOpen] = useState(false);
     const [mobileMenu, setMobileMenu] = useState(false);
@@ -34,12 +24,9 @@ function Header() {
     const handleLogout = async () => {
         try {
             const userId = localStorage.getItem("userId");
-            if (userId) {
-                await LoginDelete(userId);
-            }
+            if (userId) await LoginDelete(userId);
             localStorage.removeItem("token");
             localStorage.removeItem("userId");
-
             dispatch(logout());
             setMenuOpen(false);
         } catch (error) {
@@ -52,38 +39,66 @@ function Header() {
         navigate("/my-account");
     };
 
+    const headerBg = darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black';
+    const navBg = darkMode ? 'bg-gray-800 text-white' : 'bg-neutral-700 text-white';
+    const inputBg = darkMode ? 'bg-gray-700 text-white placeholder-gray-300' : 'bg-white text-black placeholder-gray-500';
+    const iconColor = darkMode ? 'text-white' : 'text-black';
+
+    const categories = [
+        { id: 1, name: 'Bestsellers', path: '/bestsellersimg' },
+        { id: 2, name: 'New Arrivals', path: '/newarrivalsimg' },
+        { id: 3, name: 'Pre Order', path: '/pre-order' },
+        { id: 4, name: 'Children & Young Adult', path: '/children-young-adult' },
+        { id: 5, name: 'Fiction & Non Fiction', path: '/fiction-non-fiction-booksimg' },
+        { id: 6, name: 'School Education', path: '/schoolbooksimg' },
+        { id: 7, name: 'Higher Education', path: '/higher-education' },
+        { id: 8, name: 'Test Prep', path: '/test-prep' },
+        { id: 9, name: 'Games & Puzzles', path: '/games-puzzles' }
+    ];
+
     return (
         <div>
             {/* Top Header */}
-            <div className="bg-white flex flex-col md:flex-row items-center justify-between px-3 md:px-8 py-3 gap-3">
-
+            <div className={`${headerBg} flex flex-col md:flex-row items-center justify-between px-3 md:px-8 py-3 gap-3`}>
                 {/* Logo */}
                 <div className="flex justify-center items-center w-full md:w-auto">
-                    <button onClick={() => navigate('/')}>
-                        <img src={logo} alt="Logo" className="h-10 md:h-12" />
+                    <button
+                        onClick={() => navigate('/')}
+                    >
+                        <img
+                            src={logo}
+                            alt="Logo"
+                            className="h-10 md:h-12 cursor-pointer"
+                        />
                     </button>
                 </div>
 
                 {/* Search Bar */}
-                <div className="flex items-center border border-black rounded-lg overflow-hidden w-full md:max-w-xl">
+                <div className={`flex items-center border rounded-lg overflow-hidden w-full md:max-w-xl ${darkMode ? 'border-gray-600' : 'border-black'}`}>
                     <input
                         type="text"
                         placeholder="Search by title, author or ISBN..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="flex-1 h-10 text-sm md:text-lg outline-none px-3 md:px-5 placeholder-gray-500"
+                        className={`flex-1 h-10 text-sm md:text-lg outline-none px-3 md:px-5 ${inputBg}`}
                     />
-                    <button className="h-10 md:h-11 px-4 md:px-5 bg-black text-white text-lg hover:bg-gray-600 transition">
+                    <button className="h-10 md:h-11 px-4 md:px-5 bg-black text-white text-lg hover:bg-gray-600 transition cursor-pointer">
                         <FaSearch />
                     </button>
                 </div>
 
-                {/* Login + Mobile Menu */}
-                <div className='flex justify-between gap-40'>
-                    {/* Mobile menu button */}
+                {/* Dark Mode Toggle + Mobile Menu + Login */}
+                <div className='flex items-center gap-4'>
+                    <button
+                        onClick={toggleDarkMode}
+                        className="p-2 rounded-full border border-gray-400"
+                    >
+                        {darkMode ? <TbSun size={20} /> : <TbMoon size={20} />}
+                    </button>
+
                     <button
                         onClick={() => setMobileMenu(!mobileMenu)}
-                        className="md:hidden text-2xl"
+                        className={`${iconColor} md:hidden text-2xl`}
                     >
                         {mobileMenu ? <FaTimes /> : <FaBars />}
                     </button>
@@ -101,19 +116,21 @@ function Header() {
                                     </span>
                                 </button>
                                 {menuOpen && (
-                                    <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg overflow-hidden z-50">
+                                    <div className={`absolute right-0 mt-2 w-40 shadow-lg rounded-lg overflow-hidden z-50 
+                                                    ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-700'}`}>
                                         <button
                                             onClick={handleAccount}
-                                            className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
+                                            className={`block w-full text-left px-4 py-2 hover:${darkMode ? 'bg-gray-700' : 'bg-gray-100'} cursor-pointer`}
                                         >
                                             <span className="flex items-center mx-1">
                                                 <FaUser />
                                                 <span className="ml-2">Account</span>
                                             </span>
                                         </button>
+                                        
                                         <button
                                             onClick={handleLogout}
-                                            className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
+                                            className={`block w-full text-left px-4 py-2 hover:${darkMode ? 'bg-gray-700' : 'bg-gray-100'} cursor-pointer`}
                                         >
                                             <span className="flex items-center mx-1">
                                                 <TbLogout size={20} />
@@ -122,16 +139,14 @@ function Header() {
                                         </button>
                                     </div>
                                 )}
+
                             </div>
                         ) : (
                             <button
                                 onClick={() => navigate('/login')}
                                 className="bg-orange-500 p-2 rounded-lg cursor-pointer"
                             >
-                                <span className="px-2 flex items-center text-white hover:text-black">
-                                    <FaUser />
-                                    <span className="ml-1">Login</span>
-                                </span>
+                                <FaUser className={iconColor} /> Login
                             </button>
                         )}
                     </div>
@@ -139,17 +154,23 @@ function Header() {
             </div>
 
             {/* Categories Navigation */}
-            <div className="bg-neutral-700 w-full text-white">
+            <div className={`${navBg} w-full`}>
                 {/* Desktop & Tablet Nav */}
                 <div className="hidden sm:flex items-center h-12 px-3 md:px-6 text-sm overflow-x-auto scrollbar-hide">
                     <ul className="flex items-center space-x-4 md:space-x-6">
                         <li>
-                            <Link to="/" className="hover:text-orange-500 flex items-center gap-1">
+                            <Link
+                                to="/"
+                                className={`hover:text-orange-500 flex items-center gap-1`}
+                            >
                                 <FaHome className="text-lg" />
                             </Link>
                         </li>
                         {categories.map((item) => (
-                            <li key={item.id} className="whitespace-nowrap">
+                            <li
+                                key={item.id}
+                                className="whitespace-nowrap"
+                            >
                                 <Link
                                     to={item.path}
                                     className="hover:text-orange-500"
@@ -162,7 +183,7 @@ function Header() {
 
                     {/* Wishlist + Cart */}
                     <div className="flex ml-auto">
-                        <div className="relative bg-orange-500 h-12 w-12 flex items-center justify-center mx-1">
+                        <div className={`relative bg-orange-500 h-12 w-12 flex items-center justify-center mx-1`}>
                             <button
                                 onClick={() => isLoggedIn ? navigate('/wishlist') : navigate('/login')}
                                 className="relative"
@@ -175,7 +196,8 @@ function Header() {
                                 )}
                             </button>
                         </div>
-                        <div className="relative bg-orange-500 h-12 w-12 flex items-center justify-center mx-1">
+
+                        <div className={`relative bg-orange-500 h-12 w-12 flex items-center justify-center mx-1 `}>
                             <button
                                 onClick={() => isLoggedIn ? navigate('/billing-details') : navigate('/login')}
                                 className="relative"
@@ -193,16 +215,17 @@ function Header() {
 
                 {/* Mobile Nav */}
                 {mobileMenu && (
-                    <div className="sm:hidden flex flex-col bg-neutral-700 text-white p-4 space-y-4">
+                    <div className="sm:hidden flex flex-col p-4 space-y-4">
                         <Link
                             to="/"
                             onClick={() => setMobileMenu(false)}
                             className="flex items-center gap-2 hover:text-orange-500"
                         >
-                            <FaHome /> Home
+                            <FaHome />
+                            Home
                         </Link>
 
-                        {categories.map((item) => (
+                        {categories.map(item => (
                             <Link
                                 key={item.id}
                                 to={item.path}
@@ -216,10 +239,7 @@ function Header() {
                         {/* Wishlist + Cart */}
                         <div className="flex gap-6 mt-4">
                             <button
-                                onClick={() => {
-                                    setMobileMenu(false);
-                                    isLoggedIn ? navigate('/wishlist') : navigate('/login')
-                                }}
+                                onClick={() => { setMobileMenu(false); isLoggedIn ? navigate('/wishlist') : navigate('/login') }}
                                 className="relative"
                             >
                                 <FaHeart size={22} />
@@ -230,10 +250,7 @@ function Header() {
                                 )}
                             </button>
                             <button
-                                onClick={() => {
-                                    setMobileMenu(false);
-                                    isLoggedIn ? navigate('/billing-details') : navigate('/login')
-                                }}
+                                onClick={() => { setMobileMenu(false); isLoggedIn ? navigate('/billing-details') : navigate('/login') }}
                                 className="relative"
                             >
                                 <FaShoppingCart size={22} />

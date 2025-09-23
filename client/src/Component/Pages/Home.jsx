@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import schoolbooks from '../../assets/img/schoolbooks.jpg';
 import bestseller from '../../assets/img/bestseller.jpg';
 import BBIchildrenandadult from '../../assets/img/BBIchildrenandadult.jpg';
@@ -17,8 +17,11 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import FictionNonFictionBooks from './FictionNonFiction/FictionNonFictionBooks';
 import BooksbyCategories from './BooksbyCategories/BooksbyCategories';
 import { Link } from 'react-router-dom';
+import { ThemeContext } from '../ThemeContext/ThemeContext';
 
 function Home() {
+  const { darkMode } = useContext(ThemeContext);
+
   const images = [
     { id: 1, name: "schoolbooks", path: '/schoolbooksimg', src: schoolbooks },
     { id: 2, name: "advitbanner", path: '/games-puzzles', src: advitbanner },
@@ -29,6 +32,7 @@ function Home() {
     { id: 7, name: "governmentbook", path: '/test-prep', src: governmentbook },
     { id: 8, name: "BBIJournal", path: '/test-prep', src: BBIJournal },
   ];
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -60,7 +64,7 @@ function Home() {
   };
 
   return (
-    <div>
+    <div className={darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}>
       {/* Image Slider */}
       <div className="w-full overflow-hidden relative">
         {/* Desktop */}

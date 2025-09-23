@@ -116,6 +116,7 @@ function NetBanking() {
                             Back
                         </h1>
                     </div>
+
                     {/* Search Bar */}
                     <div className='flex items-center border border-gray-300 max-w-xl w-full rounded-lg overflow-hidden'>
                         <input
@@ -147,7 +148,6 @@ function NetBanking() {
                             </div>
                         ))}
                     </div>
-
                 </div>
             </div>
         </div>
