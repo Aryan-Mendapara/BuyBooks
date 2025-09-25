@@ -124,7 +124,7 @@ const BestSeller = () => {
   };
 
   return (
-    <div className={`${darkMode ? 'bg-gray-900 text-center' : 'bg-gray-100 text-black'}`}>
+    <div className={`${darkMode ? 'bg-black/90 text-center' : 'bg-gray-100 text-black'}`}>
       <div className="max-w-6xl mx-auto px-2 py-4">
         {/* Title */}
         <div className="text-center mb-6">
@@ -185,7 +185,7 @@ const BestSeller = () => {
                     </div>
 
                     <div
-                      onClick={() => navigate(`/addtocart/${book._id}`)}
+                      onClick={() => navigate(`/images-details/${book._id}`)}
                       className="flex flex-col h-full"
                     >
 
@@ -272,7 +272,7 @@ const BestSeller = () => {
                     <div
                       key={book._id}
                       className="flex-shrink-0 w-30 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 ml-3.5 group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer"
-                      onClick={() => navigate(`/addtocart/${book._id}`)}
+                      onClick={() => navigate(`/images-details/${book._id}`)}
                     >
                       {/* Edit */}
                       <div

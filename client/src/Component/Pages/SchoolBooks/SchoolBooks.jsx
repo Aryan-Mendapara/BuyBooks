@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FaChevronLeft, FaChevronRight, FaShoppingCart } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom';
 import { ImagesApiDelete, ImagesApiGet } from '../../ApiServer/BooksDetailsApi';
@@ -6,8 +6,11 @@ import { MdDelete, MdEdit } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { BillingApiPost } from '../../ApiServer/BillingDetailsApi';
 import { addToBillingDetails } from '../../Redux/Slice/BillingDetailsSlice';
+import { ThemeContext } from '../../ThemeContext/ThemeContext';
 
 const SchoolBooks = () => {
+  const { darkMode } = useContext(ThemeContext);
+
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [bookList, setBookList] = useState([]);
@@ -102,7 +105,7 @@ const SchoolBooks = () => {
 
 
   return (
-    <div className='bg-white text-center py-10 max-w-6xl mx-auto'>
+    <div className={darkMode ? 'bg-black/90 text-center' : 'bg-gray-100 text-black'}>
       <div className="max-w-6xl mx-auto px-2 py-4">
         {/* Title */}
         <div className="text-center mb-6">
@@ -127,9 +130,9 @@ const SchoolBooks = () => {
             <button
               onClick={handlePrev}
               disabled={isAnimating}
-              className='absolute cursor-pointer left-1 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed'
+              className='absolute cursor-pointer left-1 top-1/2 -translate-y-1/2 z-10 bg-white/50 p-1.5 rounded-full shadow-md hover:bg-white/60 disabled:opacity-50 disabled:cursor-not-allowed'
             >
-              <FaChevronLeft />
+              <FaChevronLeft className={`text-xl ${darkMode ? 'text-white' : 'text-gray-600'}`} />
             </button>
 
             {/* Books Container */}
@@ -145,7 +148,7 @@ const SchoolBooks = () => {
                   <div
                     key={book._id}
                     className='w-52 flex-shrink-0 group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer'
-                    onClick={() => navigate(`/addtocart/${book._id}`)}
+                    onClick={() => navigate(`/images-details/${book._id}`)}
                   >
 
                     {/* Edit */}
@@ -210,9 +213,9 @@ const SchoolBooks = () => {
             <button
               onClick={handleNext}
               disabled={isAnimating}
-              className='absolute cursor-pointer right-1 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1.5 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed'
+              className='absolute cursor-pointer right-1 top-1/2 -translate-y-1/2 z-10 bg-white/50 p-1.5 rounded-full shadow-md hover:bg-white/60 disabled:opacity-50 disabled:cursor-not-allowed'
             >
-              <FaChevronRight className='text-xl text-gray-600' />
+              <FaChevronRight className={`text-xl ${darkMode ? 'text-white' : 'text-gray-600'}`} />
             </button>
           </div>
 
@@ -222,7 +225,7 @@ const SchoolBooks = () => {
             <button
               onClick={handlePrev}
               disabled={isAnimating}
-              className='absolute left-0.5 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed'
+              className='absolute left-0.5 top-1/2 -translate-y-1/2 z-10 bg-white/50 p-1 rounded-full shadow-md hover:bg-white/60 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
             >
               <FaChevronLeft />
             </button>
@@ -240,7 +243,7 @@ const SchoolBooks = () => {
                   <div
                     key={book._id}
                     className='flex-shrink-0 w-30 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 ml-3.5 group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer'
-                    onClick={() => navigate(`/addtocart/${book._id}`)}
+                    onClick={() => navigate(`/images-details/${book._id}`)}
                   >
 
                     {/* Edit */}
@@ -292,7 +295,7 @@ const SchoolBooks = () => {
             <button
               onClick={handleNext}
               disabled={isAnimating}
-              className='absolute right-0.5 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-1 rounded-full shadow-md hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed'
+              className='absolute right-0.5 top-1/2 -translate-y-1/2 z-10 bg-white/50 p-1 rounded-full shadow-md hover:bg-white/60 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
             >
               <FaChevronRight className='text-xl text-gray-600' />
             </button>

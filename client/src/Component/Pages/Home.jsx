@@ -64,7 +64,7 @@ function Home() {
   };
 
   return (
-    <div className={darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}>
+    <div className={darkMode ? 'bg-black text-white' : 'bg-white text-black'}>
       {/* Image Slider */}
       <div className="w-full overflow-hidden relative">
         {/* Desktop */}

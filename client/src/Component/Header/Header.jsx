@@ -39,9 +39,9 @@ function Header() {
         navigate("/my-account");
     };
 
-    const headerBg = darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black';
-    const navBg = darkMode ? 'bg-gray-800 text-white' : 'bg-neutral-700 text-white';
-    const inputBg = darkMode ? 'bg-gray-700 text-white placeholder-gray-300' : 'bg-white text-black placeholder-gray-500';
+    const headerBg = darkMode ? 'bg-black/90 text-white' : 'bg-white text-black';
+    const navBg = darkMode ? 'bg-black/85 text-white' : 'bg-neutral-700 text-white';
+    const inputBg = darkMode ? 'text-white placeholder-gray-300' : 'bg-white text-black placeholder-gray-500';
     const iconColor = darkMode ? 'text-white' : 'text-black';
 
     const categories = [
@@ -80,9 +80,9 @@ function Header() {
                         placeholder="Search by title, author or ISBN..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className={`flex-1 h-10 text-sm md:text-lg outline-none px-3 md:px-5 ${inputBg}`}
+                        className={`flex-1 h-full text-sm md:text-lg outline-none px-3 md:px-5 ${inputBg}`}
                     />
-                    <button className="h-10 md:h-11 px-4 md:px-5 bg-black text-white text-lg hover:bg-gray-600 transition cursor-pointer">
+                    <button className="h-10 md:h-11 px-4 md:px-5 bg-black/70 text-white text-lg hover:bg-black/90 transition cursor-pointer">
                         <FaSearch />
                     </button>
                 </div>
@@ -91,7 +91,7 @@ function Header() {
                 <div className='flex items-center gap-4'>
                     <button
                         onClick={toggleDarkMode}
-                        className="p-2 rounded-full border border-gray-400"
+                        className="p-2 rounded-full border border-gray-400 cursor-pointer"
                     >
                         {darkMode ? <TbSun size={20} /> : <TbMoon size={20} />}
                     </button>
@@ -186,7 +186,7 @@ function Header() {
                         <div className={`relative bg-orange-500 h-12 w-12 flex items-center justify-center mx-1`}>
                             <button
                                 onClick={() => isLoggedIn ? navigate('/wishlist') : navigate('/login')}
-                                className="relative"
+                                className="relative cursor-pointer"
                             >
                                 <FaHeart size={20} />
                                 {wishlistCount > 0 && (
@@ -200,7 +200,7 @@ function Header() {
                         <div className={`relative bg-orange-500 h-12 w-12 flex items-center justify-center mx-1 `}>
                             <button
                                 onClick={() => isLoggedIn ? navigate('/billing-details') : navigate('/login')}
-                                className="relative"
+                                className="relative cursor-pointer"
                             >
                                 <FaShoppingCart size={20} />
                                 {cartCount > 0 && (

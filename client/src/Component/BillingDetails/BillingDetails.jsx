@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BillingApiDelete, BillingApiGet } from '../ApiServer/BillingDetailsApi';
+import { ThemeContext } from '../ThemeContext/ThemeContext';
 
 const BillingDetails = () => {
+  const { darkMode } = useContext(ThemeContext);
+
   const order = [
     "Product", "Description", "Avail.", "List Price",
     "Discount(%)", "Our Price", "Qty", "Total", "Delete"
@@ -47,7 +50,8 @@ const BillingDetails = () => {
   const totalPrice = cartItems.reduce((acc, item) => acc + item.OurPrice * item.quantity, 0);
 
   return (
-    <div className="bg-gray-100 py-10 flex flex-col items-center px-2">
+    <div className={darkMode ? 'bg-black/90 text-white' : 'bg-white text-black'}>
+    <div className="py-10 flex flex-col items-center px-2">
       {/* Desktop / Laptop Table */}
       <div className="hidden md:block w-full max-w-6xl">
         <table className="w-full border-collapse">
@@ -76,8 +80,10 @@ const BillingDetails = () => {
                       src={`${import.meta.env.VITE_BACKEND_URL}/${item.image}`}
                       alt={item.Product}
                       className="h-16 w-16 mx-auto object-contain"
+                      onClick={() => navigate(`/images-details/${item._id}`)}
                     />
                   </td>
+
                   <td className="px-2 border border-gray-300">{item.Description}</td>
                   <td className="px-2 border border-gray-300">{item.Availability}</td>
                   <td className="px-2 border border-gray-300">₹{item.Price}</td>
@@ -108,7 +114,7 @@ const BillingDetails = () => {
                   <td className="px-2 border border-gray-300">
                     <button 
                       onClick={() => handleDelete(item._id)} 
-                      className="hover:underline"
+                      className="hover:underline cursor-pointer"
                     >
                       <RiDeleteBin6Line size={25} />
                     </button>
@@ -144,13 +150,14 @@ const BillingDetails = () => {
         {cartItems.length ? cartItems.map(item => (
           <div 
             key={item._id} 
-            className="bg-white rounded shadow p-4 flex flex-col gap-2"
+            className="border rounded shadow p-4 flex flex-col gap-2"
           >
             <div className="flex justify-between items-center">
               <img 
                 src={`${import.meta.env.VITE_BACKEND_URL}/${item.image}`} 
                 alt={item.Product} 
                 className="h-20 w-20 object-contain"
+                // onClick={() => navigate(`/images-details/${item._id}`)}
               />
 
               <button 
@@ -196,19 +203,20 @@ const BillingDetails = () => {
       {/* Buttons */}
       <div className='flex flex-col sm:flex-row gap-4 mt-6'>
         <button
-          className="px-6 py-2 bg-white border border-gray-400 hover:bg-gray-100 transition rounded text-sm font-medium"
+          className={`px-6 py-2 border border-gray-400 ${darkMode ? 'hover:bg-black' : 'hover:bg-gray-300'}  transition rounded text-sm font-medium cursor-pointer`}
           onClick={() => navigate('/')}
         >
           Continue shopping
         </button>
 
         <button
-          className='px-6 py-2 bg-orange-500 border border-gray-400 hover:bg-orange-600 transition rounded text-sm font-medium'
+          className='px-6 py-2 bg-orange-500 hover:bg-orange-600 transition rounded text-sm font-medium cursor-pointer'
           onClick={() => cartItems.length > 0 ? navigate('/shipping-address') : alert("Please add items to your cart before checkout.")}
         >
           Proceed to Checkout
         </button>
       </div>
+    </div>
     </div>
   );
 };

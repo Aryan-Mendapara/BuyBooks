@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaTruck, FaCreditCard, FaRegCheckCircle, FaWhatsapp, FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from "react-icons/fa";
 import { LiaTelegramPlane } from "react-icons/lia";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
+import { ThemeContext } from "../ThemeContext/ThemeContext";
 
 const ServiceInfoBanner = () => {
+  const {darkMode} = useContext(ThemeContext);
+
   const services = [
     {
       icon: <FaTruck className="text-orange-500 text-4xl sm:text-5xl lg:text-6xl" />,
@@ -67,9 +70,9 @@ const ServiceInfoBanner = () => {
   const [email, setEmail] = useState("");
 
   return (
-    <div className="w-full">
+    <div className={`${darkMode ? 'bg-black/90 text-white' : 'bgwhite text-black'}`}>
       {/* Services Section */}
-      <div className="bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className={`py-8 px-4 sm:px-6 lg:px-8`}>
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, index) => (
             <div 

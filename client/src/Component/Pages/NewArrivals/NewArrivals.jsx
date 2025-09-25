@@ -118,7 +118,7 @@ function NewArrivals() {
 
 
     return (
-        <div className={darkMode ? 'bg-gray-900 text-center' : 'bg-gray-100 text-black'}>
+        <div className={darkMode ? 'bg-black/90 text-center' : 'bg-gray-100 text-black'}>
             <div className="max-w-6xl mx-auto px-2 py-4">
                 {/* Title */}
                 <div className="text-center mb-6">
@@ -167,7 +167,7 @@ function NewArrivals() {
                                         {/* Edit */}
                                         <div
                                             onClick={(e) => handleEdit(e, book)}
-                                            className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
+                                            className='absolute top-2 left-2 bg-gray-900 text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
                                         >
                                             <MdEdit size={20} />
                                         </div>
@@ -175,13 +175,13 @@ function NewArrivals() {
                                         {/* Delete */}
                                         <div
                                             onClick={(e) => handleDeleteImages(book._id)}
-                                            className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
+                                            className='absolute top-2 left-10 bg-gray-900 text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
                                         >
                                             <MdDelete size={20} />
                                         </div>
 
                                         <div
-                                            onClick={() => navigate(`/addtocart/${book._id}`)}
+                                            onClick={() => navigate(`/images-details/${book._id}`)}
                                             className="flex flex-col h-full"
                                         >
 
@@ -268,7 +268,7 @@ function NewArrivals() {
                                         <div
                                             key={book._id}
                                             className="flex-shrink-0 w-30 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 ml-3.5 group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer"
-                                            onClick={() => navigate(`/addtocart/${book._id}`)}
+                                            onClick={() => navigate(`/images-details/${book._id}`)}
                                         >
                                             {/* Edit */}
                                             <div

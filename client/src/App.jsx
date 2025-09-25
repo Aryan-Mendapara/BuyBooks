@@ -46,7 +46,7 @@ function App() {
               <Route path='/games-puzzles' element={<GamesPuzzles />} />
               <Route path='/billing-details' element={<BillingDetails />} />
               <Route path='/wishlist' element={<WishList />} />
-              <Route path='/addtocart/:id' element={<ImgInfo />} />
+              <Route path='/images-details/:id' element={<ImgInfo />} />
               <Route path='/my-account' element={<Account />} />
               <Route path='/shipping-address' element={<ShippingAddress />} />
               <Route path='/order-summary' element={<OrderSummary />} />

@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../Redux/Slice/authSlice";
 import { LoginDelete } from "../ApiServer/LoginApi";
 import { addaccount } from "../ApiServer/AccountApi";
+import { ThemeContext } from "../ThemeContext/ThemeContext";
 
 function Account() {
+  const { darkMode } = useContext(ThemeContext);
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [mobile, setMobile] = useState("");
@@ -58,53 +61,59 @@ function Account() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-4">
+    <div className={`${darkMode ? "bg-black/90 text-white" : "bg-gray-100 text-black"} min-h-screen py-10 px-4`}>
       <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8">
+        
         {/* Sidebar */}
-        <div className="w-full lg:w-64 bg-white rounded-xl shadow-md p-6 flex-shrink-0">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">My Account</h2>
-          <button className="w-full text-left px-4 py-2 mb-3 rounded-lg bg-orange-500 text-white hover:bg-orange-600 transition">
+        <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"} w-full lg:w-64 rounded-xl shadow-md p-6 flex-shrink-0`}>
+          <h2 className="text-xl font-semibold mb-4">My Account</h2>
+          <button 
+            className={`w-full text-left px-4 py-2 mb-3 rounded-lg transition ${darkMode ? "bg-orange-600 hover:bg-orange-700" : "bg-orange-500 hover:bg-orange-600"} text-white`}
+          >
             Account
           </button>
+
           <button
             onClick={handleLogout}
-            className="w-full text-left px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition"
+            className="w-full text-left px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white transition"
           >
             Logout
           </button>
         </div>
 
         {/* Account Form */}
-        <div className="flex-1 bg-white rounded-xl shadow-md p-8">
-          <h1 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-3">
-            Account Information
-          </h1>
+        <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"} flex-1 rounded-xl shadow-md p-8`}>
+          <h1 className="text-2xl font-bold mb-6 border-b pb-3">Account Information</h1>
 
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-gray-700 mb-2">First Name</label>
+              <label className="block mb-2">First Name</label>
               <input
                 type="text"
                 placeholder="Enter your first name"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 outline-none ${
+                  darkMode ? "bg-gray-800 text-white border-gray-700 focus:ring-orange-400" : "bg-white text-gray-800 border-black focus:ring-orange-400"
+                }`}
               />
             </div>
 
             <div>
-              <label className="block text-gray-700 mb-2">Last Name</label>
+              <label className="block mb-2">Last Name</label>
               <input
                 type="text"
                 placeholder="Enter your last name"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 outline-none ${
+                  darkMode ? "bg-gray-800 text-white border-gray-700 focus:ring-orange-400" : "bg-white text-gray-800 border-black focus:ring-orange-400"
+                }`}
               />
             </div>
 
             <div>
-              <label className="block text-gray-700 mb-2">Mobile Number</label>
+              <label className="block mb-2">Mobile Number</label>
               <input
                 type="text"
                 inputMode="numeric"
@@ -113,27 +122,33 @@ function Account() {
                 placeholder="Enter your mobile number"
                 value={mobile}
                 onChange={(e) => setMobile(e.target.value.replace(/\D/g, ""))}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 outline-none ${
+                  darkMode ? "bg-gray-800 text-white border-gray-700 focus:ring-orange-400" : "bg-white text-gray-800 border-black focus:ring-orange-400"
+                }`}
               />
             </div>
 
             <div>
-              <label className="block text-gray-700 mb-2">Email</label>
+              <label className="block mb-2">Email</label>
               <input
                 type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 outline-none ${
+                  darkMode ? "bg-gray-800 text-white border-gray-700 focus:ring-orange-400" : "bg-white text-gray-800 border-black focus:ring-orange-400"
+                }`}
               />
             </div>
 
             <div>
-              <label className="block text-gray-700 mb-2">Gender</label>
+              <label className="block mb-2">Gender</label>
               <select
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 outline-none ${
+                  darkMode ? "bg-gray-800 text-white border-gray-700 focus:ring-orange-400" : "bg-white text-gray-800 border-black focus:ring-orange-400"
+                }`}
               >
                 <option value="">--- Select Gender ---</option>
                 <option value="male">Male</option>
@@ -145,7 +160,7 @@ function Account() {
             <div className="col-span-1 md:col-span-2 flex justify-center mt-6">
               <button
                 type="submit"
-                className="px-6 py-2 rounded-lg bg-orange-500 text-white font-semibold hover:bg-orange-600 cursor-pointer"
+                className="px-6 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold transition cursor-pointer"
               >
                 Submit
               </button>

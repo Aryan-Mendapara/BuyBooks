@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { FaShoppingCart } from 'react-icons/fa';
 import { ImagesApiDelete, ImagesApiGet } from '../../ApiServer/BooksDetailsApi';
+import { ThemeContext } from '../../ThemeContext/ThemeContext';
 
 const HigherEducation = () => {
+  const { darkMode } = useContext(ThemeContext);
+
   const [books, setBooks] = useState([]);
   const [visibleBooks, setVisibleBooks] = useState(12);
 
@@ -48,11 +51,18 @@ const HigherEducation = () => {
   };
 
   return (
+    <div className={`text-center ${darkMode ? "bg-black/90 text-white" : "text-black"}`}>
     <div className="max-w-7xl mx-auto px-4 py-6 text-center">
-      <div className="flex items-center gap-2 text-sm mb-4">
-        <Link to="/" className="text-gray-600 hover:text-orange-500">Home</Link>
-        <span className="text-gray-400">&gt;</span>
-        <span className="text-gray-800">Higher Education</span>
+      {/* Breadcrumb */}
+      <div className="flex items-center gap-2 text-sm mb-4 text-gray-400">
+        <Link 
+          to="/" 
+          className="hover:text-orange-500"
+        >
+          Home
+        </Link> 
+        <span>&gt;</span>
+        <span>Higher Education</span>
       </div>
 
       <div className='flex justify-between items-center mb-6'>
@@ -92,7 +102,7 @@ const HigherEducation = () => {
           <div
             key={book._id}
             className="group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer"
-            onClick={() => navigate(`/addtocart/${book._id}`)}
+            onClick={() => navigate(`/images-details/${book._id}`)}
           >
 
             {/* Edit */}
@@ -152,7 +162,7 @@ const HigherEducation = () => {
           <div
             key={book._id}
             className="group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer"
-            onClick={() => navigate(`/addtocart/${book._id}`)}
+            onClick={() => navigate(`/images-details/${book._id}`)}
           >
             {/* Edit Button */}
             <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
@@ -204,6 +214,7 @@ const HigherEducation = () => {
           </button>
         </div>
       )}
+    </div>
     </div>
   );
 };
