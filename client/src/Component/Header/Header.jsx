@@ -144,9 +144,9 @@ function Header() {
                         ) : (
                             <button
                                 onClick={() => navigate('/login')}
-                                className="bg-orange-500 p-2 rounded-lg cursor-pointer"
+                                className="bg-orange-500 p-2 flex items-center gap-2 rounded-lg cursor-pointer"
                             >
-                                <FaUser className={iconColor} /> Login
+                                <FaUser className={iconColor} /> <span>Login</span>
                             </button>
                         )}
                     </div>

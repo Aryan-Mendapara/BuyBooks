@@ -82,11 +82,11 @@ const SchoolBooksImg = () => {
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-2">
             <span>Sort:</span>
-            <select className="border p-2 rounded">
-              <option value="">--Select--</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="newest">Newest First</option>
+            <select className="border p-2 rounded cursor-pointer">
+              <option value="" className='text-black'>--Select--</option>
+              <option value="price-low" className='text-black'>Price: Low to High</option>
+              <option value="price-high" className='text-black'>Price: High to Low</option>
+              <option value="newest" className='text-black'>Newest First</option>
             </select>
           </div>
 

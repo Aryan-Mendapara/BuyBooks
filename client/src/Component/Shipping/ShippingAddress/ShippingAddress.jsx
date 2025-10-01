@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { addAddress } from '../../ApiServer/ShippingAddress';
 import { useNavigate } from 'react-router-dom';
+import { ThemeContext } from '../../ThemeContext/ThemeContext';
 
 function ShippingAddress() {
+    const { darkMode } = useContext(ThemeContext);
     const [surName, setSurName] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastname] = useState('');
@@ -15,7 +17,6 @@ function ShippingAddress() {
     const [country, setCountry] = useState('');
     const [error, setError] = useState({});
     const [success, setSuccess] = useState('');
-
     const navigate = useNavigate();
 
     const State = [
@@ -56,13 +57,11 @@ function ShippingAddress() {
             zipcode
         };
 
-        console.log("Submitting address:", newAddress);
-
         try {
             await addAddress(newAddress);
             alert("Address added successfully");
             setSuccess("Address added successfully");
-            navigate('/order-summary'); 
+            navigate('/order-summary');
         } catch (error) {
             console.error("Failed to submit address:", error);
             setError("Failed to submit address. Please try again.");
@@ -70,126 +69,126 @@ function ShippingAddress() {
         }
     };
 
+    const inputClass = `w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-400 ${darkMode ? 'text-white bg-black placeholder-gray-400 border-gray-600' : 'text-black placeholder-gray-500 border-gray-400'
+        }`;
 
     return (
-        <div className='mx-auto px-4 py-8 bg-gray-100'>
-            <div className='max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md'>
+        <div className={`mx-auto px-4 py-8 ${darkMode ? 'bg-black/90 text-white' : 'bg-gray-100 text-gray-700'}`}>
+            <div className={`max-w-7xl mx-auto p-6 rounded-lg shadow-md ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
                 {/* title */}
-                <div>
-                    <h1 className='text-2xl font-bold mb-4 border-b pb-3'>Shipping Address</h1>
-                </div>
+                <h1 className='text-2xl font-bold mb-4 border-b pb-3'>Shipping Address</h1>
 
                 {/* error & success messages */}
                 {error.api && <p className="text-red-500 mb-2">{error.api}</p>}
-                {success && <p className="text-green-600 mb-2">{success}</p>}
+                {success && <p className="text-green-500 mb-2">{success}</p>}
 
-                {/* Form */}
-                <form
-                    className='grid grid-cols-1 md:grid-cols-3 gap-6'
-                    onSubmit={handleSubmit}
-                >
+                {/* Mandatory notice */}
+                <div className="mb-4 text-sm">
+                    <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        Fields marked with <span className="text-red-500">*</span> are mandatory.
+                    </p>
+                </div>
 
+                <form className="grid grid-cols-1 md:grid-cols-3 gap-6" onSubmit={handleSubmit}>
                     {/* Sur Name */}
                     <div>
-                        <label className="block text-gray-700 mb-2">Sur Name<span className='text-red-600 text-xl'>*</span></label>
+                        <label className="block mb-2">Sur Name <span className='text-red-600'>*</span></label>
                         <input
                             type="text"
                             placeholder="Enter your Surname"
                             value={surName}
                             onChange={(e) => setSurName(e.target.value)}
-                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
+                            className={inputClass}
                         />
                         {error.surName && <p className="text-red-500 text-sm">{error.surName}</p>}
                     </div>
 
                     {/* First Name */}
                     <div>
-                        <label className="block text-gray-700 mb-2">First Name<span className='text-red-600 text-xl'>*</span></label>
+                        <label className="block mb-2">First Name <span className='text-red-600'>*</span></label>
                         <input
                             type="text"
                             placeholder="Enter your Firstname"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
-                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
+                            className={inputClass}
                         />
                         {error.firstName && <p className="text-red-500 text-sm">{error.firstName}</p>}
                     </div>
 
                     {/* Last Name */}
                     <div>
-                        <label className="block text-gray-700 mb-2">Last Name<span className='text-red-600 text-xl'>*</span></label>
+                        <label className="block mb-2">Last Name <span className='text-red-600'>*</span></label>
                         <input
                             type="text"
                             placeholder="Enter your Lastname"
                             value={lastName}
                             onChange={(e) => setLastname(e.target.value)}
-                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
+                            className={inputClass}
                         />
                         {error.lastname && <p className="text-red-500 text-sm">{error.lastname}</p>}
                     </div>
 
                     {/* Email */}
                     <div>
-                        <label className="block text-gray-700 mb-2">Email<span className='text-red-600 text-xl'>*</span></label>
+                        <label className="block mb-2">Email <span className='text-red-600'>*</span></label>
                         <input
                             type="email"
                             placeholder="Enter your Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
+                            className={inputClass}
                         />
                         {error.email && <p className="text-red-500 text-sm">{error.email}</p>}
                     </div>
 
-                    {/* Mobile */}
+                    {/* Mobile Number */}
                     <div>
-                        <label className="block text-gray-700 mb-2">Mobile Number<span className='text-red-600 text-xl'>*</span></label>
+                        <label className="block mb-2">Mobile Number <span className='text-red-600'>*</span></label>
                         <input
                             type="text"
-                            inputMode="numeric"
                             maxLength={10}
                             placeholder="Enter your mobile number"
                             value={mobileno}
                             onChange={(e) => setMobileno(e.target.value.replace(/\D/g, ""))}
-                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
+                            className={inputClass}
                         />
                         {error.mobile && <p className="text-red-500 text-sm">{error.mobile}</p>}
                     </div>
 
                     {/* Address */}
                     <div>
-                        <label className="block text-gray-700 mb-2">Address<span className='text-red-600 text-xl'>*</span></label>
+                        <label className="block mb-2">Address <span className='text-red-600'>*</span></label>
                         <input
                             type="text"
                             placeholder="Enter your Address"
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
-                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
+                            className={inputClass}
                         />
                         {error.address && <p className="text-red-500 text-sm">{error.address}</p>}
                     </div>
 
                     {/* City */}
                     <div>
-                        <label className="block text-gray-700 mb-2">City<span className='text-red-600 text-xl'>*</span></label>
+                        <label className="block mb-2">City <span className='text-red-600'>*</span></label>
                         <input
                             type="text"
                             placeholder="Enter your City"
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
-                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
+                            className={inputClass}
                         />
                         {error.city && <p className="text-red-500 text-sm">{error.city}</p>}
                     </div>
 
                     {/* State */}
                     <div>
-                        <label className="block text-gray-700 mb-2">State/Province<span className='text-red-600 text-xl'>*</span></label>
+                        <label className="block mb-2">State/Province <span className='text-red-600'>*</span></label>
                         <select
-                            name="state"
                             value={state}
                             onChange={(e) => setState(e.target.value)}
-                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
+                            className={inputClass}
                         >
                             <option value="">--- Select State ---</option>
                             {State.map((state, index) => (
@@ -201,12 +200,11 @@ function ShippingAddress() {
 
                     {/* Country */}
                     <div>
-                        <label className="block text-gray-700 mb-2">Country<span className='text-red-600 text-xl'>*</span></label>
+                        <label className="block mb-2">Country <span className='text-red-600'>*</span></label>
                         <select
-                            name="country"
                             value={country}
                             onChange={(e) => setCountry(e.target.value)}
-                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
+                            className={inputClass}
                         >
                             <option value="">--- Select Country ---</option>
                             {countries.map((country, index) => (
@@ -218,24 +216,20 @@ function ShippingAddress() {
 
                     {/* ZipCode */}
                     <div>
-                        <label className="block text-gray-700 mb-2">ZipCode<span className='text-red-600 text-xl'>*</span></label>
+                        <label className="block mb-2">ZipCode<span className='text-red-600 text-xl'>*</span></label>
                         <input
                             type="text"
                             placeholder="Enter your ZipCode"
                             value={zipcode}
                             onChange={(e) => setZipcode(e.target.value)}
-                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
+                            className={inputClass}
                         />
                         {error.zipCode && <p className="text-red-500 text-sm">{error.zipCode}</p>}
                     </div>
                 </form>
 
-                {/* Submit button */}
                 <div className='flex justify-center mt-6'>
-                    <button
-                        onClick={handleSubmit}
-                        className='px-6 py-2 bg-orange-500 text-black font-medium border border-gray-400 rounded hover:bg-orange-600 transition cursor-pointer'
-                    >
+                    <button type="button" onClick={handleSubmit} className={`px-6 py-2 bg-orange-500 font-medium rounded hover:bg-orange-600 cursor-pointer ${darkMode ? 'text-white' : 'text-black'}`}>
                         Continue Checkout
                     </button>
                 </div>

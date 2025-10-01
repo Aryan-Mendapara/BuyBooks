@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './Component/Login/Login'
 import Home from './Component/Pages/Home'
@@ -23,12 +23,15 @@ import Payment from './Component/Shipping/Payment/Payment.jsx'
 import Add_EditBooks from './Component/Add&EditBooks/Add&EditBooks.jsx'
 import NetBanking from './Component/Shipping/Payment/OptionPayment/NetBanking.jsx'
 import { ThemeProvider } from './Component/ThemeContext/ThemeContext.jsx'
+import Loader from './Component/Pages/Loader.jsx'
+import PageLoader from './Component/Pages/PageLoader.jsx'
 
 function App() {
   return (
-    <div>
-      <ThemeProvider>
-        <BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <PageLoader />
+        <Suspense fallback={<Loader />}>
           <Layout>
             <Routes>
               <Route path='/' element={<Home />} />
@@ -55,9 +58,9 @@ function App() {
               <Route path='/payment/net-banking' element={<NetBanking />} />
             </Routes>
           </Layout>
-        </BrowserRouter>
-      </ThemeProvider>
-    </div>
+        </Suspense>
+      </BrowserRouter>
+    </ThemeProvider>
   )
 }
 

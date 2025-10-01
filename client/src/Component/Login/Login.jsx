@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FaUser } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { LoginUser, verifyOtp } from '../ApiServer/LoginApi';
 import { login } from '../Redux/Slice/authSlice';
 import { useDispatch } from 'react-redux';
+import { ThemeContext } from '../ThemeContext/ThemeContext';
 
 function Login() {
+    const { darkMode } = useContext(ThemeContext);
     const [mobileno, setMobileno] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -15,27 +17,18 @@ function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // handleGenerateOtp
     const handleVerifyOtp = async () => {
         try {
-            const response = await verifyOtp({ email, otp }); // ✅ Pass both values
-            console.log("OTP Verify Response:", response);
+            const response = await verifyOtp({ email, otp });
             setSuccess("Login successfully");
             if (response.token) {
                 localStorage.setItem("token", response.token);
                 localStorage.setItem("userId", response.user._id);
                 dispatch(login());
+                setTimeout(() => navigate("/"), 1000);
             }
-
-            // dispatch(login()); // 👈 Update Redux state
-
-            // Optional: Navigate after successful verification
-            setTimeout(() => {
-                navigate("/");
-            }, 1000);
-        } catch (error) {
-            console.error(error);
-            setError(error.response?.data?.message || "Failed to verify OTP");
+        } catch (err) {
+            setError(err.response?.data?.message || "Failed to verify OTP");
         }
     };
 
@@ -44,7 +37,6 @@ function Login() {
         setError("");
         setSuccess("");
 
-        // Validation again before submit
         if (!/^\d{10}$/.test(mobileno)) {
             setError("Enter a valid 10-digit mobile number");
             return;
@@ -62,29 +54,29 @@ function Login() {
         }
 
         try {
-            const response = await LoginUser({
-                body: { mobileno, email, password },
-            });
-
-            setSuccess("Otp Generate successful!");
-            console.log("Server response:", response);
-
-        } catch (error) {
-            const message = error.response?.data?.message || "Login failed. Try again.";
-            setError(message);
+            const response = await LoginUser({ body: { mobileno, email, password } });
+            setSuccess("OTP generated successfully!");
+        } catch (err) {
+            setError(err.response?.data?.message || "Login failed. Try again.");
         }
     };
 
-
     return (
-        <div className='flex justify-center bg-gray-50 pt-10'>
-            <div className='relative bg-white w-[32rem] text-center rounded-lg p-10 shadow-lg'>
-                <h1 className='text-orange-500 text-xl'>FILL IN THE DETAILS</h1>
+        <div className={`flex justify-center py-10 ${darkMode ? 'bg-black/90' : 'bg-gray-50'}`}>
+            <div className={`w-[32rem] rounded-lg p-10 shadow-lg ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
+                <h1 className='text-orange-500 text-xl font-semibold mb-4 text-center'>FILL IN THE DETAILS</h1>
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+
                     {/* Mobile Number */}
-                    <div className='flex items-center border-2 border-gray-400 rounded-lg mt-4'>
-                        <span className="px-3 text-gray-700 border-r-2 border-gray-400">+91</span>
+                    <div className={`flex rounded-lg overflow-hidden border-2 ${darkMode ? 'border-gray-600' : 'border-gray-400'}`}>
+                        <span className={`px-3 flex items-center justify-center border-r-2 font-medium ${
+                            darkMode
+                                ? "text-white border-gray-600"
+                                : "text-black border-gray-400 bg-white"
+                        }`}>
+                            +91
+                        </span>
                         <input
                             type="text"
                             maxLength={10}
@@ -92,7 +84,11 @@ function Login() {
                             placeholder="Mobile No. (e.g. 9999999999)"
                             value={mobileno}
                             onChange={(e) => setMobileno(e.target.value.replace(/\D/, ""))}
-                            className="w-full p-2 rounded-r-lg outline-none"
+                            className={`flex-1 p-2 outline-none ${
+                                darkMode
+                                    ? "text-white placeholder-gray-400"
+                                    : "bg-white text-black placeholder-gray-500"
+                            }`}
                         />
                     </div>
 
@@ -102,7 +98,7 @@ function Login() {
                         placeholder="Enter Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="border-2 border-gray-400 rounded-lg mt-4 w-full p-2 outline-none"
+                        className={`border-2 rounded-lg p-2 outline-none ${darkMode ? "border-gray-600 text-white placeholder-gray-400" : "border-gray-400 text-black placeholder-gray-500"}`}
                     />
 
                     {/* Password */}
@@ -111,17 +107,16 @@ function Login() {
                         placeholder="Enter Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="border-2 border-gray-400 rounded-lg mt-4 w-full p-2 outline-none"
+                        className={`border-2 rounded-lg p-2 outline-none ${darkMode ? "border-gray-600 text-white placeholder-gray-400" : "border-gray-400 bg-white text-black placeholder-gray-500"}`}
                     />
 
                     {/* Generate OTP */}
                     <button
                         type="submit"
-                        className='bg-orange-500 w-full p-2 rounded-lg mt-4 text-white hover:bg-orange-600 transition cursor-pointer'
+                        className={`bg-orange-500 w-full p-2 rounded-lg hover:bg-orange-600 ${darkMode ? "text-white" : "text-black"}`}
                     >
-                        Login
+                        Generate OTP
                     </button>
-
 
                     {/* OTP Input */}
                     <input
@@ -130,16 +125,16 @@ function Login() {
                         value={otp}
                         onChange={(e) => setOtp(e.target.value.replace(/\D/, ""))}
                         maxLength={6}
-                        className='w-full p-2 mt-4 rounded-lg border-2 border-gray-400'
+                        className={`w-full p-2 rounded-lg border-2 outline-none ${darkMode ? "border-gray-600 text-white placeholder-gray-400" : "border-gray-400 bg-white text-black placeholder-gray-500"}`}
                     />
 
-                    {/* Submit/Login */}
+                    {/* Verify OTP */}
                     <button
+                        type="button"
                         onClick={handleVerifyOtp}
-                        className='bg-orange-500 w-full p-2 rounded-lg mt-4 text-white flex items-center justify-center hover:bg-orange-600 transition cursor-pointer'
+                        className={`bg-orange-500 w-full p-2 rounded-lg flex items-center justify-center hover:bg-orange-600 ${darkMode ? "text-white" : "text-black"}`}
                     >
-                        <FaUser className='mr-2' />
-                        Verify Otp
+                        <FaUser className='mr-2' /> Login
                     </button>
                 </form>
 
@@ -152,5 +147,3 @@ function Login() {
 }
 
 export default Login;
-
-

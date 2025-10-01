@@ -34,19 +34,40 @@ const WishList = () => {
   }, []);
 
   const handleAddToCart = async (item) => {
-    if (BillingdetailsItems.find(book => book._id === item._id)) {
-      alert("Already in cart!");
+    const exists = BillingdetailsItems.find(item => item._id === book._id);
+    if (exists) {
+      alert('Already in cart!');
       return;
     }
+
+    // 👉 Map wishlist data into BillingDetails expected format
+    const billingPayload = {
+      title: item.title,
+      author: item.author || "Unknown Author",
+      Publisher: item.Publisher || "Unknown Publisher",
+      price: item.price || 0,
+      originalPrice: item.originalPrice || 0,
+      discount: item.discount || 0,
+      image: item.image
+    };
+
     try {
-      await BillingApiPost(item);
-      dispatch(addToBillingDetails(item));
-      alert("Added to cart!");
+      await BillingApiPost(billingPayload); // send formatted object
+      dispatch(addToBillingDetails(billingPayload));
+
+      // delete from wishlist after adding to cart
+      await wishlistApiDelete(item._id);
+      setWishItems(prev => prev.filter(w => w._id !== item._id));
+
+      alert("Moved to cart!");
     } catch (err) {
-      console.error("Failed to add to cart:", err);
+      console.error("Failed to move item:", err);
       alert("Something went wrong!");
     }
   };
+
+
+
 
   const handleDelete = async (id) => {
     try {

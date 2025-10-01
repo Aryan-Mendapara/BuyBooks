@@ -1,21 +1,22 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 
 export const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(false);
+  // Initialize from localStorage directly
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("darkMode") === "true";
+    }
+    return false; // default light mode for SSR
+  });
 
-  const toggleDarkMode = () => setDarkMode(prev => !prev);
-
-  // Persist user preference
-  useEffect(() => {
-    const saved = localStorage.getItem("darkMode") === "true";
-    setDarkMode(saved);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("darkMode", darkMode);
-  }, [darkMode]);
+  const toggleDarkMode = () => {
+    setDarkMode(prev => {
+      localStorage.setItem("darkMode", !prev); // update immediately
+      return !prev;
+    });
+  };
 
   return (
     <ThemeContext.Provider value={{ darkMode, toggleDarkMode }}>

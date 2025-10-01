@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { BillingApiGet } from '../../ApiServer/BillingDetailsApi';
 import pay_icons from '../../../assets/img/pay_icons.png';
 import { getAddress } from '../../ApiServer/ShippingAddress';
 import { useNavigate } from 'react-router-dom';
+import { ThemeContext } from '../../ThemeContext/ThemeContext';
 
 function OrderSummary() {
+  const {darkMode} = useContext(ThemeContext);
+
   const orderHeaders = [
     "Product", "Description", "Avail.", "List Price", "Discount(%)", "Our Price", "Qty", "Total"
   ];
@@ -50,17 +53,18 @@ function OrderSummary() {
   const grandTotal = itemsTotal + shipping + giftCharge;
 
   return (
-    <div className='mt-3 mb-3 w-full px-4'>
+    <div className={`${darkMode ? 'bg-black/90 text-white' : 'bg-white gray-100 text-gray-700'}`}>
+    <div className='w-full px-4 py-3'>
       <h1 className='text-2xl text-center mb-2 font-semibold'>Shopping Cart Order Summary</h1>
-      <div className='w-24 h-0.5 bg-orange-500 mx-auto mb-6'></div>
+      <div className='w-30 h-0.5 bg-orange-500 mx-auto mb-6'></div>
 
       {/* Addresses */}
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-6'>
         {[ "Shipping", "Billing" ].map((type, idx) => (
-          <div key={idx} className='bg-gray-100 p-4 rounded-lg shadow'>
+          <div key={idx} className={`p-4 rounded-lg shadow ${darkMode ? 'bg-black text-white' : 'bg-gray-100 text-gray-700'}`}>
             <h2 className='text-xl font-semibold mb-2'>{type} Address</h2>
             {Address ? (
-              <div className='text-gray-700 text-sm'>
+              <div className='text-sm'>
                 <p>{Address.surName} {Address.firstName} {Address.lastName}</p>
                 <p>{Address.address}</p>
                 <p>{Address.city} - {Address.zipcode}</p>
@@ -81,7 +85,12 @@ function OrderSummary() {
           <thead>
             <tr className='bg-orange-500 text-white font-semibold text-center'>
               {orderHeaders.map((header, idx) => (
-                <th key={idx} className='px-2 py-3 border border-gray-300'>{header}</th>
+                <th 
+                  key={idx} 
+                  className='px-2 py-3 border border-gray-300'
+                >
+                  {header}
+                </th>
               ))}
             </tr>
           </thead>
@@ -117,7 +126,7 @@ function OrderSummary() {
       {/* Payment & Order Details */}
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
         {/* Payment & Delivery Section */}
-        <div className='bg-gray-100 border border-gray-300 rounded-lg p-4 shadow w-full'>
+        <div className={`border border-gray-300 rounded-lg p-4 shadow w-full ${darkMode ? 'bg-black' : 'bg-gray-100 text-gray-700'}`}>
           {/* Online Payment */}
           <div className='flex items-center border-b border-gray-400 py-3'>
             <input type="radio" name="payment" className='mr-2' defaultChecked />
@@ -171,9 +180,9 @@ function OrderSummary() {
         </div>
 
         {/* Order Details Section */}
-        <div className='bg-gray-100 border border-gray-300 rounded-lg p-4 shadow w-full'>
+        <div className={`border border-gray-300 rounded-lg p-4 shadow w-full ${darkMode ? 'bg-black' : 'bg-gray-100 text-gray-700'}`}>
           <div className='text-xl font-semibold border-b pb-2 flex justify-center'>Order Details</div>
-          <table className='w-full mt-4 text-gray-700'>
+          <table className='w-full mt-4'>
             <tbody>
               <tr className='border-b border-gray-400'>
                 <td className='p-2 border-r border-gray-400'>Items</td>
@@ -191,7 +200,7 @@ function OrderSummary() {
                 <td className='p-2 border-r border-gray-400'>Gift Packing</td>
                 <td className='p-2 text-right'>₹{giftCharge}</td>
               </tr>
-              <tr className='border-b border-gray-400 font-bold text-gray-800'>
+              <tr className={`border-b border-gray-400 font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
                 <td className='p-2 border-r border-gray-400'>Grand Total</td>
                 <td className='p-2 text-right'>₹{grandTotal}</td>
               </tr>
@@ -201,13 +210,14 @@ function OrderSummary() {
           <div className='flex justify-center mt-4'>
             <button
               onClick={() => navigate("/payment", { state: { grandTotal } })}
-              className='bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded cursor-pointer'
+              className={`bg-orange-500 hover:bg-orange-600 font-bold py-2 px-6 rounded cursor-pointer ${darkMode ? "text-white" : "text-black"}`}
             >
               Order Now
             </button>
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

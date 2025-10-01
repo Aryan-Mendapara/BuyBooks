@@ -32,8 +32,8 @@ const ChildrenAndYoungAdultBooks = () => {
       <div className="max-w-7xl mx-auto px-4 py-6 text-center">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm mb-4 text-gray-400">
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className="hover:text-orange-500"
           >
             Home
@@ -64,11 +64,11 @@ const ChildrenAndYoungAdultBooks = () => {
             <div className="flex justify-between items-center mb-8">
               <div className="flex items-center gap-2">
                 <span>Sort:</span>
-                <select className="border p-2 rounded">
-                  <option value="">--Select--</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="newest">Newest First</option>
+                <select className="border p-2 rounded cursor-pointer">
+                  <option value="" className='text-black'>--Select--</option>
+                  <option value="price-low" className='text-black'>Price: Low to High</option>
+                  <option value="price-high" className='text-black'>Price: High to Low</option>
+                  <option value="newest" className='text-black'>Newest First</option>
                 </select>
               </div>
 
