@@ -66,9 +66,6 @@ const WishList = () => {
     }
   };
 
-
-
-
   const handleDelete = async (id) => {
     try {
       await wishlistApiDelete(id);

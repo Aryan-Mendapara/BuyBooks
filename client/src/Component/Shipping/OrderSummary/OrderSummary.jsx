@@ -131,7 +131,7 @@ function OrderSummary() {
           <div className='flex items-center border-b border-gray-400 py-3'>
             <input type="radio" name="payment" className='mr-2' defaultChecked />
             <span className='font-medium'>Online Payment</span>
-            <img src={pay_icons} className='w-110 ml-2' />
+            <img src={pay_icons} className='w-110 ml-2 rounded' />
           </div>
 
           {/* Standard Delivery */}
