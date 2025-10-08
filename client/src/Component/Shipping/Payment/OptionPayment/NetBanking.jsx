@@ -26,59 +26,59 @@ function NetBanking() {
     const allBnaks = [
         {
             title: "Airtel Payments Bank",
-            icon: [AIRTEL],
+            icon: AIRTEL,
         },
         {
             title: "ICICI Bank",
-            icon: [ICIB],
+            icon: ICIB,
         },
         {
             title: "HDFC Bank",
-            icon: [HDFC],
+            icon: HDFC,
         },
         {
             title: "Axis Bank",
-            icon: [AXIS],
+            icon: AXIS,
         },
         {
             title: "State Bank of India",
-            icon: [SBI],
+            icon: SBI,
         },
         {
             title: "Kotak Mahindra Bank",
-            icon: [KOTAK],
+            icon: KOTAK,
         },
         {
             title: "Punjab National Bank",
-            icon: [PUNJAB],
+            icon: PUNJAB,
         },
         {
             title: "Bank of Baroda",
-            icon: [BARODA],
+            icon: BARODA,
         },  
         {
             title: "IDFC First Bank",
-            icon: [IDFCNB],
+            icon: IDFCNB,
         },
         {
             title: "UCO Bank",
-            icon: [UCO],
+            icon: UCO,
         },
         {
             title: "Union Bank of India",
-            icon: [UNION],
+            icon: UNION,
         },
         {
             title: "Yes Bank",
-            icon: [YES],
+            icon: YES,
         },
         {
             title: "RBL Bank",
-            icon: [RBL],
+            icon: RBL,
         },
         {
             title: "City Union Bank",
-            icon: [CITYUNION],
+            icon: CITYUNION,
         },
     ];
 
