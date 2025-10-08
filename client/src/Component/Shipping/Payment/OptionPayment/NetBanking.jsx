@@ -3,20 +3,6 @@ import Logo from '../../../../assets/img/logo.png';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
 import { FaSearch } from 'react-icons/fa';
-import ICIB from "../../../../assets/img/ICIB.png";
-import HDFC from "../../../../assets/img/HDFC.png";
-import AXIS from "../../../../assets/img/axis.png";
-import SBI from "../../../../assets/img/SBI.png";
-import KOTAK from "../../../../assets/img/KOTAK.png";
-import PUNJAB from "../../../../assets/img/PUNJAB.jpg";
-import AIRTEL from "../../../../assets/img/AIRTEL.png";
-import BARODA from "../../../../assets/img/BankOfBaroda.png";
-import IDFCNB from "../../../../assets/img/IDFCNB.png";
-import UCO from "../../../../assets/img/UCo.png";
-import UNION from "../../../../assets/img/Union.png";
-import YES from "../../../../assets/img/YES.png";
-import RBL from "../../../../assets/img/RBL.png";
-import CITYUNION from "../../../../assets/img/CITY-UNION.png";
 
 function NetBanking() {
     const [search, setSearch] = useState("");
@@ -24,62 +10,20 @@ function NetBanking() {
     const navigate = useNavigate();
 
     const allBnaks = [
-        {
-            title: "Airtel Payments Bank",
-            icon: AIRTEL,
-        },
-        {
-            title: "ICICI Bank",
-            icon: ICIB,
-        },
-        {
-            title: "HDFC Bank",
-            icon: HDFC,
-        },
-        {
-            title: "Axis Bank",
-            icon: AXIS,
-        },
-        {
-            title: "State Bank of India",
-            icon: SBI,
-        },
-        {
-            title: "Kotak Mahindra Bank",
-            icon: KOTAK,
-        },
-        {
-            title: "Punjab National Bank",
-            icon: PUNJAB,
-        },
-        {
-            title: "Bank of Baroda",
-            icon: BARODA,
-        },  
-        {
-            title: "IDFC First Bank",
-            icon: IDFCNB,
-        },
-        {
-            title: "UCO Bank",
-            icon: UCO,
-        },
-        {
-            title: "Union Bank of India",
-            icon: UNION,
-        },
-        {
-            title: "Yes Bank",
-            icon: YES,
-        },
-        {
-            title: "RBL Bank",
-            icon: RBL,
-        },
-        {
-            title: "City Union Bank",
-            icon: CITYUNION,
-        },
+        { title: "Airtel Payments Bank", icon: "/img/banks/AIRTEL.png" },
+        { title: "ICICI Bank", icon: "/img/banks/ICIB.png" },
+        { title: "HDFC Bank", icon: "/img/banks/HDFC.png" },
+        { title: "Axis Bank", icon: "/img/banks/axis.png" },
+        { title: "State Bank of India", icon: "/img/banks/SBI.png" },
+        { title: "Kotak Mahindra Bank", icon: "/img/banks/KOTAK.png" },
+        { title: "Punjab National Bank", icon: "/img/banks/PUNJAB.jpg" },
+        { title: "Bank of Baroda", icon: "/img/banks/BankOfBaroda.png" },
+        { title: "IDFC First Bank", icon: "/img/banks/IDFCNB.png" },
+        { title: "UCO Bank", icon: "/img/banks/UCo.png" },
+        { title: "Union Bank of India", icon: "/img/banks/Union.png" },
+        { title: "Yes Bank", icon: "/img/banks/YES.png" },
+        { title: "RBL Bank", icon: "/img/banks/RBL.png" },
+        { title: "City Union Bank", icon: "/img/banks/CITY-UNION.png" },
     ];
 
     const grandTotal = location.state?.grandTotal ?? 0;
