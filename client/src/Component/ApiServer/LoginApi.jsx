@@ -8,7 +8,7 @@ export const LoginUser = async ({ body }) => {
       headers: { "Content-Type": "application/json" },
     }
     );
-    console.log(response);
+    // console.log(response);
     return response.data;
 
   } catch (error) {
@@ -22,7 +22,7 @@ export const LoginGet = async () => {
     const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/books/login/getlogin`
     );
-    console.log("Login Get Response:", response);
+    // console.log("Login Get Response:", response);
     return response.data;
   }
   catch (error) {
@@ -52,7 +52,7 @@ export const LoginDelete = async (id) => {
       `${import.meta.env.VITE_BACKEND_URL}/books/login/delete/${id}`
     );
 
-    console.log("Login Delete Response:", response);
+    // console.log("Login Delete Response:", response);
     return response.data;
   } catch (error) {
     console.log("Login Delete API error:", error);

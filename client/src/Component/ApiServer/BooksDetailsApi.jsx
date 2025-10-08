@@ -11,7 +11,7 @@ export const ImagesApiPost = async (formdata) => {
         },
       }
     );
-    console.log("New Post : ",response);
+    // console.log("New Post : ",response);
     return response.data;
     
   } catch (error) {
@@ -26,7 +26,7 @@ export const ImagesApiGet = async (category) => {
       `${import.meta.env.VITE_BACKEND_URL}/books/images/get`,
       { params: category ? { category } : {} }
     );
-    console.log("New Get : ",response);
+    // console.log("New Get : ",response);
     return response.data;
   } catch (error) {
     console.log("Images API Get error: ", error);
@@ -39,7 +39,7 @@ export const ImagesApiDelete = async (bookId) => {
     const response = await axios.delete(
       `${import.meta.env.VITE_BACKEND_URL}/books/images/delete/${bookId}`,      
     );
-    console.log("New Delete : ",response);
+    // console.log("New Delete : ",response);
     return response.data;
   } catch (error) {
     console.log("Images API Delete error", error);

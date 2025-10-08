@@ -6,7 +6,7 @@ export const addaccount = async (body) => {
             `${import.meta.env.VITE_BACKEND_URL}/books/account/add`,
             body,
         )
-        console.log("Account API response:", response.data);
+        // console.log("Account API response:", response.data);
         return response.data;        
     } catch (error) {
         console.error("Account API error:", error);
