@@ -122,10 +122,10 @@ const BillingDetails = () => {
                 </tr>
               ))
             ) : (
-              <tr>
+              <tr>                
                 <td 
                   colSpan={order.length} 
-                  className="text-center py-10 text-gray-600 text-lg"
+                  className={`text-center py-10 text-lg border border-gray-300 ${darkMode ? 'text-gray-100' : 'text-gray-600'} `}
                 >
                   Your shopping cart is empty.
                 </td>
@@ -196,14 +196,14 @@ const BillingDetails = () => {
             </div>
           </div>
         )) : (
-          <p className="text-center py-10 text-gray-600 text-lg">Your shopping cart is empty.</p>
+          <p className={`border rounded text-center py-10 text-lg ${darkMode ? 'text-gray-100' : 'text-gray-600'}`}>Your shopping cart is empty.</p>
         )}
       </div>
 
       {/* Buttons */}
       <div className='flex flex-col sm:flex-row gap-4 mt-6'>
         <button
-          className={`px-6 py-2 border border-gray-400 ${darkMode ? 'hover:bg-black' : 'hover:bg-gray-300'}  transition rounded text-sm font-medium cursor-pointer`}
+          className={`px-6 py-2 border border-gray-400 ${darkMode ? 'hover:bg-black' : 'hover:bg-gray-300'} transition rounded text-sm font-medium cursor-pointer`}
           onClick={() => navigate('/')}
         >
           Continue shopping
