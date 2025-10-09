@@ -113,7 +113,7 @@ function Login() {
                     {/* Generate OTP */}
                     <button
                         type="submit"
-                        className={`bg-orange-500 w-full p-2 rounded-lg hover:bg-orange-600 ${darkMode ? "text-white" : "text-black"}`}
+                        className={`bg-orange-500 w-full p-2 rounded-lg hover:bg-orange-600 cursor-pointer ${darkMode ? "text-white" : "text-black"}`}
                     >
                         Generate OTP
                     </button>
@@ -132,7 +132,7 @@ function Login() {
                     <button
                         type="button"
                         onClick={handleVerifyOtp}
-                        className={`bg-orange-500 w-full p-2 rounded-lg flex items-center justify-center hover:bg-orange-600 ${darkMode ? "text-white" : "text-black"}`}
+                        className={`bg-orange-500 w-full p-2 rounded-lg flex items-center justify-center hover:bg-orange-600 cursor-pointer ${darkMode ? "text-white" : "text-black"}`}
                     >
                         <FaUser className='mr-2' /> Login
                     </button>
