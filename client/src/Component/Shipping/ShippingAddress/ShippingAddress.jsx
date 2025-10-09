@@ -69,7 +69,8 @@ function ShippingAddress() {
         }
     };
 
-    const inputClass = `w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-400 ${darkMode ? 'text-white bg-black placeholder-gray-400 border-gray-600' : 'text-black placeholder-gray-500 border-gray-400'
+    const inputClass = `w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-400 
+                    ${darkMode ? 'text-white bg-black placeholder-gray-400 border-gray-600' : 'text-black placeholder-gray-500 border-gray-400'
         }`;
 
     return (
