@@ -130,7 +130,7 @@ function Home() {
 
       {/* New Arrivals & Best Sellers */}
       <div>
-        {/* <NewArrivals /> */}
+        <NewArrivals />
         <BestSeller />
       </div>
 
