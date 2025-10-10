@@ -55,6 +55,8 @@ function Login() {
 
         try {
             const response = await LoginUser({ body: { mobileno, email, password } });
+            console.log("otp generated", response);
+            
             setSuccess("OTP generated successfully!");
         } catch (err) {
             setError(err.response?.data?.message || "Login failed. Try again.");
