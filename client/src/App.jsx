@@ -25,7 +25,6 @@ import NetBanking from './Component/Shipping/Payment/OptionPayment/NetBanking.js
 import { ThemeProvider } from './Component/ThemeContext/ThemeContext.jsx'
 import Loader from './Component/Pages/Loader.jsx'
 import PageLoader from './Component/Pages/PageLoader.jsx'
-import SearchResults from './Component/Pages/SearchResults/SearchResults.jsx'
 
 function App() {
   return (
@@ -57,7 +56,6 @@ function App() {
                <Route path='/terms-and-conditions' element={<TermsAndConditions />} />
                <Route path='/payment' element={<Payment />} />
                <Route path='/payment/net-banking' element={<NetBanking />} />
-               <Route path='/search' element={<SearchResults />} />
             </Routes>
           </Layout>
         </Suspense>

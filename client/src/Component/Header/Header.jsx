@@ -39,13 +39,13 @@ function Header() {
         navigate("/my-account");
     };
 
-    const handleSearch = (e) => {
-        e.preventDefault();
-        if (search.trim()) {
-            navigate(`/search?q=${encodeURIComponent(search.trim())}`);
-            setSearch(""); // Clear search after navigation
-        }
-    };
+    // const handleSearch = (e) => {
+    //     e.preventDefault();
+    //     if (search.trim()) {
+    //         navigate(`/search?q=${encodeURIComponent(search.trim())}`);
+    //         setSearch(""); // Clear search after navigation
+    //     }
+    // };
 
     const headerBg = darkMode ? 'bg-black/90 text-white' : 'bg-white text-black';
     const navBg = darkMode ? 'bg-black/85 text-white' : 'bg-neutral-700 text-white';
@@ -82,7 +82,7 @@ function Header() {
                 </div>
 
                 {/* Search Bar */}
-                <form onSubmit={handleSearch} className={`flex items-center border rounded-lg overflow-hidden w-full md:max-w-xl ${darkMode ? 'border-gray-600' : 'border-black'}`}>
+                <form className={`flex items-center border rounded-lg overflow-hidden w-full md:max-w-xl ${darkMode ? 'border-gray-600' : 'border-black'}`}>
                     <input
                         type="text"
                         placeholder="Search by title, author or publisher..."
