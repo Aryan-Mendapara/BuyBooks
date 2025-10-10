@@ -8,7 +8,7 @@ export const LoginUser = async ({ body }) => {
       headers: { "Content-Type": "application/json" },
     }
     );
-    // console.log(response);
+    console.log("Login api",response);
     return response.data;
 
   } catch (error) {

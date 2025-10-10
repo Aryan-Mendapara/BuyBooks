@@ -46,3 +46,34 @@ export const ImagesApiDelete = async (bookId) => {
     throw error;    
   }
 }
+
+export const SearchBooksApi = async (query) => {
+  try {
+    // For now, we'll get all books and filter on the frontend
+    // In a real implementation, you'd want a dedicated search endpoint
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/books/images/get`
+    );
+    
+    if (response.data.books && query) {
+      const searchTerm = query.toLowerCase();
+      const filteredBooks = response.data.books.filter(book => 
+        book.title?.toLowerCase().includes(searchTerm) ||
+        book.author?.toLowerCase().includes(searchTerm) ||
+        book.Publisher?.toLowerCase().includes(searchTerm)
+      );
+      
+      return {
+        ...response.data,
+        books: filteredBooks,
+        query: query,
+        count: filteredBooks.length
+      };
+    }
+    
+    return response.data;
+  } catch (error) {
+    console.log("Search API error: ", error);
+    throw error;
+  }
+}

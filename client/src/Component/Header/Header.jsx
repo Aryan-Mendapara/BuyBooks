@@ -39,6 +39,14 @@ function Header() {
         navigate("/my-account");
     };
 
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (search.trim()) {
+            navigate(`/search?q=${encodeURIComponent(search.trim())}`);
+            setSearch(""); // Clear search after navigation
+        }
+    };
+
     const headerBg = darkMode ? 'bg-black/90 text-white' : 'bg-white text-black';
     const navBg = darkMode ? 'bg-black/85 text-white' : 'bg-neutral-700 text-white';
     const inputBg = darkMode ? 'text-white placeholder-gray-300' : 'bg-white text-black placeholder-gray-500';
@@ -74,18 +82,21 @@ function Header() {
                 </div>
 
                 {/* Search Bar */}
-                <div className={`flex items-center border rounded-lg overflow-hidden w-full md:max-w-xl ${darkMode ? 'border-gray-600' : 'border-black'}`}>
+                <form onSubmit={handleSearch} className={`flex items-center border rounded-lg overflow-hidden w-full md:max-w-xl ${darkMode ? 'border-gray-600' : 'border-black'}`}>
                     <input
                         type="text"
-                        placeholder="Search by title, author or ISBN..."
+                        placeholder="Search by title, author or publisher..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         className={`flex-1 h-full text-sm md:text-lg outline-none px-3 md:px-5 ${inputBg}`}
                     />
-                    <button className="h-10 md:h-11 px-4 md:px-5 bg-black/70 text-white text-lg hover:bg-black/90 transition cursor-pointer">
+                    <button 
+                        type="submit"
+                        className="h-10 md:h-11 px-4 md:px-5 bg-black/70 text-white text-lg hover:bg-black/90 transition cursor-pointer"
+                    >
                         <FaSearch />
                     </button>
-                </div>
+                </form>
 
                 {/* Dark Mode Toggle + Mobile Menu + Login */}
                 <div className='flex items-center gap-4'>
