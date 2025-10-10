@@ -197,7 +197,7 @@ function Login() {
       const response = await LoginUser({ mobileno, email, password });
       console.log("OTP Generated Response:", response);
 
-      setOtpSent(true);
+    //   setOtpSent(true);
       setSuccess(response?.message || "OTP sent successfully to your email!");
     } catch (err) {
       console.error("Login error:", err);
