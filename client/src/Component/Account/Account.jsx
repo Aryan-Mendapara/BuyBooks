@@ -68,14 +68,14 @@ function Account() {
         <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"} w-full lg:w-64 rounded-xl shadow-md p-6 flex-shrink-0`}>
           <h2 className="text-xl font-semibold mb-4">My Account</h2>
           <button 
-            className={`w-full text-left px-4 py-2 mb-3 rounded-lg transition ${darkMode ? "bg-orange-600 hover:bg-orange-700" : "bg-orange-500 hover:bg-orange-600"} text-white`}
+            className={`w-full text-left px-4 py-2 mb-3 rounded-lg transition cursor-pointer ${darkMode ? "bg-orange-600 hover:bg-orange-700" : "bg-orange-500 hover:bg-orange-600"} text-white`}
           >
             Account
           </button>
 
           <button
             onClick={handleLogout}
-            className="w-full text-left px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white transition"
+            className="w-full text-left px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white transition cursor-pointer"
           >
             Logout
           </button>

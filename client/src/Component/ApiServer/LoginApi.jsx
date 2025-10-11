@@ -1,13 +1,18 @@
 import axios from 'axios';
 
 export const LoginUser = async ({ body }) => {
+  console.log("LoginUser Api");
+  
   try {
+    console.log("LoginUser Api Try");
     const response = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/books/login/loginuser`,
       body, {
       headers: { "Content-Type": "application/json" },
     }
     );
+    console.log("api process");
+    
     console.log("Login api",response);
     return response.data;
 
@@ -74,20 +79,20 @@ export const LoginDelete = async (id) => {
 //   }
 // };
 
-export const verifyOtp = async (body) => {
+export const verifyOtp = async ({ email, otp }) => {
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/books/login/verify-otp`,
-      body, {
-      headers: { "Content-Type": "application/json" },
-    }
+      { email, otp },
+      { headers: { "Content-Type": "application/json" } }
     );
-    return response.data; // { success: true, token: "...", user: {...} }
+    return response.data;
   } catch (error) {
-    console.error("OTP verification error:", error);
+    console.error("OTP verification error:", error.response?.data || error.message);
     throw error;
   }
 };
+
 
 
 // export const generateOtp = async (email) => {
