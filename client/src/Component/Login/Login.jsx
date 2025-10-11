@@ -50,7 +50,6 @@ function Login() {
         }
         console.log("email", email);
         
-
         if (password.length < 6) {
             setError("Password must be at least 6 characters");
             return;
