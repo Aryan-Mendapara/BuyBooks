@@ -1,26 +1,19 @@
 import axios from 'axios';
 
-export const LoginUser = async ({ body }) => {
-  console.log("LoginUser Api");
-  
-  try {
-    console.log("LoginUser Api Try");
-    const response = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/books/login/loginuser`,
-      body, {
-      headers: { "Content-Type": "application/json" },
-    }
-    );
-    console.log("api process");
-    
-    console.log("Login api",response);
-    return response.data;
 
-  } catch (error) {
-    console.log("Login API error:", error);
-    throw error;
+export const loginUser = async (email, mobileno) => {
+  try {
+    const res = await axios.post(
+      "https://buybooks-server.onrender.com/books/login/loginuser",
+      { email, mobileno }, // body
+      { headers: { "Content-Type": "application/json" } }
+    );
+    console.log("✅ Login Success:", res.data);
+    return res.data;
+  } catch (err) {
+    console.error("❌ Login API error:", err.response ? err.response.data : err.message);
   }
-}
+};
 
 export const LoginGet = async () => {
   try {
