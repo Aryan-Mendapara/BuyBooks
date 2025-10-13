@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const LoginUser = async ({ body }) => {
+export const LoginUser = async ( body ) => {
   console.log("LoginUser Api");
   
   try {

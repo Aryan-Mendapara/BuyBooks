@@ -58,7 +58,7 @@ function Login() {
         
         try {
           console.log("Api call");
-            const response = await LoginUser( { mobileno, email, password } );                      
+            const response = await LoginUser({ mobileno, email, password });                      
             console.log("otp generated", response);            
             
             setSuccess("OTP generated successfully!");
