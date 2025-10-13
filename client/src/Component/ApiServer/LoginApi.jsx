@@ -1,21 +1,26 @@
 import axios from 'axios';
 
-export const LoginUser = async (body) => {
-  console.log("📡 LoginUser API called:", body);
+export const LoginUser = async ({ body }) => {
+  console.log("LoginUser Api");
+  
   try {
+    console.log("LoginUser Api Try");
     const response = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/books/loginuser`,
-      body,
-      { headers: { "Content-Type": "application/json" } }
+      body, {
+      headers: { "Content-Type": "application/json" },
+    }
     );
-    console.log("✅ Login API Response:", response.data);
+    console.log("api process");
+    
+    console.log("Login api",response);
     return response.data;
+
   } catch (error) {
-    console.error("❌ Login API error:", error.response?.data || error.message);
+    console.log("Login API error:", error);
     throw error;
   }
-};
-
+}
 
 export const LoginGet = async () => {
   try {
