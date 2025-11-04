@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-
+import schoolbooks from '../../assets/img/School-books.jpg';
 import bestseller from '../../assets/img/best-seller.jpg';
 import BBIchildrenandadult from '../../assets/img/children-and-young-adult.jpg';
 import BBIJournal from '../../assets/img/bbi-journal.jpg';
@@ -24,7 +24,7 @@ function Home() {
   const { darkMode } = useContext(ThemeContext);
 
   const images = [
-    { id: 1, name: "advitbanner", path: '/schoolbooksimg', src: advitbanner },
+    { id: 1, name: "schoolbooks", path: '/schoolbooksimg', src: schoolbooks },
     { id: 2, name: "advitbanner", path: '/games-puzzles', src: advitbanner },
     { id: 3, name: "BBIchildrenandadult", path: '/children-young-adult', src: BBIchildrenandadult },
     { id: 4, name: "bestseller", path: '/bestsellersimg', src: bestseller },
