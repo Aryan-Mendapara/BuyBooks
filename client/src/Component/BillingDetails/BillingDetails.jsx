@@ -79,7 +79,7 @@ const BillingDetails = () => {
                     <img
                       src={`${import.meta.env.VITE_BACKEND_URL}/${item.image}`}
                       alt={item.Product}
-                      className="h-16 w-16 mx-auto object-contain"
+                      className="h-16 w-16 mx-auto object-contain cursor-pointer"
                       onClick={() => navigate(`/images-details/${item._id}`)}
                     />
                   </td>
@@ -94,7 +94,7 @@ const BillingDetails = () => {
                     <div className="flex justify-center items-center gap-2">
                       <button
                         onClick={() => handleQuantityChange(item._id, 'decrease')}
-                        className="px-2 py-1 border rounded hover:bg-gray-200"
+                        className="px-2 py-1 border rounded hover:bg-gray-200 cursor-pointer"
                       >
                         -
                       </button>
@@ -103,7 +103,7 @@ const BillingDetails = () => {
 
                       <button
                         onClick={() => handleQuantityChange(item._id, 'increase')}
-                        className="px-2 py-1 border rounded hover:bg-gray-200"
+                        className="px-2 py-1 border rounded hover:bg-gray-200 cursor-pointer"
                       >
                         +
                       </button>
