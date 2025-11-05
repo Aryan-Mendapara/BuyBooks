@@ -195,7 +195,7 @@ function NewArrivals() {
                                                 <div className="relative pb-[133%]">
                                                     <img
                                                         src={
-                                                            book.image.startsWith("http")
+                                                            book.image.startsWith("https")
                                                                 ? book.image
                                                                 : `${import.meta.env.VITE_BACKEND_URL}/${book.image}`
                                                         }
