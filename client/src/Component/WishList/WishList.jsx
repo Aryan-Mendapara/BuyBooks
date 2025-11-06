@@ -148,7 +148,7 @@ const WishList = () => {
                 <div key={item._id || idx} className="border rounded-lg p-4 shadow-sm flex flex-col gap-2">
                   <div className="flex justify-center mb-2">
                     <img
-                      src={`${import.meta.env.VITE_BACKEND_URL}/${item.image?.replace(/\\/g, '/')}`}
+                      src={`${import.meta.env.VITE_BACKEND_URL}${item.image?.replace(/\\/g, '/')}`}
                       alt={item.title || "No title"}
                       className="h-24 w-24 object-contain"
                     />

@@ -154,7 +154,7 @@ const BillingDetails = () => {
           >
             <div className="flex justify-between items-center">
               <img 
-                src={`${import.meta.env.VITE_BACKEND_URL}/${item.image}`} 
+                src={`${import.meta.env.VITE_BACKEND_URL}${item.image}`} 
                 alt={item.Product} 
                 className="h-20 w-20 object-contain"
                 // onClick={() => navigate(`/images-details/${item._id}`)}
