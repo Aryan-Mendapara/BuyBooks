@@ -130,7 +130,7 @@ const GamesPuzzles = () => {
               {/* Book Image Container with Overlay */}
               <div className="relative mb-4 overflow-hidden px-4 pt-2">
                 <img
-                  src={`${import.meta.env.VITE_BACKEND_URL}/${book.image}`}
+                  src={`${import.meta.env.VITE_BACKEND_URL}${book.image}`}
                   alt={book.title}
                   className="w-60 h-60 object-cover"
                 />
@@ -184,7 +184,7 @@ const GamesPuzzles = () => {
               {/* Book Image Container with Overlay */}
               <div className="relative mb-4 overflow-hidden px-4 pt-2">
                 <img
-                  src={`${import.meta.env.VITE_BACKEND_URL}/${book.image}`}
+                  src={`${import.meta.env.VITE_BACKEND_URL}${book.image}`}
                   alt={book.title}
                   className="w-full h-100"
                 />

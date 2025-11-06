@@ -69,7 +69,7 @@ const ImgInfo = () => {
       <div className="px-6 md:px-20 py-4 flex flex-col md:flex-row gap-10">
         <div className='border border-gray-400 p-5 flex-shrink-0'>
           <img
-            src={`${import.meta.env.VITE_BACKEND_URL}/${book.image?.replace(/\\/g, '/')}`}
+            src={`${import.meta.env.VITE_BACKEND_URL}${book.image?.replace(/\\/g, '/')}`}
             alt={book.title}
             className="h-80 w-60 object-contain mx-auto"
           />

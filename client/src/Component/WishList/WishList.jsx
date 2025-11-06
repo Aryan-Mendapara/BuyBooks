@@ -110,7 +110,7 @@ const WishList = () => {
                   <tr key={item._id || idx} className="text-center border-t border-gray-300">
                     <td className="p-2 border border-gray-300">
                       <img
-                        src={`${import.meta.env.VITE_BACKEND_URL}/${item.image?.replace(/\\/g, '/')}`}
+                        src={`${import.meta.env.VITE_BACKEND_URL}${item.image?.replace(/\\/g, '/')}`}
                         alt={item.title || "No title"}
                         className="h-16 w-16 mx-auto object-contain"
                       />

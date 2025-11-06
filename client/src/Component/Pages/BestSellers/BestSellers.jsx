@@ -198,7 +198,7 @@ const BestSeller = () => {
                       <div className="relative mb-4 overflow-hidden px-4 pt-2">
                         <div className="relative pb-[133%]">
                           <img
-                            src={`${import.meta.env.VITE_BACKEND_URL}/${book.image}`}
+                            src={`${import.meta.env.VITE_BACKEND_URL}${book.image}`}
                             alt={book.title}
                             className="absolute inset-0 w-60 h-60 object-contain"
                           />
@@ -299,7 +299,7 @@ const BestSeller = () => {
                       <div className="relative mb-4 overflow-hidden px-4 pt-2">
                         <div className="relative pb-[133%]">
                           <img
-                            src={`${import.meta.env.VITE_BACKEND_URL}/${book.image}`}
+                            src={`${import.meta.env.VITE_BACKEND_URL}${book.image}`}
                             alt={book.title}
                             className="absolute inset-0 w-full h-full object-contain"
                           />
