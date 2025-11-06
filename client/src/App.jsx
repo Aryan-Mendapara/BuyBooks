@@ -18,7 +18,7 @@ import Account from './Component/Account/Account.jsx'
 import ShippingAddress from './Component/Shipping/ShippingAddress/ShippingAddress.jsx'
 import OrderSummary from './Component/Shipping/OrderSummary/OrderSummary.jsx'
 import TermsAndConditions from './Component/Shipping/TermsAndConditions/TermsAndConditions.jsx'
-import ImgInfo from './Component/ImgInfo/ImgInfo.jsx'
+import BooksInfo from './Component/BooksInfo/BooksInfo.jsx'
 import Payment from './Component/Shipping/Payment/Payment.jsx'
 import Add_EditBooks from './Component/Add&EditBooks/Add&EditBooks.jsx'
 import NetBanking from './Component/Shipping/Payment/OptionPayment/NetBanking.jsx'
@@ -49,7 +49,7 @@ function App() {
               <Route path='/games-puzzles' element={<GamesPuzzles />} />
               <Route path='/billing-details' element={<BillingDetails />} />
               <Route path='/wishlist' element={<WishList />} />
-              <Route path='/images-details/:id' element={<ImgInfo />} />
+              <Route path='/images-details/:id' element={<BooksInfo />} />
               <Route path='/my-account' element={<Account />} />
               <Route path='/shipping-address' element={<ShippingAddress />} />
               <Route path='/order-summary' element={<OrderSummary />} />
