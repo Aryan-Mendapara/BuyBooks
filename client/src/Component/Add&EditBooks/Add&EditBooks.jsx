@@ -50,16 +50,16 @@ function Add_EditBooks() {
     }
   }, [isEdit, state]);
 
-  const handleFormChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === 'image') {
-      const file = files[0];
-      const imageUrl = URL.createObjectURL(file);
-      setFormData({ ...formData, image: file, imageUrl });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-  };
+  // const handleFormChange = (e) => {
+  //   const { name, value, files } = e.target;
+  //   if (name === 'image') {
+  //     const file = files[0];
+  //     const imageUrl = URL.createObjectURL(file);
+  //     setFormData({ ...formData, image: file, imageUrl });
+  //   } else {
+  //     setFormData({ ...formData, [name]: value });
+  //   }
+  // };
 
   // const handleSaveToServer = async () => {
   //   if (!formData.title || !formData.author || !formData.Publisher || !formData.price || !formData.originalPrice || !formData.discount) {
@@ -87,6 +87,16 @@ function Add_EditBooks() {
   //     console.error(error);
   //   }
   // };
+
+  const handleFormChange = (e) => {
+  const { name, value, files } = e.target;
+  if (name === 'image' && files?.length > 0) {
+    setFormData({ ...formData, image: files[0] });
+  } else {
+    setFormData({ ...formData, [name]: value });
+  }
+};
+
 
   const handleSaveToServer = async () => {
   if (!formData.title || !formData.author || !formData.Publisher ||
