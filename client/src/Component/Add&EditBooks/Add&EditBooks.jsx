@@ -72,7 +72,7 @@ function Add_EditBooks() {
       if (isEdit) data.append('_id', state.book._id); // include id for update
       // FIXED: Removed selectedImage (it does NOT exist)
       if (formData.image) {
-        data.append("image", formData.image);
+        data.append("images", formData.image);
       }
       data.append('title', formData.title);
       data.append('author', formData.author);
