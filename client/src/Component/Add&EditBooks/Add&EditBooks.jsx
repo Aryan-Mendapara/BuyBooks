@@ -70,6 +70,10 @@ function Add_EditBooks() {
     try {
       const data = new FormData();
       if (isEdit) data.append('_id', state.book._id); // include id for update
+      // FIXED: Removed selectedImage (it does NOT exist)
+      if (formData.image) {
+        data.append("image", formData.image);
+      }
       data.append('title', formData.title);
       data.append('author', formData.author);
       data.append('Publisher', formData.Publisher);
