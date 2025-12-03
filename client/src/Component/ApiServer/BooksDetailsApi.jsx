@@ -6,7 +6,7 @@ export const ImagesApiPost = async (imageFile) => {
 
     try {
         const response = await axios.post(
-            `${BASE_URL}/books/images/import`,
+            `${import.meta.env.VITE_BACKEND_URL}/books/images/import`,
             formData,
             {
                 headers: { "Content-Type": "multipart/form-data" }
