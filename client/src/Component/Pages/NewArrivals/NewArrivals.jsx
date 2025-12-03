@@ -9,7 +9,7 @@ import { addToBillingDetails } from '../../Redux/Slice/BillingDetailsSlice';
 import { ThemeContext } from '../../ThemeContext/ThemeContext';
 
 function NewArrivals() {
-    const {darkMode} = useContext(ThemeContext);
+    const { darkMode } = useContext(ThemeContext);
 
     const [isAnimating, setIsAnimating] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -295,10 +295,10 @@ function NewArrivals() {
                                             {/* Book Image */}
                                             <div className="relative mb-4 overflow-hidden px-4 pt-2">
                                                 <div className="relative pb-[133%]">
-                                                    <img
+                                                     <img
                                                         src={`${import.meta.env.VITE_BACKEND_URL}${book.image}`}
                                                         alt={book.title}
-                                                        className="absolute inset-0 w-full h-full object-contain"
+                                                        className="absolute inset-0 w-60 h-60 object-contain"
                                                     />
                                                 </div>
                                             </div>

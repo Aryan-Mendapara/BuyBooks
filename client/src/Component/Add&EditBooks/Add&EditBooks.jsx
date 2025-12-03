@@ -61,32 +61,42 @@ function Add_EditBooks() {
     }
   };
 
+  // const handleSaveToServer = async () => {
+  //   if (!formData.title || !formData.author || !formData.Publisher || !formData.price || !formData.originalPrice || !formData.discount) {
+  //     alert("Please fill all fields");
+  //     return;
+  //   }
+
+  //   try {
+  //     const data = new FormData();
+  //     if (isEdit) data.append('_id', state.book._id); // include id for update
+  //     data.append('title', formData.title);
+  //     data.append('author', formData.author);
+  //     data.append('Publisher', formData.Publisher);
+  //     data.append('price', formData.price);
+  //     data.append('originalPrice', formData.originalPrice);
+  //     data.append('discount', formData.discount);
+  //     data.append('category', formData.category);
+  //     if (formData.image) data.append('image', formData.image); // optional
+
+  //     await ImagesApiPost(data);
+  //     alert(isEdit ? "Book updated successfully!" : "Book saved successfully!");
+  //     navigate('/');
+  //   } catch (error) {
+  //     alert("Failed to save book.");
+  //     console.error(error);
+  //   }
+  // };
+
   const handleSaveToServer = async () => {
-    if (!formData.title || !formData.author || !formData.Publisher || !formData.price || !formData.originalPrice || !formData.discount) {
-      alert("Please fill all fields");
-      return;
-    }
-
     try {
-      const data = new FormData();
-      if (isEdit) data.append('_id', state.book._id); // include id for update
-      data.append('title', formData.title);
-      data.append('author', formData.author);
-      data.append('Publisher', formData.Publisher);
-      data.append('price', formData.price);
-      data.append('originalPrice', formData.originalPrice);
-      data.append('discount', formData.discount);
-      data.append('category', formData.category);
-      if (formData.image) data.append('image', formData.image); // optional
-
-      await ImagesApiPost(data);
-      alert(isEdit ? "Book updated successfully!" : "Book saved successfully!");
-      navigate('/');
-    } catch (error) {
-      alert("Failed to save book.");
-      console.error(error);
+        const res = await ImagesApiPost(selectedImage);
+        console.log("Uploaded:", res);
+    } catch (err) {
+        console.error("Upload failed:", err);
     }
-  };
+};
+
 
   return (
     <div className='fixed inset-0 bg-black bg-opacity-60 flex justify-center items-start pt-10 z-50 overflow-y-auto'>
