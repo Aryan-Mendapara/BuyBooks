@@ -61,32 +61,64 @@ function Add_EditBooks() {
     }
   };
 
+  // const handleSaveToServer = async () => {
+  //   if (!formData.title || !formData.author || !formData.Publisher || !formData.price || !formData.originalPrice || !formData.discount) {
+  //     alert("Please fill all fields");
+  //     return;
+  //   }
+
+  //   try {
+  //     const data = new FormData();
+  //     if (isEdit) data.append('_id', state.book._id); // include id for update
+  //     data.append('title', formData.title);
+  //     data.append('author', formData.author);
+  //     data.append('Publisher', formData.Publisher);
+  //     data.append('price', formData.price);
+  //     data.append('originalPrice', formData.originalPrice);
+  //     data.append('discount', formData.discount);
+  //     data.append('category', formData.category);
+  //     if (formData.image) data.append('image', formData.image); // optional
+
+  //     await ImagesApiPost(data);
+  //     alert(isEdit ? "Book updated successfully!" : "Book saved successfully!");
+  //     navigate('/');
+  //   } catch (error) {
+  //     alert("Failed to save book.");
+  //     console.error(error);
+  //   }
+  // };
+
   const handleSaveToServer = async () => {
-    if (!formData.title || !formData.author || !formData.Publisher || !formData.price || !formData.originalPrice || !formData.discount) {
-      alert("Please fill all fields");
-      return;
-    }
+  if (!formData.title || !formData.author || !formData.Publisher ||
+      !formData.price || !formData.originalPrice || !formData.discount ||
+      !formData.category || formData.category === "Select Category") {
+    alert("Please fill all fields");
+    return;
+  }
 
-    try {
-      const data = new FormData();
-      if (isEdit) data.append('_id', state.book._id); // include id for update
-      data.append('title', formData.title);
-      data.append('author', formData.author);
-      data.append('Publisher', formData.Publisher);
-      data.append('price', formData.price);
-      data.append('originalPrice', formData.originalPrice);
-      data.append('discount', formData.discount);
-      data.append('category', formData.category);
-      if (formData.image) data.append('image', formData.image); // optional
+  try {
+    const data = new FormData();
+    if (isEdit) data.append("_id", state.book._id);
 
-      await ImagesApiPost(data);
-      alert(isEdit ? "Book updated successfully!" : "Book saved successfully!");
-      navigate('/');
-    } catch (error) {
-      alert("Failed to save book.");
-      console.error(error);
-    }
-  };
+    if (formData.image) data.append("image", formData.image); // key must be "image"
+
+    data.append("title", formData.title);
+    data.append("author", formData.author);
+    data.append("Publisher", formData.Publisher);
+    data.append("price", formData.price);
+    data.append("originalPrice", formData.originalPrice);
+    data.append("discount", formData.discount);
+    data.append("category", formData.category);
+
+    await ImagesApiPost(data);
+    alert(isEdit ? "Book updated!" : "Book saved!");
+    navigate("/");
+  } catch (err) {
+    console.error("Images API error:", err);
+    alert("Failed to save book.");
+  }
+};
+
 
   return (
     <div className='fixed inset-0 bg-black bg-opacity-60 flex justify-center items-start pt-10 z-50 overflow-y-auto'>
