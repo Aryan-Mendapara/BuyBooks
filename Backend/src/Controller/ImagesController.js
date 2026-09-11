@@ -1,40 +1,71 @@
-import { bucket } from "../DBConnection/FirebaseConnection.js";
 import { Image } from "../Models/imagesModels.js";
-import fs from "node:fs";
+import cloudinary from "../Config/cloudinary.js";
+import { uploadToCloudinary } from "../Middleware/cloudinaryMiddleware.js";
 
 const createBooks = async (req, res) => {
   try {
-    if (!req.file) return res.status(400).json({ message: "No image uploaded" });
-
-    const { title, author, Publisher, price, originalPrice, discount, category } = req.body;
-
-    if (!title || !price || !originalPrice || !discount || !category) {
-      return res.status(400).json({ message: "Missing required fields" });
+    // Check image
+    if (!req.file) {
+      return res.status(400).json({
+        message: "No image uploaded",
+      });
     }
 
-    // Upload to Firebase
-    const localFile = req.file.path;
-    const firebaseFile = bucket.file(`books/${Date.now()}-${req.file.originalname}`);
-    await firebaseFile.save(fs.readFileSync(localFile), { metadata: { contentType: req.file.mimetype } });
-    await firebaseFile.makePublic();
+    const {
+      title,
+      author,
+      Publisher,
+      price,
+      originalPrice,
+      discount,
+      category,
+    } = req.body;
 
-    const imageUrl = `https://storage.googleapis.com/${bucket.name}/${firebaseFile.name}`;
+    // Validate required fields
+    if (
+      !title ||
+      !price ||
+      !originalPrice ||
+      !discount ||
+      !category
+    ) {
+      return res.status(400).json({
+        message: "Missing required fields",
+      });
+    }
 
+    // Upload image to Cloudinary
+    const cloudinaryResult = await uploadToCloudinary(
+      req.file.buffer
+    );
+
+    // Save book in MongoDB
     const newBook = new Image({
-      title, author, Publisher, price, originalPrice, discount, category, image: imageUrl
+      title,
+      author,
+      Publisher,
+      price: Number(price),
+      originalPrice: Number(originalPrice),
+      discount: Number(discount),
+      category,
+      image: cloudinaryResult.secure_url
     });
 
     await newBook.save();
-    fs.unlinkSync(localFile); // remove local file
 
-    res.status(201).json({ message: "Book created", newBook });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error", error: err.message });
+    return res.status(201).json({
+      message: "Book created successfully",
+      newBook,
+    });
+  } catch (error) {
+    console.error("Create Book Error:", error);
+
+    return res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
   }
 };
-
-
 
 const getBooks = async (req, res) => {
   try {
@@ -53,9 +84,11 @@ const deleteBooks = async (req, res) => {
     const book = await Image.findByIdAndDelete(req.params.id);
     if (!book) return res.status(404).json({ message: "Book not found" });
 
-    // Delete image from Firebase
-    const firebasePath = book.image.split(`https://storage.googleapis.com/${bucket.name}/`)[1];
-    if (firebasePath) await bucket.file(firebasePath).delete();
+    if (book.image?.includes("/uploads/")) {
+      const fileName = path.basename(new URL(book.image).pathname);
+      const filePath = path.join(process.cwd(), "uploads", fileName);
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    }
 
     res.status(200).json({ message: "Book deleted successfully" });
   } catch (error) {

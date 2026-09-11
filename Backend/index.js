@@ -4,7 +4,7 @@ import dbConnection from "./src/DBConnection/MongoDBConnection.js";
 import index from "./src/Routes/main.js";
 import cors from "cors";
 import path from "node:path";
-import "./src/DBConnection/FirebaseConnection.js";
+import adminRoutes from "./src/Routes/Admin.js";
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -22,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 app.use("/books", index);
+app.use("/admin", adminRoutes);
 
 dbConnection();
 

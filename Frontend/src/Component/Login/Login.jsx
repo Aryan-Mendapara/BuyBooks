@@ -5,6 +5,8 @@ import { LoginUser, verifyOtp } from '../ApiServer/LoginApi';
 import { login } from '../Redux/Slice/authSlice';
 import { useDispatch } from 'react-redux';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
+import { FiUserCheck } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 function Login() {
     const { darkMode } = useContext(ThemeContext);
@@ -12,6 +14,7 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [otp, setOtp] = useState("");
+    const [otpSent, setOtpSent] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const dispatch = useDispatch();
@@ -21,6 +24,7 @@ function Login() {
         try {
             const response = await verifyOtp({ email, otp });
             setSuccess("Login successfully");
+            toast.success(response.message || "Login successfully");
             if (response.token) {
                 localStorage.setItem("token", response.token);
                 localStorage.setItem("userId", response.user._id);
@@ -28,7 +32,9 @@ function Login() {
                 setTimeout(() => navigate("/"), 1000);
             }
         } catch (err) {
-            setError(err.response?.data?.message || "Failed to verify OTP");
+            const message = err.response?.data?.message || "Failed to verify OTP";
+            setError(message);
+            toast.error(message);
         }
     };
 
@@ -62,10 +68,14 @@ function Login() {
             console.log("otp generated", response);            
             
             setSuccess("OTP generated successfully!");
+            toast.success(response.message || "OTP generated successfully!");
+            setOtpSent(true);
             console.log("OTP generated successfully");
             
         } catch (err) {
-            setError(err.response?.data?.message || "Login failed. Try again.");
+            const message = err.response?.data?.message || "Login failed. Try again.";
+            setError(message);
+            toast.error(message);
         }
     };
 
@@ -126,24 +136,40 @@ function Login() {
                         Generate OTP
                     </button>
 
-                    {/* OTP Input */}
-                    <input
-                        type="text"
-                        placeholder='Enter OTP'
-                        value={otp}
-                        onChange={(e) => setOtp(e.target.value.replace(/\D/, ""))}
-                        maxLength={6}
-                        className={`w-full p-2 rounded-lg border-2 outline-none ${darkMode ? "border-gray-600 text-white placeholder-gray-400" : "border-gray-400 bg-white text-black placeholder-gray-500"}`}
-                    />
+                    {/* Admin Login */}
+                    <div className="flex justify-start">
+                        <button
+                            type="button"
+                            onClick={() => navigate("/admin")}
+                            className="flex items-center gap-2 text-blue-500 hover:text-blue-400 hover:underline text-sm font-medium cursor-pointer"
+                        >
+                            <FiUserCheck className="text-base" />
+                            Admin
+                        </button>
+                    </div>
 
-                    {/* Verify OTP */}
-                    <button
-                        type="button"
-                        onClick={handleVerifyOtp}
-                        className={`bg-orange-500 w-full p-2 rounded-lg flex items-center justify-center hover:bg-orange-600 cursor-pointer ${darkMode ? "text-white" : "text-black"}`}
-                    >
-                        <FaUser className='mr-2' /> Login
-                    </button>
+                    {otpSent && (
+                        <>
+                            {/* OTP Input */}
+                            <input
+                                type="text"
+                                placeholder='Enter OTP'
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+                                maxLength={6}
+                                className={`w-full p-2 rounded-lg border-2 outline-none ${darkMode ? "border-gray-600 text-white placeholder-gray-400" : "border-gray-400 bg-white text-black placeholder-gray-500"}`}
+                            />
+
+                            {/* Verify OTP */}
+                            <button
+                                type="button"
+                                onClick={handleVerifyOtp}
+                                className={`bg-orange-500 w-full p-2 rounded-lg flex items-center justify-center hover:bg-orange-600 cursor-pointer ${darkMode ? "text-white" : "text-black"}`}
+                            >
+                                <FaUser className='mr-2' /> Login
+                            </button>
+                        </>
+                    )}
                 </form>
 
                 {/* Messages */}

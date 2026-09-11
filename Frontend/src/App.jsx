@@ -25,6 +25,8 @@ import NetBanking from './Component/Shipping/Payment/OptionPayment/NetBanking.js
 import { ThemeProvider } from './Component/ThemeContext/ThemeContext.jsx'
 import Loader from './Component/Pages/Loader.jsx'
 import PageLoader from './Component/Pages/PageLoader.jsx'
+import AdminLogin from './Component/AdminLogin/AdminLogin.jsx'
+import AdminDashboard from './Component/AdminDashboard/AdminDashboard.jsx'
 
 function App() {
   return (
@@ -36,6 +38,9 @@ function App() {
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/login' element={<Login />} />
+              <Route path='/admin' element={<AdminLogin />} />
+              <Route path='/admin/dashboard' element={<AdminDashboard />} />
+              <Route path='/admin/books/add' element={<Add_EditBooks />} />
               <Route path='/newarrivalsimg' element={<NewArrivalsImg />} />
               <Route path='/bestsellersimg' element={<BestSellerImg />} />
               <Route path='/schoolbooksimg' element={<SchoolBooksImg />} />

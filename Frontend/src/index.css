@@ -69,3 +69,50 @@ button:focus-visible {
 
 
 @import "tailwindcss";
+
+.buybooks-toast {
+  border: 1px solid #ff6b00;
+  border-radius: 6px;
+  background: #111111 !important;
+  color: #ffffff;
+  font-family: inherit;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 35%);
+}
+
+.buybooks-toast-body {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.buybooks-toast .Toastify__progress-bar {
+  background: #ff6b00;
+}
+
+.buybooks-toast .Toastify__close-button {
+  color: #ffffff;
+}
+
+.buybooks-toast.Toastify__toast--error {
+  border-color: #e04b35;
+}
+
+.buybooks-toast.Toastify__toast--error .Toastify__progress-bar {
+  background: #e04b35;
+}
+
+.admin-book-input {
+  display: block;
+  width: 100%;
+  margin-top: 7px;
+  border: 1px solid #ded5cc;
+  border-radius: 8px;
+  background: #fff;
+  padding: 12px 13px;
+  color: #171717;
+  outline: none;
+}
+
+.admin-book-input:focus {
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgb(249 115 22 / 12%);
+}

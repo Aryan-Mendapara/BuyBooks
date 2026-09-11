@@ -1,16 +1,11 @@
 import axios from 'axios';
 
-export const ImagesApiPost = async (imageFile) => {
-    const formData = new FormData();
-    formData.append("image", imageFile);
+export const ImagesApiPost = async (formData) => {
 
     try {
         const response = await axios.post(
             `${import.meta.env.VITE_BACKEND_URL}/books/images/import`,
-            formData,
-            {
-                headers: { "Content-Type": "multipart/form-data" }
-            }
+            formData
         );
 
         console.log("Images API response:", response.data);
