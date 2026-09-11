@@ -3,9 +3,15 @@ import { Readable } from "node:stream";
 
 export const uploadToCloudinary = (buffer) => {
   return new Promise((resolve, reject) => {
+
+    const folder =
+      process.env.NODE_ENV === "production"
+        ? "buy-books/books"
+        : "buybooks/books";
+
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        folder: `${process.env.CLOUDINARY_FOLDER}/books`,
+        folder,
         resource_type: "image",
       },
       (error, result) => {
