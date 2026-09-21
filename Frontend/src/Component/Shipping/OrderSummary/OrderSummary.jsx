@@ -4,6 +4,7 @@ import pay_icons from '../../../assets/img/pay_icons.png';
 import { getAddress } from '../../ApiServer/ShippingAddress';
 import { useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../../ThemeContext/ThemeContext';
+import { getImageUrl } from '../../Utils/imageUrl';
 
 function OrderSummary() {
   const {darkMode} = useContext(ThemeContext);
@@ -99,7 +100,7 @@ function OrderSummary() {
               <tr key={idx} className='text-center border-t border-gray-300'>
                 <td className='px-2 py-2 border border-gray-300'>
                   <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}${item.image}`}
+                    src={getImageUrl(item.image)}
                     alt={item.Product}
                     className='h-16 w-16 mx-auto object-contain'
                   />

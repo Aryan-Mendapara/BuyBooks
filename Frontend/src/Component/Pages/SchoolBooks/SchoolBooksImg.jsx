@@ -4,9 +4,11 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { ImagesApiDelete, ImagesApiGet } from '../../ApiServer/BooksDetailsApi';
 import { MdDelete, MdEdit } from "react-icons/md";
 import { ThemeContext } from '../../ThemeContext/ThemeContext';
+import { getImageUrl } from '../../Utils/imageUrl';
 
 const SchoolBooksImg = () => {
   const { darkMode } = useContext(ThemeContext);
+  const isAdminLoggedIn = Boolean(localStorage.getItem("adminToken"));
 
   const [books, setBooks] = useState([]);
   const [visibleBooks, setVisibleBooks] = useState(12);
@@ -71,6 +73,7 @@ const SchoolBooksImg = () => {
           </h1>
 
           <button
+            hidden={!isAdminLoggedIn}
             onClick={handleAddImages}
             className="bg-blue-600 text-white px-3 py-2 text-sm sm:px-4 sm:py-2 sm:text-base lg:px-6 lg:py-3 lg:text-lg rounded hover:bg-blue-700 transition cursor-pointer"
           >
@@ -106,12 +109,13 @@ const SchoolBooksImg = () => {
             >
 
               {/* Edit */}
-              <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
+              <div hidden={!isAdminLoggedIn} className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
                 <MdEdit size={20} />
               </div>
 
               {/* Delete */}
               <div
+                hidden={!isAdminLoggedIn}
                 onClick={() => handleDeleteImages(book._id)}
                 className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
               >
@@ -128,7 +132,7 @@ const SchoolBooksImg = () => {
               {/* Book Image Container with Overlay */}
               <div className="relative mb-4 overflow-hidden px-4 pt-2">
                 <img
-                  src={`${import.meta.env.VITE_BACKEND_URL}${book.image}`}
+                      src={getImageUrl(book.image)}
                   alt={book.title}
                   className="w-60 h-60 object-cover"
                 />
@@ -164,6 +168,7 @@ const SchoolBooksImg = () => {
 
               {/* Edit */}
               <div
+                hidden={!isAdminLoggedIn}
                 onClick={(e) => handleEdit(e, book)}
                 className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
               >
@@ -172,6 +177,7 @@ const SchoolBooksImg = () => {
 
               {/* Delete */}
               <div
+                hidden={!isAdminLoggedIn}
                 onClick={() => handleDeleteImages(book._id)}
                 className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
               >
@@ -188,7 +194,7 @@ const SchoolBooksImg = () => {
               {/* Book Image */}
               <div className="relative mb-4 overflow-hidden">
                 <img
-                  src={`${import.meta.env.VITE_BACKEND_URL}${book.image}`}
+                      src={getImageUrl(book.image)}
                   alt={book.title}
                   className="w-full h-100 p-4"
                 />

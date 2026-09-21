@@ -6,6 +6,7 @@ import { BillingApiPost } from '../ApiServer/BillingDetailsApi';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToBillingDetails } from '../Redux/Slice/BillingDetailsSlice';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
+import { getImageUrl } from '../Utils/imageUrl';
 
 const WishList = () => {
   const { darkMode } = useContext(ThemeContext);
@@ -110,7 +111,7 @@ const WishList = () => {
                   <tr key={item._id || idx} className="text-center border-t border-gray-300">
                     <td className="p-2 border border-gray-300">
                       <img
-                        src={`${import.meta.env.VITE_BACKEND_URL}${item.image?.replace(/\\/g, '/')}`}
+                        src={getImageUrl(item.image?.replace(/\\/g, '/'))}
                         alt={item.title || "No title"}
                         className="h-16 w-16 mx-auto object-contain"
                       />
@@ -148,7 +149,7 @@ const WishList = () => {
                 <div key={item._id || idx} className="border rounded-lg p-4 shadow-sm flex flex-col gap-2">
                   <div className="flex justify-center mb-2">
                     <img
-                      src={`${import.meta.env.VITE_BACKEND_URL}${item.image?.replace(/\\/g, '/')}`}
+                        src={getImageUrl(item.image?.replace(/\\/g, '/'))}
                       alt={item.title || "No title"}
                       className="h-24 w-24 object-contain"
                     />

@@ -1,51 +1,124 @@
 // src/Controller/Login.js
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import Login from "../Models/Login.js";
-import SendEmail from "../Models/sendMail.js";
+import Register from "../Models/Register.js";
+import UserLogin from "../Models/UserLogin.js";
+
+const registerUser = async (req, res) => {
+  try {
+    const { firstName, lastName, mobileno, email, password, gender } = req.body;
+
+    if (!firstName || !lastName || !email || !mobileno || !password || !gender) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    if (!/^\d{10}$/.test(String(mobileno))) {
+      return res.status(400).json({ message: "Enter a valid 10-digit mobile number" });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: "Enter a valid email address" });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ message: "Password must be at least 6 characters" });
+    }
+
+    const existingUser = await Register.findOne({ email: email.toLowerCase() });
+    if (existingUser) {
+      return res.status(409).json({ message: "User already registered with this email" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new Register({
+      firstName,
+      lastName,
+      mobileno: Number(mobileno),
+      email: email.toLowerCase(),
+      password: hashedPassword,
+      gender: gender.toLowerCase(),
+    });
+
+    await newUser.save();
+
+    return res.status(201).json({
+      message: "User registered successfully",
+      user: {
+        _id: newUser._id,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        mobileno: newUser.mobileno,
+        email: newUser.email,
+        gender: newUser.gender,
+      },
+    });
+  } catch (error) {
+    console.error("Register user error:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
 
 const addLogin = async (req, res) => {
   try {
-    console.log("Backend addLogin called");
+    const { email, mobileno, password } = req.body;
 
-    const { email, mobileno } = req.body;
-
-    if (!email || !mobileno) {
-      return res.status(400).json({ message: "Email and Mobile are required" });
+    if (!email || !mobileno || !password) {
+      return res.status(400).json({ message: "Email, mobile number and password are required" });
     }
 
-    const mobileNum = Number(mobileno);
-    if (isNaN(mobileNum)) {
-      return res.status(400).json({ message: "Invalid mobile number" });
+    if (!/^\d{10}$/.test(String(mobileno))) {
+      return res.status(400).json({ message: "Enter a valid 10-digit mobile number" });
     }
 
-    // Check if user already exists
-    let user = await Login.findOne({ email });
+    const user = await Register.findOne({
+      email: email.toLowerCase(),
+      mobileno: Number(mobileno),
+    });
+
     if (!user) {
-      user = new Login({ email, mobileno: mobileNum });
-      await user.save();
-      console.log("New user created:", user.email);
+      return res.status(404).json({ message: "User not found. Please register first." });
     }
 
-    // Generate OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    user.otp = otp;
-    user.otpExpires = Date.now() + 5 * 60 * 1000; // 5 minutes
-    await user.save();
-
-    console.log("Generated OTP:", otp);
-
-    // Send OTP via Brevo SMTP
-    try {
-      await SendEmail(email, otp);
-      console.log("OTP sent successfully to", email);
-      return res.status(200).json({ message: "OTP sent successfully to email" });
-    } catch (emailError) {
-      console.error("Failed to send OTP email:", emailError.message);
-      return res.status(500).json({ message: "Failed to OTP send email" });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      await UserLogin.create({
+        userId: user._id,
+        email: email.toLowerCase(),
+        mobileno: Number(mobileno),
+        status: "failed",
+      });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
-  } catch (err) {
-    console.error("Login error:", err.stack || err);
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_KEY || process.env.JWT_SECRET || "secret",
+      { expiresIn: "1d" }
+    );
+
+    await UserLogin.create({
+      userId: user._id,
+      email: user.email,
+      mobileno: user.mobileno,
+      status: "success",
+    });
+
+    return res.status(200).json({
+      message: "Login successful",
+      token,
+      user: {
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        mobileno: user.mobileno,
+        email: user.email,
+        gender: user.gender,
+      },
+    });
+  } catch (error) {
+    console.error("Login error:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };
@@ -71,4 +144,4 @@ const deleteLogin = async (req, res) => {
   }
 };
 
-export { addLogin, getLogin, deleteLogin };
+export { addLogin, getLogin, deleteLogin, registerUser };

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BillingApiDelete, BillingApiGet } from '../ApiServer/BillingDetailsApi';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
+import { getImageUrl } from '../Utils/imageUrl';
 
 const BillingDetails = () => {
   const { darkMode } = useContext(ThemeContext);
@@ -77,7 +78,7 @@ const BillingDetails = () => {
                 >
                   <td className="px-2 py-2 border border-gray-300">
                     <img
-                      src={`${import.meta.env.VITE_BACKEND_URL}${item.image}`}
+                      src={getImageUrl(item.image)}
                       alt={item.Product}
                       className="h-16 w-16 mx-auto object-contain cursor-pointer"
                       onClick={() => navigate(`/images-details/${item._id}`)}
@@ -154,7 +155,7 @@ const BillingDetails = () => {
           >
             <div className="flex justify-between items-center">
               <img 
-                src={`${import.meta.env.VITE_BACKEND_URL}${item.image}`} 
+                      src={getImageUrl(item.image)}
                 alt={item.Product} 
                 className="h-20 w-20 object-contain"
                 // onClick={() => navigate(`/images-details/${item._id}`)}

@@ -1,5 +1,21 @@
 import axios from 'axios';
 
+export const RegisterUser = async (body) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/books/login/register`,
+      body,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Register API error:", error);
+    throw error;
+  }
+};
+
 export const LoginUser = async ({ body }) => {
   console.log("LoginUser Api");
   

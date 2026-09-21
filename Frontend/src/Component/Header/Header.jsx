@@ -3,7 +3,6 @@ import logo from "../../assets/img/logo.png";
 import { FaHeart, FaHome, FaSearch, FaShoppingCart, FaUser, FaBars, FaTimes } from 'react-icons/fa';
 import { TbLogout, TbMoon, TbSun } from "react-icons/tb";
 import { Link, useNavigate } from 'react-router-dom';
-import { LoginDelete } from '../ApiServer/LoginApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../Redux/Slice/authSlice';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
@@ -18,20 +17,16 @@ function Header() {
     const wishlistCount = useSelector((state) => state.wishlist?.items?.length);
     const cartCount = useSelector((state) => state.billingdetails?.items?.length);
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+    const isAdminLoggedIn = Boolean(localStorage.getItem("adminToken"));
 
     const dispatch = useDispatch();
 
-    const handleLogout = async () => {
-        try {
-            const userId = localStorage.getItem("userId");
-            if (userId) await LoginDelete(userId);
-            localStorage.removeItem("token");
-            localStorage.removeItem("userId");
-            dispatch(logout());
-            setMenuOpen(false);
-        } catch (error) {
-            console.error("Logout error:", error);
-        }
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userProfile");
+        dispatch(logout());
+        setMenuOpen(false);
     };
 
     const handleAccount = () => {
@@ -115,8 +110,9 @@ function Header() {
                     </button>
 
                     {/* Login / Logout */}
-                    <div className="md:flex items-center justify-between px-4">
-                        {isLoggedIn ? (
+                    {!isAdminLoggedIn && (
+                        <div className="md:flex items-center justify-between px-4">
+                            {isLoggedIn ? (
                             <div className="relative">
                                 <button
                                     onClick={() => setMenuOpen(!menuOpen)}
@@ -152,15 +148,16 @@ function Header() {
                                 )}
 
                             </div>
-                        ) : (
-                            <button
-                                onClick={() => navigate('/login')}
-                                className="bg-orange-500 p-2 flex items-center gap-2 rounded-lg cursor-pointer"
-                            >
-                                <FaUser className={iconColor} /> <span>Login</span>
-                            </button>
-                        )}
-                    </div>
+                            ) : (
+                                <button
+                                    onClick={() => navigate('/login')}
+                                    className="bg-orange-500 p-2 flex items-center gap-2 rounded-lg cursor-pointer"
+                                >
+                                    <FaUser className={iconColor} /> <span>Login</span>
+                                </button>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
 

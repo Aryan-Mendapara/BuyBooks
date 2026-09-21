@@ -7,9 +7,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BillingApiPost } from '../../ApiServer/BillingDetailsApi';
 import { addToBillingDetails } from '../../Redux/Slice/BillingDetailsSlice';
 import { ThemeContext } from '../../ThemeContext/ThemeContext';
+import { getImageUrl } from '../../Utils/imageUrl';
 
 const FictionNonFictionBooks = () => {
     const {darkMode} = useContext(ThemeContext);
+    const isAdminLoggedIn = Boolean(localStorage.getItem("adminToken"));
 
     const [isAnimating, setIsAnimating] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -173,6 +175,7 @@ const FictionNonFictionBooks = () => {
 
                                         {/* Edit */}
                                         <div
+                                            hidden={!isAdminLoggedIn}
                                             onClick={(e) => handleEdit(e, book)}
                                             className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
                                         >
@@ -181,6 +184,7 @@ const FictionNonFictionBooks = () => {
 
                                         {/* Delete */}
                                         <div
+                                            hidden={!isAdminLoggedIn}
                                             onClick={() => handleDeleteImages(book._id)}
                                             className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
                                         >
@@ -198,7 +202,7 @@ const FictionNonFictionBooks = () => {
                                         <div className='relative mb-4 overflow-hidden px-4 pt-2'>
                                             <div className='relative pb-[133%]'>
                                                 <img
-                                                    src={`${import.meta.env.VITE_BACKEND_URL}${book.image}`}
+                                                    src={getImageUrl(book.image)}
                                                     alt={book.title}
                                                     className='absolute inset-0 w-60 h-60 object-contain'
                                                 />
@@ -268,6 +272,7 @@ const FictionNonFictionBooks = () => {
 
                                         {/* Edit */}
                                         <div
+                                                hidden={!isAdminLoggedIn}
                                             onClick={(e) => handleEdit(e, book)}
                                             className='absolute top-1 left-1 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
                                         >
@@ -276,6 +281,7 @@ const FictionNonFictionBooks = () => {
 
                                         {/* Delete */}
                                         <div
+                                                hidden={!isAdminLoggedIn}
                                             onClick={() => handleDeleteImages(book._id)}
                                             className="absolute top-1 left-7 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer"
                                         >
@@ -291,7 +297,7 @@ const FictionNonFictionBooks = () => {
                                         <div className="relative mb-4 overflow-hidden px-4 pt-2">
                                             <div className="relative pb-[133%]">
                                                 <img
-                                                    src={`${import.meta.env.VITE_BACKEND_URL}${book.image}`}
+                                                    src={getImageUrl(book.image)}
                                                     alt={book.title}
                                                     className="absolute inset-0 w-full h-full object-contain"
                                                 />

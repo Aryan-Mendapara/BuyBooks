@@ -3,10 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { FaShoppingCart } from 'react-icons/fa';
 import useBookList from '../../Utils/useBookList';
+import { getImageUrl } from '../../Utils/imageUrl';
 import { ThemeContext } from '../../ThemeContext/ThemeContext';
 
 const FictionNonFictionBooksImg = () => {
   const { darkMode } = useContext(ThemeContext);
+  const isAdminLoggedIn = Boolean(localStorage.getItem("adminToken"));
 
   const navigate = useNavigate();
 
@@ -44,6 +46,7 @@ const FictionNonFictionBooksImg = () => {
           </h1>
 
           <button
+            hidden={!isAdminLoggedIn}
             onClick={handleAddImages}
             className="bg-blue-600 text-white px-3 py-2 text-sm sm:px-4 sm:py-2 sm:text-base lg:px-6 lg:py-3 lg:text-lg rounded hover:bg-blue-700 transition cursor-pointer"
           >
@@ -83,16 +86,17 @@ const FictionNonFictionBooksImg = () => {
                   onClick={() => navigate(`/images-details/${book._id}`)}
                 >
                   {/* Edit Button */}
-                  <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
+                  <div hidden={!isAdminLoggedIn} className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
                     <MdEdit size={20} />
                   </div>
 
                   {/* Delete Button */}
                   <div
+                    hidden={!isAdminLoggedIn}
                     onClick={() => handleDeleteImages(book._id)}
                     className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
                   >
-                    <MdDelete size={20} />
+                    <MdDelete size={20} hidden={!isAdminLoggedIn} />
                   </div>
 
                   {/* Discount Badge */}
@@ -103,7 +107,7 @@ const FictionNonFictionBooksImg = () => {
                   {/* Book Image Container with Overlay */}
                   <div className="relative mb-4 overflow-hidden px-4 pt-2">
                     <img
-                      src={`${import.meta.env.VITE_BACKEND_URL}${book.image}`}
+                      src={getImageUrl(book.image)}
                       alt={book.title}
                       className="w-60 h-60 object-cover"
                     />
@@ -141,16 +145,17 @@ const FictionNonFictionBooksImg = () => {
                   onClick={() => navigate(`/images-details/${book._id}`)}
                 >
                   {/* Edit Button */}
-                  <div className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
+                  <div hidden={!isAdminLoggedIn} className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'>
                     <MdEdit size={20} />
                   </div>
 
                   {/* Delete Button */}
                   <div
+                    hidden={!isAdminLoggedIn}
                     onClick={() => handleDeleteImages(book._id)}
                     className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
                   >
-                    <MdDelete size={20} />
+                    <MdDelete size={20} hidden={!isAdminLoggedIn} />
                   </div>
 
                   {/* Discount Badge */}
@@ -161,7 +166,7 @@ const FictionNonFictionBooksImg = () => {
                   {/* Book Image Container with Overlay */}
                   <div className="relative mb-4 overflow-hidden px-4 pt-2">
                     <img
-                      src={`${import.meta.env.VITE_BACKEND_URL}${book.image}`}
+                      src={getImageUrl(book.image)}
                       alt={book.title}
                       className="w-full h-100"
                     />

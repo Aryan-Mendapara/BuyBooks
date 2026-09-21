@@ -10,6 +10,7 @@ const BestSellerImg = () => {
 
   const [books, setBooks] = useState([]);
   const [visibleBooks, setVisibleBooks] = useState(12);
+  const isAdminLoggedIn = Boolean(localStorage.getItem("adminToken"));
 
   useEffect(() => {
     fetchBooksFromServer();
@@ -69,12 +70,14 @@ const BestSellerImg = () => {
             Best Sellers
           </h1>
 
-          <button
-            onClick={handleAddImages}
-            className="bg-blue-600 text-white px-3 py-2 text-sm sm:px-4 sm:py-2 sm:text-base lg:px-6 lg:py-3 lg:text-lg rounded hover:bg-blue-700 transition cursor-pointer"
-          >
-            Add Images
-          </button>
+          {isAdminLoggedIn && (
+            <button
+              onClick={handleAddImages}
+              className="bg-blue-600 text-white px-3 py-2 text-sm sm:px-4 sm:py-2 sm:text-base lg:px-6 lg:py-3 lg:text-lg rounded hover:bg-blue-700 transition cursor-pointer"
+            >
+              Add Images
+            </button>
+          )}
         </div>
 
         {/* Sort and Total */}
@@ -104,21 +107,22 @@ const BestSellerImg = () => {
               onClick={() => navigate(`/images-details/${book._id}`)}
             >
 
-              {/* Edit */}
-              <div
-                onClick={(e) => handleEdit(e, book)}
-                className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
-              >
-                <MdEdit size={20} />
-              </div>
-
-              {/* Delete */}
-              <div
-                onClick={() => handleDeleteImages(book._id)}
-                className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
-              >
-                <MdDelete size={20} />
-              </div>
+              {isAdminLoggedIn && (
+                <>
+                  <div
+                    onClick={(e) => handleEdit(e, book)}
+                    className='absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
+                  >
+                    <MdEdit size={20} />
+                  </div>
+                  <div
+                    onClick={() => handleDeleteImages(book._id)}
+                    className='absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
+                  >
+                    <MdDelete size={20} />
+                  </div>
+                </>
+              )}
 
               {/* Discount */}
               {book.discount && (
@@ -159,21 +163,22 @@ const BestSellerImg = () => {
               className="group relative border border-gray-300 hover:shadow-lg transition-shadow cursor-pointer rounded-lg overflow-hidden"
               onClick={() => navigate(`/images-details/${book._id}`)}
             >
-              {/* Edit */}
-              <div
-                onClick={(e) => handleEdit(e, book)}
-                className="absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer"
-              >
-                <MdEdit size={20} />
-              </div>
-
-              {/* Delete */}
-              <div
-                onClick={() => handleDeleteImages(book._id)}
-                className="absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer"
-              >
-                <MdDelete size={20} />
-              </div>
+              {isAdminLoggedIn && (
+                <>
+                  <div
+                    onClick={(e) => handleEdit(e, book)}
+                    className="absolute top-2 left-2 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer"
+                  >
+                    <MdEdit size={20} />
+                  </div>
+                  <div
+                    onClick={() => handleDeleteImages(book._id)}
+                    className="absolute top-2 left-10 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer"
+                  >
+                    <MdDelete size={20} />
+                  </div>
+                </>
+              )}
 
               {/* Discount Badge */}
               <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded-sm z-10">

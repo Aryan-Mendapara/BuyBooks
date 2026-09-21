@@ -1,8 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../Redux/Slice/authSlice";
-import { LoginDelete } from "../ApiServer/LoginApi";
 import { addaccount } from "../ApiServer/AccountApi";
 import { ThemeContext } from "../ThemeContext/ThemeContext";
 
@@ -20,17 +19,22 @@ function Account() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
-    try {
-      const userId = localStorage.getItem("userId");
-      if (userId) await LoginDelete(userId);
-      localStorage.removeItem("token");
-      localStorage.removeItem("userId");
-      dispatch(logout());
-      navigate("/login");
-    } catch (err) {
-      console.error("Logout error:", err);
-    }
+  useEffect(() => {
+    const savedProfile = JSON.parse(localStorage.getItem("userProfile") || "{}");
+
+    if (savedProfile.firstName) setFirstName(savedProfile.firstName);
+    if (savedProfile.lastName) setLastName(savedProfile.lastName);
+    if (savedProfile.mobileno) setMobile(String(savedProfile.mobileno));
+    if (savedProfile.email) setEmail(savedProfile.email);
+    if (savedProfile.gender) setGender(savedProfile.gender);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userProfile");
+    dispatch(logout());
+    navigate("/login");
   };
 
   const handleSubmit = async (e) => {

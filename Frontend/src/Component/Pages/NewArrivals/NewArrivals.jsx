@@ -10,6 +10,7 @@ import { ThemeContext } from '../../ThemeContext/ThemeContext';
 
 function NewArrivals() {
     const { darkMode } = useContext(ThemeContext);
+    const isAdminLoggedIn = Boolean(localStorage.getItem("adminToken"));
 
     const [isAnimating, setIsAnimating] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -166,6 +167,7 @@ function NewArrivals() {
                                     >
                                         {/* Edit */}
                                         <div
+                                            hidden={!isAdminLoggedIn}
                                             onClick={(e) => handleEdit(e, book)}
                                             className='absolute top-2 left-2 bg-gray-900 text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
                                         >
@@ -174,6 +176,7 @@ function NewArrivals() {
 
                                         {/* Delete */}
                                         <div
+                                            hidden={!isAdminLoggedIn}
                                             onClick={(e) => handleDeleteImages(book._id)}
                                             className='absolute top-2 left-10 bg-gray-900 text-white px-1 py-1 rounded-sm z-10 cursor-pointer'
                                         >
@@ -272,6 +275,7 @@ function NewArrivals() {
                                         >
                                             {/* Edit */}
                                             <div
+                                                    hidden={!isAdminLoggedIn}
                                                 onClick={(e) => handleEdit(e, book)}
                                                 className="absolute top-1 left-1 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer"
                                             >
@@ -280,6 +284,7 @@ function NewArrivals() {
 
                                             {/* Delete */}
                                             <div
+                                                    hidden={!isAdminLoggedIn}
                                                 onClick={() => handleDeleteImages(book._id)}
                                                 className="absolute top-1 left-7 bg-black text-white px-1 py-1 rounded-sm z-10 cursor-pointer"
                                             >
