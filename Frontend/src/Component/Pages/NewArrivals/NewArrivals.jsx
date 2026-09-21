@@ -300,10 +300,10 @@ function NewArrivals() {
                                             {/* Book Image */}
                                             <div className="relative mb-4 overflow-hidden px-4 pt-2">
                                                 <div className="relative pb-[133%]">
-                                                     <img
+                                                    <img
                                                         src={book.image}
                                                         alt={book.title}
-                                                        className="absolute inset-0 w-60 h-60 object-contain"
+                                                        className="absolute inset-0 w-full h-full object-contain p-1"
                                                     />
                                                 </div>
                                             </div>
