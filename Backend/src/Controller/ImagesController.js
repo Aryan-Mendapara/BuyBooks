@@ -69,8 +69,20 @@ const createBooks = async (req, res) => {
 
 const getBooks = async (req, res) => {
   try {
-    const { category } = req.query;
-    const query = category ? { category } : {};
+    const { category, search } = req.query;
+    const query = {};
+
+    if (category) query.category = category;
+
+    if (search?.trim()) {
+      const searchText = search.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      query.$or = [
+        { title: { $regex: searchText, $options: "i" } },
+        { author: { $regex: searchText, $options: "i" } },
+        { Publisher: { $regex: searchText, $options: "i" } },
+      ];
+    }
+
     const books = await Image.find(query).sort({ createdAt: -1 });
     res.status(200).json({ message: "Books fetched successfully", books });
   } catch (error) {

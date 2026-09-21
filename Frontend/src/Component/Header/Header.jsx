@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import logo from "../../assets/img/logo.png";
 import { FaHeart, FaHome, FaSearch, FaShoppingCart, FaUser, FaBars, FaTimes } from 'react-icons/fa';
 import { TbLogout, TbMoon, TbSun } from "react-icons/tb";
@@ -6,10 +6,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../Redux/Slice/authSlice';
 import { ThemeContext } from '../ThemeContext/ThemeContext';
+import { SearchBooks } from '../ApiServer/BooksDetailsApi';
 
 function Header() {
     const { darkMode, toggleDarkMode } = useContext(ThemeContext);
     const [search, setSearch] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
     const [mobileMenu, setMobileMenu] = useState(false);
 
@@ -34,13 +37,48 @@ function Header() {
         navigate("/my-account");
     };
 
-    // const handleSearch = (e) => {
-    //     e.preventDefault();
-    //     if (search.trim()) {
-    //         navigate(`/search?q=${encodeURIComponent(search.trim())}`);
-    //         setSearch(""); // Clear search after navigation
-    //     }
-    // };
+    useEffect(() => {
+        const searchText = search.trim();
+
+        if (!searchText) {
+            setSuggestions([]);
+            return undefined;
+        }
+
+        let isMounted = true;
+        const timer = setTimeout(async () => {
+            try {
+                const response = await SearchBooks(searchText);
+                if (isMounted) setSuggestions(response.books || []);
+            } catch (error) {
+                if (isMounted) setSuggestions([]);
+            }
+        }, 250);
+
+        return () => {
+            isMounted = false;
+            clearTimeout(timer);
+        };
+    }, [search]);
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        const searchText = search.trim();
+
+        if (searchText) {
+            navigate(`/search?q=${encodeURIComponent(searchText)}`);
+            setSearch("");
+            setSuggestions([]);
+            setShowSuggestions(false);
+        }
+    };
+
+    const handleSuggestionClick = (book) => {
+        setSearch("");
+        setSuggestions([]);
+        setShowSuggestions(false);
+        navigate(`/images-details/${book._id}`);
+    };
 
     const headerBg = darkMode ? 'bg-black/90 text-white' : 'bg-white text-black';
     const navBg = darkMode ? 'bg-black/85 text-white' : 'bg-neutral-700 text-white';
@@ -77,12 +115,16 @@ function Header() {
                 </div>
 
                 {/* Search Bar */}
-                <form className={`flex items-center border rounded-lg overflow-hidden w-full md:max-w-xl ${darkMode ? 'border-gray-600' : 'border-black'}`}>
+                <form onSubmit={handleSearch} className={`relative flex items-center border rounded-lg w-full md:max-w-xl ${darkMode ? 'border-gray-600' : 'border-black'}`}>
                     <input
                         type="text"
                         placeholder="Search by title, author or publisher..."
                         value={search}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onFocus={() => setShowSuggestions(true)}
+                        onChange={(e) => {
+                            setSearch(e.target.value);
+                            setShowSuggestions(true);
+                        }}
                         className={`flex-1 h-full text-sm md:text-lg outline-none px-3 md:px-5 ${inputBg}`}
                     />
                     <button 
@@ -91,6 +133,33 @@ function Header() {
                     >
                         <FaSearch />
                     </button>
+
+                    {showSuggestions && search.trim() && (
+                        <div className={`absolute left-0 right-0 top-full z-50 mt-1 overflow-hidden rounded-lg border shadow-lg ${darkMode ? 'border-gray-700 bg-gray-900 text-white' : 'border-gray-300 bg-white text-black'}`}>
+                            {suggestions.length > 0 ? (
+                                suggestions.slice(0, 6).map((book) => (
+                                    <button
+                                        key={book._id}
+                                        type="button"
+                                        onMouseDown={(e) => e.preventDefault()}
+                                        onClick={() => handleSuggestionClick(book)}
+                                        className={`block w-full px-4 py-3 text-left text-sm ${darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
+                                    >
+                                        <span className="block truncate font-medium">{book.title}</span>
+                                        {(book.author || book.Publisher) && (
+                                            <span className="block truncate text-xs text-gray-500">
+                                                {book.author || book.Publisher}
+                                            </span>
+                                        )}
+                                    </button>
+                                ))
+                            ) : (
+                                <div className="px-4 py-3 text-sm text-gray-500">
+                                    No matching books found for &quot;{search.trim()}&quot;
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </form>
 
                 {/* Dark Mode Toggle + Mobile Menu + Login */}

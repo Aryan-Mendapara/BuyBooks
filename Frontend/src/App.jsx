@@ -27,6 +27,7 @@ import Loader from './Component/Pages/Loader.jsx'
 import PageLoader from './Component/Pages/PageLoader.jsx'
 import AdminLogin from './Component/AdminLogin/AdminLogin.jsx'
 import AdminDashboard from './Component/AdminDashboard/AdminDashboard.jsx'
+import SearchResults from './Component/Pages/SearchResults/SearchResults.jsx'
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/login' element={<Login />} />
+              <Route path='/search' element={<SearchResults />} />
               <Route path='/admin' element={<AdminLogin />} />
               <Route path='/admin/dashboard' element={<AdminDashboard />} />
               <Route path='/admin/books/add' element={<Add_EditBooks />} />

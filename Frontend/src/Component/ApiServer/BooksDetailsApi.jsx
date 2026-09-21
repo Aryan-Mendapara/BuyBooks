@@ -31,6 +31,19 @@ export const ImagesApiGet = async (category) => {
   }
 }
 
+export const SearchBooks = async (search) => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/books/images/get`,
+      { params: { search } }
+    );
+    return response.data;
+  } catch (error) {
+    console.log("Search books API error: ", error);
+    throw error;
+  }
+};
+
 export const ImagesApiDelete = async (bookId) => {
   try {
     const response = await axios.delete(
