@@ -18,6 +18,9 @@ function ShippingAddress() {
     const [error, setError] = useState({});
     const [success, setSuccess] = useState('');
     const navigate = useNavigate();
+    const mobileError = error.mobile || (mobileno.length === 10 && !/^[6-9]\d{9}$/.test(mobileno)
+        ? 'Enter a valid 10-digit mobile number starting with 6-9'
+        : '');
 
     const State = [
         "Andaman & Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
@@ -44,6 +47,14 @@ function ShippingAddress() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!/^[6-9]\d{9}$/.test(mobileno)) {
+            setError((currentError) => ({
+                ...currentError,
+                mobile: 'Enter a valid 10-digit mobile number starting with 6-9'
+            }));
+            return;
+        }
+
         const newAddress = {
             surName,
             firstName,
@@ -64,7 +75,7 @@ function ShippingAddress() {
             navigate('/order-summary');
         } catch (error) {
             console.error("Failed to submit address:", error);
-            setError("Failed to submit address. Please try again.");
+            setError({ api: "Failed to submit address. Please try again." });
             alert("Failed to submit address. Please try again.");
         }
     };
@@ -148,13 +159,17 @@ function ShippingAddress() {
                         <label className="block mb-2">Mobile Number <span className='text-red-600'>*</span></label>
                         <input
                             type="text"
+                            inputMode="numeric"
                             maxLength={10}
                             placeholder="Enter your mobile number"
                             value={mobileno}
-                            onChange={(e) => setMobileno(e.target.value.replace(/\D/g, ""))}
-                            className={inputClass}
+                            onChange={(e) => {
+                                setMobileno(e.target.value.replace(/\D/g, ""));
+                                setError((currentError) => ({ ...currentError, mobile: '' }));
+                            }}
+                            className={`${inputClass} ${mobileError ? 'border-red-500 focus:ring-red-400' : ''}`}
                         />
-                        {error.mobile && <p className="text-red-500 text-sm">{error.mobile}</p>}
+                        {mobileError && <p className="text-red-500 text-sm">{mobileError}</p>}
                     </div>
 
                     {/* Address */}

@@ -13,8 +13,8 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    if (!/^\d{10}$/.test(String(mobileno))) {
-      return res.status(400).json({ message: "Enter a valid 10-digit mobile number" });
+    if (!/^[6-9]\d{9}$/.test(String(mobileno))) {
+      return res.status(400).json({ message: "Enter a valid 10-digit mobile number starting with 6-9" });
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -68,8 +68,8 @@ const addLogin = async (req, res) => {
       return res.status(400).json({ message: "Email, mobile number and password are required" });
     }
 
-    if (!/^\d{10}$/.test(String(mobileno))) {
-      return res.status(400).json({ message: "Enter a valid 10-digit mobile number" });
+    if (!/^[6-9]\d{9}$/.test(String(mobileno))) {
+      return res.status(400).json({ message: "Enter a valid 10-digit mobile number starting with 6-9" });
     }
 
     const user = await Register.findOne({

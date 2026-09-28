@@ -15,6 +15,7 @@ function Account() {
   const [gender, setGender] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const mobileError = mobile.length === 10 && !/^[6-9]\d{9}$/.test(mobile);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -42,8 +43,8 @@ function Account() {
     setError("");
     setSuccess("");
 
-    if (!/^\d{10}$/.test(mobile)) {
-      setError("Enter a valid 10-digit mobile number");
+    if (!/^[6-9]\d{9}$/.test(mobile)) {
+      setError("Enter a valid 10-digit mobile number starting with 6-9");
       return;
     }
 
@@ -98,9 +99,10 @@ function Account() {
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 className={`w-full px-4 py-2 border rounded-lg focus:ring-2 outline-none ${
-                  darkMode ? "bg-gray-800 text-white border-gray-700 focus:ring-orange-400" : "bg-white text-gray-800 border-black focus:ring-orange-400"
+                  mobileError ? "border-red-500 focus:ring-red-400" : darkMode ? "bg-gray-800 text-white border-gray-700 focus:ring-orange-400" : "bg-white text-gray-800 border-black focus:ring-orange-400"
                 }`}
               />
+              {mobileError && <p className="mt-1 text-sm text-red-500">Enter a valid 10-digit mobile number starting with 6-9</p>}
             </div>
 
             <div>

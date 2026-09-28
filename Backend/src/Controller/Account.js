@@ -8,6 +8,10 @@ const addAccount = async (req, res) => {
         if (!firstName || !lastName || !mobileno || !email || !gender) {
             return res.status(400).json({ message: "All fields are required" });
         }
+
+        if (!/^[6-9]\d{9}$/.test(String(mobileno))) {
+            return res.status(400).json({ message: "Enter a valid 10-digit mobile number starting with 6-9" });
+        }
         
         const newAccount = new Account({
             firstName,

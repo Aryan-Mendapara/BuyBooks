@@ -9,6 +9,10 @@ const addAddress = async (req, res) => {
             return res.status(400).json({ message: "Email and Mobile are required" });
         }
 
+        if (!/^[6-9]\d{9}$/.test(String(mobileno))) {
+            return res.status(400).json({ message: "Enter a valid 10-digit mobile number starting with 6-9" });
+        }
+
         const newAddress = new ShippingAddress({
             surName,
             firstName,

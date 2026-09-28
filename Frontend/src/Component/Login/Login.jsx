@@ -22,6 +22,7 @@ function Login() {
     const navigate = useNavigate();
 
     const validateEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    const mobileError = mobileno.length === 10 && !/^[6-9]\d{9}$/.test(mobileno);
 
     const handleRegister = async (event) => {
         event.preventDefault();
@@ -33,8 +34,8 @@ function Login() {
             return;
         }
 
-        if (!/^\d{10}$/.test(mobileno)) {
-            setError("Enter a valid 10-digit mobile number");
+        if (!/^[6-9]\d{9}$/.test(mobileno)) {
+            setError("Enter a valid 10-digit mobile number starting with 6-9");
             return;
         }
 
@@ -84,8 +85,8 @@ function Login() {
         setError("");
         setSuccess("");
 
-        if (!/^\d{10}$/.test(mobileno)) {
-            setError("Enter a valid 10-digit mobile number");
+        if (!/^[6-9]\d{9}$/.test(mobileno)) {
+            setError("Enter a valid 10-digit mobile number starting with 6-9");
             return;
         }
 
@@ -171,7 +172,7 @@ function Login() {
                         </>
                     )}
 
-                    <div className={`flex rounded-lg overflow-hidden border-2 ${darkMode ? 'border-gray-600' : 'border-gray-400'}`}>
+                    <div className={`flex rounded-lg overflow-hidden border-2 ${mobileError ? 'border-red-500' : darkMode ? 'border-gray-600' : 'border-gray-400'}`}>
                         <span className={`px-3 flex items-center justify-center border-r-2 font-medium ${
                             darkMode ? "text-white border-gray-600" : "text-black border-gray-400 bg-white"
                         }`}>
@@ -179,6 +180,7 @@ function Login() {
                         </span>
                         <input
                             type="text"
+                            inputMode="numeric"
                             maxLength={10}
                             pattern="\d{10}"
                             placeholder="Mobile No. (e.g. 9999999999)"
@@ -189,6 +191,7 @@ function Login() {
                             }`}
                         />
                     </div>
+                    {mobileError && <p className="-mt-3 text-sm text-red-500">Enter a valid 10-digit mobile number starting with 6-9</p>}
 
                     <input
                         type="email"

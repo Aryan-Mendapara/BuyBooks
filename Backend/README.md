@@ -1,6 +1,6 @@
 # BuyBooks Backend
 
-Express and MongoDB backend for the BuyBooks application. The server provides user OTP login, book management, wishlist, billing details, shipping addresses, admin operations, image uploads, and transactional email through Brevo.
+Express and MongoDB backend for the BuyBooks application. The server provides user registration and password login, book management, wishlist, billing details, shipping addresses, admin operations, and Cloudinary image uploads.
 
 ## Requirements
 
@@ -8,7 +8,6 @@ Express and MongoDB backend for the BuyBooks application. The server provides us
 - npm
 - MongoDB database
 - Cloudinary account for book images
-- Brevo account with an enabled API key and verified sender email
 
 ## Setup
 
@@ -27,15 +26,12 @@ JWT_KEY=replace-with-a-long-random-secret
 ADMIN_EMAIL=admin@example.com
 ADMIN_PASSWORD=replace-with-a-strong-admin-password
 
-BREVO_EMAIL=verified-sender@example.com
-BREVO_API_KEY=replace-with-an-enabled-brevo-api-key
-
 CLOUDINARY_CLOUD_NAME=your-cloud-name
 CLOUDINARY_API_KEY=your-cloudinary-api-key
 CLOUDINARY_API_SECRET=your-cloudinary-api-secret
 ```
 
-Do not commit `.env` or expose API keys in source code. `BREVO_EMAIL` is the sender address; OTP messages are sent to the email supplied by the user during login.
+Do not commit `.env` or expose credentials in source code. `JWT_KEY` is used for both user and admin tokens. `ADMIN_EMAIL` and `ADMIN_PASSWORD` are used by the admin login endpoint.
 
 ## Run
 
@@ -59,8 +55,9 @@ All user routes below are prefixed with `/books`.
 
 | Method | Endpoint | Description |
 | --- | --- | --- |
-| POST | `/books/login/loginuser` | Create or find a user and send an OTP to the submitted email |
-| POST | `/books/login/verify-otp` | Verify the submitted OTP and return a user JWT |
+| POST | `/books/login/register` | Register a user with name, mobile number, email, password, and gender |
+| POST | `/books/login/loginuser` | Authenticate a registered user with email, mobile number, and password |
+| POST | `/books/login/verify-otp` | Verify an existing OTP record and return a user JWT |
 | GET | `/books/login/getlogin` | List users |
 | DELETE | `/books/login/delete/:id` | Delete a user login record |
 | POST | `/books/images/import` | Upload a book image and create a book record |
@@ -80,7 +77,25 @@ All user routes below are prefixed with `/books`.
 
 ### Common Request Examples
 
-Request an OTP:
+Register a user:
+
+```http
+POST /books/login/register
+Content-Type: application/json
+```
+
+```json
+{
+	"firstName": "Asha",
+	"lastName": "Patel",
+	"mobileno": "9999999999",
+	"email": "customer@example.com",
+	"password": "a-strong-password",
+	"gender": "female"
+}
+```
+
+Log in:
 
 ```http
 POST /books/login/loginuser
@@ -90,23 +105,12 @@ Content-Type: application/json
 ```json
 {
 	"email": "customer@example.com",
-	"mobileno": "9999999999"
+	"mobileno": "9999999999",
+	"password": "a-strong-password"
 }
 ```
 
-Verify an OTP:
-
-```http
-POST /books/login/verify-otp
-Content-Type: application/json
-```
-
-```json
-{
-	"email": "customer@example.com",
-	"otp": "123456"
-}
-```
+The login response contains a user JWT. Send it as `Authorization: Bearer <token>` when authentication middleware is added to protected user routes. The `/books/login/verify-otp` endpoint is retained for OTP records created by older flows; the current login endpoint uses a password.
 
 Book image upload endpoints use `multipart/form-data` with the file field named `image`.
 
@@ -149,14 +153,13 @@ Authorization: Bearer <admin-token>
 | GET | `/admin/customers` | Get customer data |
 | POST | `/admin/books` | Create a book; accepts multipart field `image` |
 
-## Login and OTP Flow
+## Login Flow
 
-1. The frontend sends `email` and `mobileno` to `/books/login/loginuser`.
-2. The backend creates or updates the user OTP and sends it to the submitted email through Brevo.
-3. The frontend sends `email` and `otp` to `/books/login/verify-otp`.
-4. A successful verification returns a JWT for the user session.
+1. Register with `firstName`, `lastName`, `mobileno`, `email`, `password`, and `gender` at `/books/login/register`.
+2. Log in with `email`, `mobileno`, and `password` at `/books/login/loginuser`.
+3. Store the returned JWT for the user session.
 
-If Brevo returns `401` or `API Key is not enabled`, enable or replace the Brevo API key, verify the sender email, and restart the backend.
+Registration returns `409` when the email is already registered. Login returns `404` when the user does not exist and `401` when the password is invalid.
 
 ## Project Structure
 
@@ -192,7 +195,7 @@ Backend/
 |   |   |-- ShippingAddress.js
 |   |   |-- WishList.js
 |   |   |-- imagesModels.js
-|   |   `-- sendMail.js                 # Brevo OTP email service
+|   |   `-- sendMail.js                 # Legacy Brevo OTP email helper
 |   `-- Routes/                         # Express route modules
 |       |-- Account.js
 |       |-- Admin.js
@@ -209,6 +212,6 @@ Backend/
 
 - CORS is currently configured to allow all origins for the frontend integration.
 - Image upload endpoints use `multipart/form-data` and the field name `image` where noted.
-- Keep Brevo and Cloudinary credentials in environment variables only.
+- Keep Cloudinary credentials in environment variables only.
 - `ADMIN_EMAIL` and `ADMIN_PASSWORD` are used by the admin login endpoint and must be configured before admin login can work.
 - User JWTs expire after one day; admin JWTs expire after seven days.
